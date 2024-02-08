@@ -23,4 +23,5 @@ workflow {
                pangolin( concat.out.fasta )
                nextclade( concat.out.fasta )
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
+               virstrain ( concat.out.fasta, Virstrain_DB )
 }
