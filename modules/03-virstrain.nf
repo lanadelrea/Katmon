@@ -10,7 +10,7 @@ process virstrain {
         )    
 
         input:
-        path(fasta)
+        tuple val(sample), path(fasta)
 
         output:
         path '*.tsv'
@@ -19,7 +19,6 @@ process virstrain {
         
         script:
         """
-        python Virst
-        python Virstrain_contig.py -i ${fasta} -v 1 -d ${Virstrain_DB} -o ${params.out_dir}
+        python Virstrain_contig.py -i ${fastq} -v 1 -d ./assets/VirStrain/Custom_DB -o ${params.out_dir}/03-Virstrain/${sample}
         """
 }
