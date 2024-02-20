@@ -4,12 +4,8 @@ process bammix {
         tag "Looking for positions with nucleotide mixtures using bammix"
         container 'ufuomababatunde/bammix:v1.0.0'
 
-        publishDir (
-        path: "${params.out_dir}/02-BammixFlags",
-        pattern: "*.csv",
-        mode: 'copy',
-        overwrite: 'true'
-        )
+        publishDir "${params.out_dir}/${task.process.replaceAll(":","_")}", pattern: "*.csv", mode: 'copy'
+        publishDir "${params.out_dir}/${task.process.replaceAll(":","_")}", pattern: "*.pdf", mode: 'copy'
 
         input:
         path(nextclade_tsv)
@@ -18,7 +14,7 @@ process bammix {
 
         output:
         path '*.csv'
-        path "flagged_barcode_positions_proportions.csv", emit: bammix_summary
+        path '*.pdf'
 
         script:
         """
