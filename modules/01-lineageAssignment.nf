@@ -37,14 +37,13 @@ process pangolin {
 
         script:
         """
-        pangolin --update
         pangolin all_sequences.fasta
         """
 }
 
 process nextclade {
         cpus 1
-        container 'nextstrain/nextclade:latest'
+ //       container 'nextstrain/nextclade:latest'
         tag "Lineage assignment using nextclade"
 
         publishDir (

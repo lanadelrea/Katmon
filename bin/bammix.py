@@ -17,7 +17,8 @@ nextclade_tsv = sys.argv[1]
 analysis_folder = sys.argv[2]
 #analysis_folder = '/mnt/c/COINFECTION_PAPER/Samples/Batch28'
 #meta_analysis_csv = pd.read_csv(f'{meta_folder}/nextclade.tsv', sep='\t')
-meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t')
+#meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t')
+meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t', usecols=lambda column: column != 'index')
 
 # Get mutations & N's from 15th & 16th element of each split.
 #nextclade_snps = meta_analysis_csv.str[15]  # mutations
@@ -72,6 +73,7 @@ bam_files = sp.check_output(
     ).decode('utf-8').split('\n')
 bam_files = [b for b in bam_files if b != '']
 
+
 # Check if BAM files found
 if bam_files:
     print("BAM files found.")
@@ -84,17 +86,29 @@ else:
 
 print(f"Path for finding BAM files: {analysis_folder}") # Look at path to BAM files
 
+##############################################################################################################################
+##############################################################################################################################    
+##############################################################################################################################
+
 # Glob for names of all BAM files in the bam folder
 #bam_files = glob.glob(f"{analysis_folder}/**/*.bam", recursive=True) 
 
 # Call bammix command from shell with all_snps_and_single_Ns as input.
 # Use run name, barcode, and central_id as prefix.
 for bam in bam_files:
-    prefix  = re.sub('.bam','',bam.split('/')[1])
+    #prefix  = re.sub('.bam','',bam.split('/')[1])
+    prefix_match = re.search(r'/([^/]+)\.(?:primertrimmed\.rg\.sorted\.bam|.bam)', bam)
+    if prefix_match:
+        prefix = prefix_match.group(1)
+    else:
+        print(f"Error: Could not extract prefix from {bam}")
     bammix_cmd = f'bammix -b {bam} -p {all_snps_and_single_Ns} -o {prefix}'
     bammix_output = sp.check_output(bammix_cmd, shell=True).decode()
+    print(bammix_output)
     # TO DO: Split list of positions if >N and cannot fit in one plot.
-
+##############################################################################################################################
+##############################################################################################################################    
+##############################################################################################################################
 # Glob for names of all bammix csv files.
 bammix_csv_files = sp.check_output(
     f'find ./ -name "*_position_base_counts.csv"', shell=True
