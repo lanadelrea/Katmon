@@ -10,15 +10,16 @@ process virstrain {
         )    
 
         input:
-        tuple val(sample), path(fasta)
+        path fastqPath
 
         output:
-        path '*.tsv'
-        path '*.png'
-        path '*.html'
+        tuple val(fastqPath.name), path ('*.tsv'), path ('*.png'), path ('*.html'), emit: virstrain_result
         
         script:
         """
-        python Virstrain_contig.py -i ${fastq} -v 1 -d ./assets/VirStrain/Custom_DB -o ${params.out_dir}/03-Virstrain/${sample}
+        mkdir -p ${params.out_dir}/03-Virstrain/${fastqPath.baseName}
+        
+        #!/usr/bin/env python
+        python ${baseDir}/bin/VirStrain/VirStrain.py -i ${params.in_dir}/${fastqPath} -d ${baseDir}/bin/VirStrain/Custom_DB -o ${params.out_dir}/03-Virstrain/${fastqPath.baseName}
         """
 }
