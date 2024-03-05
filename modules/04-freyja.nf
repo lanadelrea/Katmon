@@ -37,9 +37,15 @@ process freyja_demix {
         input:
         tuple val(sample), path ("*variants.tsv"), path ("*depth.tsv")
 
+        output:
+        val true
+
         script:
         """
-        freyja demix ${sample}_variants.tsv ${sample}_depth.tsv --output ${params.out_dir}/04-Freyja/Demix_results
+        mkdir -p ${params.out_dir}/04-Freyja/Demix_results
+        freyja demix ${params.out_dir}/04-Freyja/${sample}_variants.tsv ${params.out_dir}/04-Freyja/${sample}_depth.tsv \
+        --output ${params.out_dir}/04-Freyja/Demix_results \
+        --depthcutoff 1
         """
 }
 
@@ -52,8 +58,11 @@ process freyja_aggregate {
         overwrite: 'true'
         )
         
+        input:
+        val ready
+
         output:
-        path ("*.tsv")
+        path ("*.tsv"), emit: freyja_aggregated_file
 
         script:
         """
@@ -71,13 +80,13 @@ process freyja_plot {
         )
 
         input:
-        path freyja_aggregate
+        path aggregated_file
 
         output:
         path ("*.png")
 
         script:
         """
-        freyja plot aggregated-file.tsv --output freyja-lineage-abundance-plot.png
+        freyja plot ${aggregated_file} --output freyja-lineage-abundance-plot.png
         """
 }
