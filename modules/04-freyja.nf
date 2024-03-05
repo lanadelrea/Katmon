@@ -5,7 +5,7 @@ process freyja {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja",
+        path: "${params.out_dir}/04-Freyja/VariantsDepth_results",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -42,7 +42,7 @@ process freyja_demix {
 
         script:
         """
-        freyja demix ${params.out_dir}/04-Freyja/${sample}_variants.tsv ${params.out_dir}/04-Freyja/${sample}_depth.tsv --output ${sample}_demix.tsv
+        freyja demix ${params.out_dir}/04-Freyja/VariantsDepth_results/${sample}_variants.tsv ${params.out_dir}/04-Freyja/VariantsDepth_results/${sample}_depth.tsv --output ${sample}_demix.tsv
         """
 }
 
