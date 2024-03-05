@@ -38,14 +38,11 @@ process freyja_demix {
         tuple val(sample), path ("*variants.tsv"), path ("*depth.tsv")
 
         output:
-        val true
+        val true, emit: demix_completed
 
         script:
         """
-        mkdir -p ${params.out_dir}/04-Freyja/Demix_results
-
-        freyja demix ${params.out_dir}/04-Freyja/${sample}_variants.tsv ${params.out_dir}/04-Freyja/${sample}_depth.tsv \
-        --output ${params.out_dir}/04-Freyja/Demix_results/${sample}_demix.tsv
+        freyja demix ${params.out_dir}/04-Freyja/${sample}_variants.tsv ${params.out_dir}/04-Freyja/${sample}_depth.tsv --output ${sample}_demix.tsv
         """
 }
 
@@ -59,14 +56,14 @@ process freyja_aggregate {
         )
         
         input:
-        val ready
+        val demix_ready
 
         output:
         path ("*.tsv"), emit: freyja_aggregated_file
 
         script:
         """
-        freyja aggregate ${params.out_dir}/04-Freyja/Demix_results --output aggregated-file.tsv
+        freyja aggregate ${params.out_dir}/04-Freyja/Demix_results/ --output aggregated-file.tsv
         """
 }
 
