@@ -42,9 +42,10 @@ process freyja_demix {
 
         script:
         """
+        mkdir -p ${params.out_dir}/04-Freyja/Demix_results
+
         freyja demix ${params.out_dir}/04-Freyja/${sample}_variants.tsv ${params.out_dir}/04-Freyja/${sample}_depth.tsv \
-        --output ${sample}_demix.tsv \
-        --depthcutoff 0
+        --output ${params.out_dir}/04-Freyja/Demix_results/${sample}_demix.tsv
         """
 }
 
