@@ -9,9 +9,9 @@ nextflow.enable.dsl=2
 //include { bammix } from './modules/02-bammix.nf'
 //include { virstrain } from './modules/03-virstrain.nf'
 include { freyja } from './modules/04-freyja.nf'
-//include { freyja_demix } from './modules/04-freyja.nf'
-//include { freyja_aggregate } from './modules/04-freyja.nf'
-//include { freyja_plot } from './modules/04-freyja.nf'
+include { freyja_demix } from './modules/04-freyja.nf'
+include { freyja_aggregate } from './modules/04-freyja.nf'
+include { freyja_plot } from './modules/04-freyja.nf'
 //include { aafplot } from '.modules/05-AAFplot.nf'
 //include { ampliconsorting } from './modules/06-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
@@ -20,7 +20,6 @@ workflow {
         ch_bam_file = Channel
                     .fromPath("${params.in_dir}/**.bam", type: 'file')
                     .ifEmpty { error "Cannot find any BAM files on ${params.in_dir}"}
-                    .view()
         ch_bam_index = Channel
                     .fromPath("${params.in_dir}/**.bai", type: 'file')
                     .ifEmpty { error "Cannot find any BAM index files on ${params.in_dir}"}
@@ -42,7 +41,7 @@ workflow {
 //               bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
 //               virstrain ( ch_fastq )
                freyja( ch_bam_file )
-//               freyja_demix( freyja.out.freyja_variants )
-//               freyja_aggregate()
-//               freyja_plot()
+               freyja_demix( freyja.out.freyja_variants )
+               freyja_aggregate( freyja_demix.out )
+               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
 }
