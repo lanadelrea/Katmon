@@ -32,9 +32,9 @@ workflow {
 
         main:
                ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
-
                ch_fastq.map { fastqPath -> tuple(fastqPath) }
                ch_fasta.map { fastaPath -> tuple(fastaPath) }
+
                concat()
                pangolin( concat.out.fasta )
                nextclade( concat.out.fasta )
@@ -42,6 +42,6 @@ workflow {
                virstrain ( ch_fastq )
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
-               freyja_aggregate( freyja_demix.out.demix_completed )
+               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
                freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
 }
