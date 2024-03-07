@@ -1,7 +1,7 @@
 #!/usr/bin
 
 process freyja {
-        tag "Identifying relative lineage abundances of sample ${bamfilePath.baseName} from potential mixed SARS-CoV-2 samples using Freyja"
+        tag "Identifying relative lineage abundances of sample ${bamfilePath.baseName} from potential mixed SARS-CoV-2 samples"
         container 'staphb/freyja:latest'
 
         publishDir (
@@ -35,14 +35,15 @@ process freyja_demix {
         )
 
         input:
-        tuple val(sample), path ("*variants.tsv"), path ("*depth.tsv")
+        tuple val(sample), path (variants_tsv), path (depth_tsv)
 
         output:
-        val true, emit: demix_completed
+        path ("*.tsv"), emit: tsv_demix
+
 
         script:
         """
-        freyja demix ${params.out_dir}/04-Freyja/VariantsDepth_results/${sample}_variants.tsv ${params.out_dir}/04-Freyja/VariantsDepth_results/${sample}_depth.tsv --output ${sample}_demix.tsv
+        freyja demix ${variants_tsv} ${depth_tsv} --output ${sample}_demix.tsv
         """
 }
 
@@ -56,14 +57,16 @@ process freyja_aggregate {
         )
         
         input:
-        val demix_ready
+        path tsv_demix
 
         output:
         path ("*.tsv"), emit: freyja_aggregated_file
 
         script:
         """
-        freyja aggregate ${params.out_dir}/04-Freyja/Demix_results/ --output aggregated-file.tsv
+        mkdir Demix_results
+        cp ${tsv_demix} Demix_results/
+        freyja aggregate Demix_results/ --output aggregated-file.tsv
         """
 }
 
