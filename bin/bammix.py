@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import sys
 import re
+import os
 
 import pandas as pd
 import subprocess as sp
@@ -96,12 +97,16 @@ print(f"Path for finding BAM files: {analysis_folder}") # Look at path to BAM fi
 # Call bammix command from shell with all_snps_and_single_Ns as input.
 # Use run name, barcode, and central_id as prefix.
 for bam in bam_files:
-    prefix  = re.sub('.bam','',bam.split('/')[1])
+    #prefix  = re.sub('.bam','',bam.split('/')[1])
     #prefix_match = re.search(r'/([^/]+)\.(?:primertrimmed\.rg\.sorted\.bam|.bam)', bam)
-    #if prefix_match:
-    #    prefix = prefix_match.group(1)
-    #else:
-    #    print(f"Error: Could not extract prefix from {bam}")
+    filename = os.path.basename(bam)
+    prefix_match= re.match(r'(.+?)\.bam', filename)
+    if prefix_match:
+        prefix = prefix_match.group(1)
+    else:
+        print(f"Error: Could not extract prefix from {bam}")
+        continue
+    print("Prefix:", prefix)
     bammix_cmd = f'bammix -b {bam} -p {all_snps_and_single_Ns} -o {prefix}'
     bammix_output = sp.check_output(bammix_cmd, shell=True).decode()
     print(bammix_output)
