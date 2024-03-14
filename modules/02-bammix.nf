@@ -4,6 +4,8 @@ process bammix {
         tag "Looking for positions with nucleotide mixtures using bammix"
         container 'ufuomababatunde/bammix:v1.0.0'
 
+        cpus 1
+
         publishDir (
         path: "${params.out_dir}/02-BammixForNucleotideMixtures",
         mode: 'copy',
@@ -26,11 +28,12 @@ process bammix {
         """
 }
 
-process bammix_flagged {
+process bam_filter {
         tag "Getting positions flagged by bammix"
-        
+        container 'pegi3s/samtools_bcftools:latest'
+
         publishDir (
-        path: "${params.out_dir}/02-BammixForNucleotideMixtures",
+        path: "${params.out_dir}/02-FlaggedSampleFilteredBam",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -39,10 +42,10 @@ process bammix_flagged {
         path bammixflagged_csv
 
         output:
-        path 'samples-flagged.csv', emit: bammixflagged_samples
+        path ('*_filtered.bam'), emit: filtered_bam
 
         script:
         """
-        python bammix-flagged-sample-name.py ${bammixflagged_csv}
+        bammix-flagged-sample-name.py ${bammixflagged_csv} ${params.in_dir}
         """
 }
