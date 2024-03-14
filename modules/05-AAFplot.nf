@@ -11,14 +11,13 @@ process aafplot {
     )
 
     input:
-    tuple val(sample), path (sorted_bam), path (sorted_bam_bai), path(vcf)
-    path(bam)
-    
+    tuple val(sample), path (filtered_bam), path (filtered_bam_bai), path(vcf)
+
     output:
-    tuple val(sample), path("*.png")
+    tuple val(sample), path("*.png"), emit: aafplot_1
 
     script:
     """
-    aafplot.py ${vcf} ${baseDir}/assets/mutations.csv ${bam} ${sample} ${sample}_AAFplot.png
+    aafplot.py ${vcf} ${baseDir}/assets/mutations.csv ${filtered_bam} ${sample} ${sample}_AAFplot.png
     """
 }

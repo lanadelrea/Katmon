@@ -38,10 +38,7 @@ def get_lineage(delta_annotation: str, omicron_annotation: str) -> str:
         if isinstance(omicron_annotation, str) and omicron_annotation.lower() == 'yes':
             return 'Omicron'
         
-vcf_file = pd.read_csv(vcf_path,
-                       header=None,
-                       sep='\t',
-                       )
+vcf_file = pd.read_csv(vcf_path, header=None, sep='\t', comment='#')
 
 # Extract values in DP4 in column 7 of the vcf file
 ref_forward = vcf_file[7].str.extract(r'DP4=(\d+)')

@@ -42,7 +42,7 @@ process bam_filter {
         path bammixflagged_csv
 
         output:
-        path ('*_filtered.bam'), emit: filtered_bam
+        path ('*.bam'), emit: filtered_bam
 
         script:
         """
