@@ -2,7 +2,7 @@
 
 process aafplot {
     tag "Plotting alternative allele fraction of ${sample}"
-    container 'bitnami/python:latest'
+//    container 'biocontainers/pandas:1.5.1_cv1'
 
     publishDir(
     path: "${params.out_dir}/05-AAFplot",
@@ -11,7 +11,7 @@ process aafplot {
     )
 
     input:
-    tuple val(sample), path(vcf)
+    tuple val(sample), path (sorted_bam), path (sorted_bam_bai), path(vcf)
     path(bam)
     
     output:
