@@ -48,5 +48,5 @@ workflow {
 //               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
 //               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
                makevcf( bam_filter.out.filtered_bam )
-               aafplot( makeVCF.out.vcf, bam_filter.out.filtered_bam )
+               aafplot( makevcf.out.filtered_vcf, bam_filter.out.filtered_bam )
 }
