@@ -7,14 +7,14 @@ include { concat } from './modules/01-lineageAssignment.nf'
 //include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
-include { bammix_flagged } from './modules/02-bammix.nf'
+include { bam_filter } from './modules/02-bammix.nf'
 //include { virstrain } from './modules/03-virstrain.nf'
 //include { freyja } from './modules/04-freyja.nf'
 //include { freyja_demix } from './modules/04-freyja.nf'
 //include { freyja_aggregate } from './modules/04-freyja.nf'
 //include { freyja_plot } from './modules/04-freyja.nf'
 include { makevcf } from './modules/05-makeVCF.nf'
-//include { aafplot } from './modules/05-AAFplot.nf'
+include { aafplot } from './modules/05-AAFplot.nf'
 //include { ampliconsorting } from './modules/06-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
 
@@ -41,12 +41,12 @@ workflow {
 //               pangolin( concat.out.fasta )
                nextclade( concat.out.fasta )
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
-               bammix_flagged ( bammix.out.bammixflagged_csv)
+               bam_filter ( bammix.out.bammixflagged_csv)
 //               virstrain ( ch_fastq )
 //               freyja( ch_bam_file )
 //               freyja_demix( freyja.out.freyja_variants )
 //               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
 //               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
-               makevcf( bammix_flagged.out.bammixflagged_samples )
-//               aafplot( makeVCF.out.vcf )
+               makevcf( bam_filter.out.filtered_bam )
+               aafplot( makeVCF.out.vcf, bam_filter.out.filtered_bam )
 }

@@ -10,13 +10,13 @@ process aafplot {
     )
 
     input:
-    path vcfPath
+    tuple val(sample), path(vcf), path(bam)
     
     output:
     tuple val(sample), path("*.png")
 
     script:
     """
-    python aafplot.py [1] [2] [3] [4] [5]
+    python aafplot.py ${vcf} ./assets/mutations.csv ${bam} ${sample} ${sample}_AAFplot.png
     """
 }
