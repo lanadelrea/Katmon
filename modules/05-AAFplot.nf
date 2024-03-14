@@ -2,6 +2,7 @@
 
 process aafplot {
     tag "Plotting alternative allele fraction of ${sample}"
+    container 'bitnami/python:latest'
 
     publishDir(
     path: "${params.out_dir}/05-AAFplot",
@@ -10,13 +11,14 @@ process aafplot {
     )
 
     input:
-    tuple val(sample), path(vcf), path(bam)
+    tuple val(sample), path(vcf)
+    path(bam)
     
     output:
     tuple val(sample), path("*.png")
 
     script:
     """
-    python aafplot.py ${vcf} ./assets/mutations.csv ${bam} ${sample} ${sample}_AAFplot.png
+    aafplot.py ${vcf} ${baseDir}/assets/mutations.csv ${bam} ${sample} ${sample}_AAFplot.png
     """
 }

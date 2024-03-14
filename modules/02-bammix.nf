@@ -33,7 +33,7 @@ process bam_filter {
         container 'pegi3s/samtools_bcftools:latest'
 
         publishDir (
-        path: "${params.out_dir}/02-FlaggedSampleFilteredBam",
+        path: "${params.out_dir}/05-makeVCF",
         mode: 'copy',
         overwrite: 'true'
         )

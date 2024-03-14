@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse
 
 from ast import literal_eval
