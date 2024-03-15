@@ -14,8 +14,9 @@ include { bam_filter } from './modules/02-bammix.nf'
 //include { freyja_aggregate } from './modules/04-freyja.nf'
 //include { freyja_plot } from './modules/04-freyja.nf'
 include { makevcf } from './modules/05-makeVCF.nf'
-include { aafplot_mutations } from './modules/05-AAFplot.nf'
-include { aafplot_amplicons } from './modules/05-AAFplot.nf'
+include { bammixplot } from './modules/06-plots.nf'
+include { aafplot_mutations } from './modules/06-plots.nf'
+include { aafplot_amplicons } from './modules/06-plots.nf'
 //include { ampliconsorting } from './modules/06-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
 
@@ -49,6 +50,7 @@ workflow {
 //               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
 //               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
                makevcf( bam_filter.out.filtered_bam )
+               bammixplot (makevcf.out.filtered_vcf.collect())
                aafplot_mutations( makevcf.out.filtered_vcf.collect())
                aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
 }
