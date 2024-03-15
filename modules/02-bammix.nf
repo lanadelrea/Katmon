@@ -7,7 +7,7 @@ process bammix {
         cpus 1
 
         publishDir (
-        path: "${params.out_dir}/02-BammixForNucleotideMixtures",
+        path: "${params.out_dir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
