@@ -20,8 +20,10 @@ primer_scheme = pd.read_csv(primer_scheme_file, sep='\t')
 read_depth_path = sys.argv[2]
 alt_plot = pd.read_csv(read_depth_path, sep='\t')
 
+sample = sys.argv[3]
+
 # Output files
-aaf_plot = sys.argv[3]                                         # AAFplot_amplicons.png
+aaf_plot = sys.argv[4]                                         # AAFplot_amplicons.png
 
 ############################################################################
 
