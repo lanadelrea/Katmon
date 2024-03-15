@@ -16,6 +16,11 @@ process report {
 
     script:
     """
-    summary-report.py  
+    summary-report.py \ 
+    ${freyja_plot} \
+    ${bammix_plot} \
+    ${aafplot_mutations} \
+    ${aafplot_amplicons} \
+    ${sample}_summary_report.html
     """
 }
