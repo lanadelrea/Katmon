@@ -17,8 +17,9 @@ process bammixplot {
 
     script:
     """
-    bammixplot.py ${params.out_dir}/02-BammixForNucleotideMixtures/${sample}_position_base_counts.csv \
-    ${sample}_bammix_plot.png
+    bammixplot.py ${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
+    ${sample}_bammix_plot.png \
+    ${sample}
     """
 }
 
