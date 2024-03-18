@@ -61,7 +61,6 @@ process nextclade {
 
         script:
         """
-        echo ${baseDir}
         nextclade run --input-dataset ${SC2_dataset} --output-tsv=nextclade.tsv ${fasta}
         """
 }
