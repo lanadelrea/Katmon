@@ -43,7 +43,7 @@ process pangolin {
 
 process nextclade {
         cpus 1
-//        container 'nextstrain/nextclade:latest'
+        container 'nextstrain/nextclade:latest'
         tag "Lineage assignment using nextclade"
 
         publishDir (
@@ -54,13 +54,14 @@ process nextclade {
 
         input:
         path fasta
+        path SC2_dataset
 
         output:
         path ('*.tsv'), emit: nextclade_tsv
 
         script:
         """
-        nextclade dataset get --name 'sars-cov-2' --output-dir ${params.out_dir}/01-LineageAssignment/data/sars-cov-2
-        nextclade run --input-dataset ${params.out_dir}/01-LineageAssignment/data/sars-cov-2 --output-tsv=nextclade.tsv ${fasta}
+        echo ${baseDir}
+        nextclade run --input-dataset ${SC2_dataset} --output-tsv=nextclade.tsv ${fasta}
         """
 }

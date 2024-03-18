@@ -19,7 +19,7 @@ process makevcf {
     """
     samtools sort ${filtered_bam} -o ${filtered_bam.baseName}_filtered.sorted.bam
     samtools index ${filtered_bam.baseName}_filtered.sorted.bam
-    samtools mpileup -uf ${baseDir}/assets/sars-cov-2/reference-sequence.fasta ${filtered_bam.baseName}_filtered.sorted.bam > ${filtered_bam.baseName}.mpileup
+    samtools mpileup -uf ${reference} ${filtered_bam.baseName}_filtered.sorted.bam > ${filtered_bam.baseName}.mpileup
     bcftools call -mv -O b -o ${filtered_bam.baseName}.bcf ${filtered_bam.baseName}.mpileup
     bcftools view -O v -o ${filtered_bam.baseName}.vcf ${filtered_bam.baseName}.bcf
     """

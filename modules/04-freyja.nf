@@ -83,7 +83,7 @@ process freyja_plot {
         path aggregated_file
 
         output:
-        path ("*.png")
+        path ("*.png"), emit: freyja_plot
 
         script:
         """

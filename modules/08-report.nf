@@ -10,17 +10,17 @@ process report {
     overwrite: 'true'
     )
 
-    input:
+    input
+    path (bammix_plot)
+    path (freyja_plot)
+    path (sample), path(aaf_tsv), path(aafplot_mut)
+    path (sample), path(aafplot_amp)
+    path 
 
     output:
 
     script:
     """
-    summary-report.py \ 
-    ${freyja_plot} \
-    ${bammix_plot} \
-    ${aafplot_mutations} \
-    ${aafplot_amplicons} \
-    ${sample}_summary_report.html
+    Rscript summary-report.R [1] [2] [3] [4]
     """
 }
