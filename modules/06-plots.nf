@@ -13,7 +13,7 @@ process bammixplot {
     tuple val(sample), path (filtered_bam), path (filtered_bam_bai), path(vcf)
 
     output:
-    path ("*.png")
+    path ("*.png"), emmit: bammix_plot
 
     script:
     """

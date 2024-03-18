@@ -3,20 +3,21 @@ nextflow.enable.dsl=2
 
 //import modules
 include { concat } from './modules/01-lineageAssignment.nf'
-include { pangolin } from './modules/01-lineageAssignment.nf'
+//include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
-include { virstrain } from './modules/03-virstrain.nf'
-include { freyja } from './modules/04-freyja.nf'
-include { freyja_demix } from './modules/04-freyja.nf'
-include { freyja_aggregate } from './modules/04-freyja.nf'
-include { freyja_plot } from './modules/04-freyja.nf'
+//include { virstrain } from './modules/03-virstrain.nf'
+//include { freyja } from './modules/04-freyja.nf'
+//include { freyja_demix } from './modules/04-freyja.nf'
+//include { freyja_aggregate } from './modules/04-freyja.nf'
+//include { freyja_plot } from './modules/04-freyja.nf'
 include { makevcf } from './modules/05-makeVCF.nf'
-include { bammixplot } from './modules/06-plots.nf'
-include { aafplot_mutations } from './modules/06-plots.nf'
-include { aafplot_amplicons } from './modules/06-plots.nf'
-//include { ampliconsorting } from './modules/06-ampliconSorting.nf'
+//include { bammixplot } from './modules/06-plots.nf'
+//include { aafplot_mutations } from './modules/06-plots.nf'
+//include { aafplot_amplicons } from './modules/06-plots.nf'
+include { ampliconsorting_DeltaReads } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_OmicronReads } from './modules/07-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
 
 workflow {
@@ -39,17 +40,19 @@ workflow {
                ch_fasta.map { fastaPath -> tuple(fastaPath) }
 
                concat()
-               pangolin( concat.out.fasta )
-               nextclade( concat.out.fasta )
+//               pangolin( concat.out.fasta )
+               nextclade( concat.out.fasta, params.SC2_dataset )
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
                bam_filter ( bammix.out.bammixflagged_csv)
-               virstrain ( ch_fastq )
-               freyja( ch_bam_file )
-               freyja_demix( freyja.out.freyja_variants )
-               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
-               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
+//               virstrain ( ch_fastq )
+//               freyja( ch_bam_file )
+//               freyja_demix( freyja.out.freyja_variants )
+//               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
+//               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
                makevcf( bam_filter.out.filtered_bam )
-               bammixplot (makevcf.out.filtered_vcf.collect())
-               aafplot_mutations( makevcf.out.filtered_vcf.collect())
-               aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
+//               bammixplot (makevcf.out.filtered_vcf.collect())
+//               aafplot_mutations( makevcf.out.filtered_vcf.collect())
+//               aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
+               ampliconsorting_DeltaReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_delta_reads)
+               ampliconsorting_OmicronReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_omicron_reads)
 }
