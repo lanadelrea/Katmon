@@ -11,6 +11,7 @@ process makevcf {
 
     input:
     path filtered_bam
+    path reference
 
     output:
     tuple val (filtered_bam.baseName), path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), path ("*.vcf"), emit: filtered_vcf

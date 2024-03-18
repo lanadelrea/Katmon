@@ -18,6 +18,11 @@ include { makevcf } from './modules/05-makeVCF.nf'
 //include { aafplot_amplicons } from './modules/06-plots.nf'
 include { ampliconsorting_DeltaReads } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_OmicronReads } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_samtools } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_bgzip } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_fasta } from './modules/07-ampliconSorting.nf'
+//include { ampliconsorting_lineageAssignment_Pangolin } from './modules/07-ampliconSorting.nf'
+//include { ampliconsorting_lineageAssignment_Nextclade } from './modules/07-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
 
 workflow {
@@ -49,10 +54,16 @@ workflow {
 //               freyja_demix( freyja.out.freyja_variants )
 //               freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
 //               freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
-               makevcf( bam_filter.out.filtered_bam )
+               makevcf( bam_filter.out.filtered_bam, params.reference )
 //               bammixplot (makevcf.out.filtered_vcf.collect())
 //               aafplot_mutations( makevcf.out.filtered_vcf.collect())
 //               aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
                ampliconsorting_DeltaReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_delta_reads)
                ampliconsorting_OmicronReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_omicron_reads)
+               ampliconsorting_samtools( ampliconsorting_DeltaReads.out.delta_bam, ampliconsorting_OmicronReads.out.omicron_bam, params.reference)
+               ampliconsorting_bgzip( ampliconsorting_samtools.out.vcf.collect())
+               ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
+//               ampliconsorting_lineageAssignment_Pangolin
+//               ampliconsorting_lineageAssignment_Nextclade
+//               report
 }
