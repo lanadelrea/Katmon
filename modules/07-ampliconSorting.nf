@@ -133,7 +133,7 @@ process ampliconsorting_fasta {
 
 process ampliconsorting_lineageAssignment_Pangolin {
     tag "Lineage assignment of sorted reads using Pangolin tool"
-    container ''
+    container 'staphb/pangolin:latest'
 
     publishDir (
     path: "${params.out_dir}/07-AmpliconSorting",
@@ -145,16 +145,19 @@ process ampliconsorting_lineageAssignment_Pangolin {
     tuple val(sample), path (delta_fasta), path (omicron_fasta)
 
     output:
+    path ("*.csv"), emit: pangolineageAssign
     
     script:
     """
+    pangolin ${delta_fasta} > ${sample}_delta_fasta_lineage_assignment.csv
+    pangolin ${omicron_fasta} > ${sample}_omicron_fasta_lineage_assignment.csv
     """
 }
 
 process ampliconsorting_lineageAssignment_Nextclade {
-    tag "Lineage assignment of sorted reads using Pangolin tool"
-    container ''
-
+    tag "Lineage assignment of sorted reads using Nextclade"
+    container 'nextstrain/nextclade:latest'
+    
     publishDir (
     path: "${params.out_dir}/07-AmpliconSorting",
     mode: 'copy',
@@ -165,8 +168,11 @@ process ampliconsorting_lineageAssignment_Nextclade {
     tuple val(sample), path (delta_fasta), path (omicron_fasta)
 
     output:
-    
+    path ("*.tsv"), emit: nextcladeAssign
+
     script:
     """
+    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_delta_fasta_nextclade.tsv ${delta_fasta}
+    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_omicron_fasta_nextclade.tsv ${omicron_fasta}
     """
 }
