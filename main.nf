@@ -21,8 +21,8 @@ include { ampliconsorting_OmicronReads } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_samtools } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_bgzip } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_fasta } from './modules/07-ampliconSorting.nf'
-//include { ampliconsorting_lineageAssignment_Pangolin } from './modules/07-ampliconSorting.nf'
-//include { ampliconsorting_lineageAssignment_Nextclade } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_lineageAssignment_Pangolin } from './modules/07-ampliconSorting.nf'
+include { ampliconsorting_lineageAssignment_Nextclade } from './modules/07-ampliconSorting.nf'
 //include { report } from '.modules/07-report.nf'
 
 workflow {
@@ -63,7 +63,7 @@ workflow {
                ampliconsorting_samtools( ampliconsorting_DeltaReads.out.delta_bam, ampliconsorting_OmicronReads.out.omicron_bam, params.reference)
                ampliconsorting_bgzip( ampliconsorting_samtools.out.vcf.collect())
                ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
-               ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.ampliconsorting_fasta.collect())
-               ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.ampliconsorting_fasta.collect())
+               ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.ampliconsorting_fasta.collect(), params.SC2_dataset)
+               ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.ampliconsorting_fasta.collect(), params.SC2_dataset)
 //               report
 }

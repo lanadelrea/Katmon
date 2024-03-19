@@ -143,6 +143,7 @@ process ampliconsorting_lineageAssignment_Pangolin {
 
     input:
     tuple val(sample), path (delta_fasta), path (omicron_fasta)
+    path (SC2_dataset)
 
     output:
     path ("*.csv"), emit: pangolineageAssign
@@ -166,6 +167,7 @@ process ampliconsorting_lineageAssignment_Nextclade {
 
     input:
     tuple val(sample), path (delta_fasta), path (omicron_fasta)
+    path (SC2_dataset)
 
     output:
     path ("*.tsv"), emit: nextcladeAssign
