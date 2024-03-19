@@ -13,8 +13,8 @@ process report {
     input:
     path (bammix_plot)
     path (freyja_plot)
-    path (sample), path(tsv), path(aafplot_mut)
-    path (sample), path(aafplot_amp)
+    tuple path(sample), path(tsv), path(aafplot_mut)
+    tuple path(sample), path(aafplot_amp)
 
     output:
     path (".pdf")
