@@ -1,7 +1,7 @@
-#!/usr/bin
+#!/usr/bin/env nextflow
 
 process freyja {
-        tag "Identifying relative lineage abundances of sample ${bamfilePath.baseName} from potential mixed SARS-CoV-2 samples"
+        tag "Identifying relative lineage abundances of samples to see potential coinfection"
         container 'staphb/freyja:latest'
 
         publishDir (
@@ -26,6 +26,7 @@ process freyja {
 }
 
 process freyja_demix {
+        tag "Identifying relative lineage abundances of sample ${sample} from potential mixed SARS-CoV-2 samples"
         container 'staphb/freyja:latest'
 
         publishDir (
@@ -48,6 +49,7 @@ process freyja_demix {
 }
 
 process freyja_aggregate {
+        tag "Aggregating Freyja demix results"
         container 'staphb/freyja:latest'
 
         publishDir (
@@ -71,6 +73,7 @@ process freyja_aggregate {
 }
 
 process freyja_plot {
+        tag "Plotting relative lineage abundances of samples"
         container 'staphb/freyja:latest'
 
         publishDir (

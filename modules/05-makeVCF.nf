@@ -1,4 +1,4 @@
-#!/usr/bin 
+#!/usr/bin/env nextflow
 process makevcf {
     tag "Making vcf file of high quality reads from bam file of ${filtered_bam.name}"
     container 'pegi3s/samtools_bcftools:latest'

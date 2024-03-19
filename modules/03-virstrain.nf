@@ -1,4 +1,4 @@
-#!/usr/bin
+#!/usr/bin/env nextflow
 
 process virstrain {
         tag "Identifying lineage assignment for ${fastqPath.baseName} using Virstrain"
