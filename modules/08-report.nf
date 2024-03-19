@@ -2,7 +2,7 @@
 
 process report {
     tag "Generating Summary Report"
-    container ''
+    container 'jmeigs1/rscript:latest'
 
     publishDir(
     path: "${params.out_dir}/06-report",
@@ -21,6 +21,6 @@ process report {
 
     script:
     """
-    Rscript summary-report.R [1] [2] [3] [4]
+    Rscript summary-report.R ${bammix_plot} ${freyja_plot} ${aafplot_mut} ${aafplot_amp}
     """
 }
