@@ -10,7 +10,6 @@ docker pull ufuomababatunde/bammix:v1.0.0
 docker pull staphb/freyja:latest
 docker pull pegi3s/samtools_bcftools:latest
 docker pull vandhanak/bcftools:1.3.1
-docker pull nanozoo/rmarkdown:2.10--7ba854a
 ```
 
 3) This pipeline is written in nextflow, so make sure to install nextflow first by following the steps at https://www.nextflow.io/docs/latest/getstarted.html#installation

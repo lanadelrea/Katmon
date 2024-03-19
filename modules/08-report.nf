@@ -2,7 +2,7 @@
 
 process report {
     tag "Generating Summary Report"
-    container 'nanozoo/rmarkdown:2.10--7ba854a'
+    container 'stefanfritsch/rmd_statup:latest'
 
     publishDir(
     path: "${params.out_dir}/08-Report",
