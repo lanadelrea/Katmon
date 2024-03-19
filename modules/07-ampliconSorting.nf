@@ -122,12 +122,36 @@ process ampliconsorting_fasta {
     path (reference)
 
     output:
-    tuple val(sample), path("*delta_consensus.fasta"), path("*omicron_consensus.fasta"), emit: ampliconsorting_fasta
+    tuple val(sample), path("*delta_consensus.fasta"), path("*omicron_consensus.fasta"), emit: fasta
 
     script:
     """
     bcftools consensus -f ${reference} ${delta_vcfgz} > ${sample}_delta_consensus.fasta
     bcftools consensus -f ${reference} ${omicron_vcfgz} > ${sample}_omicron_consensus.fasta
+    """
+}
+
+process ampliconsorting_fasta_rename {
+    tag "Creating consensus from sorted reads"
+
+    publishDir (
+    path: "${params.out_dir}/07-AmpliconSorting",
+    mode: 'copy',
+    overwrite: 'true'
+    )
+
+    input:
+    tuple val(sample), path(delta_fasta), path(omicron_fasta)
+
+    output:
+    tuple val(sample), path("*ampliconsorted.fasta"), emit: fasta
+
+    script:
+    """
+    awk '/^>/{print ">${sample}_Delta_sorted_reads"; next}{print}' ${delta_fasta} > ${delta_fasta}
+    awk '/^>/{print ">${sample}_Omicron_sorted_reads"; next}{print}' ${omicron_fasta} > ${omicron_fasta}
+    
+    cat ${delta_fasta} ${omicron_fasta} > ${sample}_ampliconsorted.fasta
     """
 }
 
@@ -142,16 +166,14 @@ process ampliconsorting_lineageAssignment_Pangolin {
     )
 
     input:
-    tuple val(sample), path (delta_fasta), path (omicron_fasta)
-    path (SC2_dataset)
+    tuple val(sample), path (fasta)
 
     output:
     path ("*.csv"), emit: pangolineageAssign
     
     script:
     """
-    pangolin ${delta_fasta} > ${sample}_delta_fasta_lineage_assignment.csv
-    pangolin ${omicron_fasta} > ${sample}_omicron_fasta_lineage_assignment.csv
+    pangolin ${fasta} > ${sample}_ampliconsorted_lineage_assignment.csv
     """
 }
 
@@ -166,7 +188,7 @@ process ampliconsorting_lineageAssignment_Nextclade {
     )
 
     input:
-    tuple val(sample), path (delta_fasta), path (omicron_fasta)
+    tuple val(sample), path (fasta)
     path (SC2_dataset)
 
     output:
@@ -174,7 +196,6 @@ process ampliconsorting_lineageAssignment_Nextclade {
 
     script:
     """
-    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_delta_fasta_nextclade.tsv ${delta_fasta}
-    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_omicron_fasta_nextclade.tsv ${omicron_fasta}
+    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_ampliconsorted_nextclade.tsv ${fasta}
     """
 }
