@@ -1,3 +1,5 @@
+install.packages("rmarkdown")
+
 args <- commandArgs(trailingOnly = TRUE)
 
 rmarkdown::render("summary-report.Rmd",
