@@ -26,7 +26,7 @@ nextflow run CoPi --in_dir /mnt/c/Samples --out_dir /mnt/c/Results
 ```
 
 ## Results
-Once the pipeline finished, results folder will have 8 subdirectories containing results from each of the step used to test for SARS-CoV-2 coinfection. Summarized report is in the final folder. 
+Once the pipeline finished, output directory will have 8 folders containing results from each of the step used to test for SARS-CoV-2 coinfection. Summary report is in the final folder. 
 
 ## Test the pipeline using sample files
 To test the pipeline, use the `Samples` directory containing necessary files. First, decompress the `samples.tar.xz` by:
