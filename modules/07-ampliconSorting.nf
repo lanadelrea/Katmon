@@ -131,30 +131,6 @@ process ampliconsorting_fasta {
     """
 }
 
-process ampliconsorting_fasta_rename {
-    tag "Creating consensus from sorted reads"
-
-    publishDir (
-    path: "${params.out_dir}/07-AmpliconSorting",
-    mode: 'copy',
-    overwrite: 'true'
-    )
-
-    input:
-    tuple val(sample), path(delta_fasta), path(omicron_fasta)
-
-    output:
-    tuple val(sample), path("*ampliconsorted.fasta"), emit: fasta
-
-    script:
-    """
-    awk '/^>/{print ">${sample}_Delta_sorted_reads"; next}{print}' ${delta_fasta} > ${delta_fasta}
-    awk '/^>/{print ">${sample}_Omicron_sorted_reads"; next}{print}' ${omicron_fasta} > ${omicron_fasta}
-    
-    cat ${delta_fasta} ${omicron_fasta} > ${sample}_ampliconsorted.fasta
-    """
-}
-
 process ampliconsorting_lineageAssignment_Pangolin {
     tag "Lineage assignment of sorted reads using Pangolin tool"
     container 'staphb/pangolin:latest'
@@ -166,14 +142,15 @@ process ampliconsorting_lineageAssignment_Pangolin {
     )
 
     input:
-    tuple val(sample), path (fasta)
+    tuple val(sample), path(delta), path(omicron)
 
     output:
     path ("*.csv"), emit: pangolineageAssign
     
     script:
     """
-    pangolin ${fasta} > ${sample}_ampliconsorted_lineage_assignment.csv
+    pangolin ${delta} > ${sample}_delta_ampliconsorted_lineage_assignment.csv
+    pangolin ${omicron} > ${sample}_omicron_ampliconsorted_lineage_assignment.csv
     """
 }
 
@@ -188,7 +165,7 @@ process ampliconsorting_lineageAssignment_Nextclade {
     )
 
     input:
-    tuple val(sample), path (fasta)
+    tuple val(sample), path(delta), path(omicron)
     path (SC2_dataset)
 
     output:
@@ -196,6 +173,7 @@ process ampliconsorting_lineageAssignment_Nextclade {
 
     script:
     """
-    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_ampliconsorted_nextclade.tsv ${fasta}
+    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_delta_ampliconsorted_nextclade.tsv ${delta}
+    nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_omicron_ampliconsorted_nextclade.tsv ${omicron}
     """
 }
