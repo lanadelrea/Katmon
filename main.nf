@@ -55,7 +55,7 @@ workflow {
                freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
                freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
                makevcf( bam_filter.out.filtered_bam, params.reference )
-               bammixplot (makevcf.out.filtered_vcf.collect())
+               bammixplot ( makevcf.out.filtered_vcf.collect())
                aafplot_mutations( makevcf.out.filtered_vcf.collect())
                aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
                ampliconsorting_DeltaReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_delta_reads)

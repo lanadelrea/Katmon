@@ -1,4 +1,4 @@
-#!/usr/bin
+#!/usr/bin/env nextflow
 
 process report {
     tag "Generating Summary Report"

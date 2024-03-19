@@ -1,4 +1,4 @@
-#!/usr/bin
+#!/usr/bin/env nextflow
 
 process bammixplot {
     tag "Plotting bammix plot for ${sample}"
@@ -13,11 +13,11 @@ process bammixplot {
     tuple val(sample), path (filtered_bam), path (filtered_bam_bai), path(vcf)
 
     output:
-    path ("*.png"), emmit: bammix_plot
+    path ("*.png"), emit: bammix_plot
 
     script:
     """
-    bammixplot.py ${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
+    bammix_plot.py ${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
     ${sample}_bammix_plot.png \
     ${sample}
     """
