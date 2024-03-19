@@ -23,7 +23,7 @@ include { ampliconsorting_bgzip } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_fasta } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Pangolin } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Nextclade } from './modules/07-ampliconSorting.nf'
-//include { report } from '.modules/07-report.nf'
+include { report } from '.modules/08-report.nf'
 
 workflow {
         ch_bam_file = Channel
@@ -65,5 +65,5 @@ workflow {
                ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
                ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.fasta.collect())
                ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset)
-//               report
+               report( bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp)
 }
