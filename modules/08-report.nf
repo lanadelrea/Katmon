@@ -2,7 +2,7 @@
 
 process report {
     tag "Generating Summary Report"
-    container 'jmeigs1/rscript:latest'
+    container 'nanozoo/rmarkdown:2.10--7ba854a'
 
     publishDir(
     path: "${params.out_dir}/08-Report",
