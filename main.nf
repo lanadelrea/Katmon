@@ -23,7 +23,7 @@ include { ampliconsorting_bgzip } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_fasta } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Pangolin } from './modules/07-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Nextclade } from './modules/07-ampliconSorting.nf'
-include { report } from '.modules/08-report.nf'
+include { report } from './modules/08-report.nf'
 
 workflow {
         ch_bam_file = Channel

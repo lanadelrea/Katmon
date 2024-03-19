@@ -5,19 +5,19 @@ process report {
     container 'jmeigs1/rscript:latest'
 
     publishDir(
-    path: "${params.out_dir}/06-report",
+    path: "${params.out_dir}/08-Report",
     mode: 'copy',
     overwrite: 'true'
     )
 
-    input
+    input:
     path (bammix_plot)
     path (freyja_plot)
-    path (sample), path(aaf_tsv), path(aafplot_mut)
+    path (sample), path(tsv), path(aafplot_mut)
     path (sample), path(aafplot_amp)
-    path 
 
     output:
+    path (".pdf")
 
     script:
     """

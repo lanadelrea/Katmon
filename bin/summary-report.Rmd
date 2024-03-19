@@ -1,0 +1,18 @@
+---
+title: "SARS-CoV-2 Variant Coinfection"
+author: "A.M. Realingo"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: pdf_document
+---
+
+## Section 1: Bammix
+![Figure 1 Bammix plot](`r params$bammix_plot`)
+
+## Section 2: Freyja
+![Figure 2 Freyja](`r params$freyja_plot`)
+
+## Section 3: Alternative Allele Fraction per Mutation
+![Figure 3 Alternative Allele Fraction per Mutation](`r params$aafplot_mut`)
+
+## Section 4: Alternative Allele Fraction per Amplicon
+![Figure 4 Alternative Allele Fraction per Amplicon](`r params$aafplot_amp`)
