@@ -5,13 +5,14 @@ date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: pdf_document
 ---
 ## Section 1: Lineage assignment
-
+  kable(`r params$lineage_assignment`)
 
 ## Section 2: Freyja lineage abundance
 
   ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
 
 ## Section 3: Virstrain lineage assignment for samples flagged for SARS-CoV-2 coinfection
+  
 
 ## Section 4: Bammix flags for nucleotide mixture
 

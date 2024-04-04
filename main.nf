@@ -5,6 +5,7 @@ nextflow.enable.dsl=2
 include { concat } from './modules/01-lineageAssignment.nf'
 include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
+include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { virstrain } from './modules/03-virstrain.nf'
@@ -47,6 +48,7 @@ workflow {
                concat()
                pangolin( concat.out.fasta )
                nextclade( concat.out.fasta, params.SC2_dataset )
+               lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
                bam_filter ( bammix.out.bammixflagged_csv)
                virstrain ( ch_fastq )
@@ -65,5 +67,5 @@ workflow {
                ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
                ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.fasta.collect())
                ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset)
-               report( bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, params.report_rmd)
+               report( lineage_assignment.out.lineageAssign_tsv, bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, params.report_rmd)
 }

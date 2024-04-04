@@ -33,7 +33,7 @@ process pangolin {
         path fasta
 
         output:
-        path ('*.csv') 
+        path ('*.csv'), emit: pangolin_csv
 
         script:
         """
@@ -62,5 +62,27 @@ process nextclade {
         script:
         """
         nextclade run --input-dataset ${SC2_dataset} --output-tsv=nextclade.tsv ${fasta}
+        """
+}
+
+process lineage_assignment {
+        tag "Create summary table for lineage assignment"
+
+        publishDir (
+        path: "${params.out_dir}/01-LineageAssignment",
+        mode: 'copy',
+        overwrite: 'true',
+        )
+
+        input:
+        path pangolin_csv
+        path nextclade_tsv
+
+        output:
+        path ('*.tsv'), emit: lineageAssign_tsv
+
+        script:
+        """
+        python ${baseDir}/bin/lineageAssign_table.py ${pangolin_csv} ${nextclade_tsv}
         """
 }
