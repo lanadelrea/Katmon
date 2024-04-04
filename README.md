@@ -14,7 +14,8 @@ docker pull vandhanak/bcftools:1.3.1
 
 3) This pipeline is written in nextflow, so make sure to install nextflow first by following the steps at https://www.nextflow.io/docs/latest/getstarted.html#installation
 
-4) If you already have nextflow, run the pipeline by indicating path to the input and output directories. Input directory should contain fasta, fastq, bam, and bam index files. 
+## How to run the pipeline
+If you already have nextflow, run the pipeline by indicating path to the input and output directories. Input directory should contain fasta, fastq, bam, and bam index files. 
 ```
 nextflow run CoPi --in_dir <input directory> --out_dir <output directory>
 ```

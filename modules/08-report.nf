@@ -2,7 +2,7 @@
 
 process report {
     tag "Generating Summary Report"
-    container 'stefanfritsch/rmd_statup:latest'
+    container 'rocker/r-rmd:latest'
 
     publishDir(
     path: "${params.out_dir}/08-Report",
@@ -15,12 +15,13 @@ process report {
     path (freyja_plot)
     tuple val(sample), path(tsv), path(aafplot_mut)
     tuple val(sample), path(aafplot_amp)
+    path (report_rmd)
 
     output:
-    path (".pdf")
+    path ("*.pdf")
 
     script:
     """
-    Rscript ${baseDir}/bin/summary-report.R ${bammix_plot} ${freyja_plot} ${aafplot_mut} ${aafplot_amp}
+    Rscript ${baseDir}/bin/summary-report.R ${bammix_plot} ${freyja_plot} ${aafplot_mut} ${aafplot_amp} ${report_rmd} ${sample}
     """
 }
