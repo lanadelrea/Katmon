@@ -10,6 +10,7 @@ params <- list(bammix_plot = args[1],
                aafplot_amp = args[4])
 
 summary_report_rmd = args[5]
+sample = args[6]
 
 # Render the R Markdown file with parameters
 render(summary_report_rmd,

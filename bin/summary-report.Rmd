@@ -4,15 +4,23 @@ author: "A.M. Realingo"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: pdf_document
 ---
+## Section 1: Lineage assignment
 
-## Section 1: Bammix
-![Figure 1 Bammix plot](`r params$bammix_plot`)
 
-## Section 2: Freyja
-![Figure 2 Freyja](`r params$freyja_plot`)
+## Section 2: Freyja lineage abundance
 
-## Section 3: Alternative Allele Fraction per Mutation
-![Figure 3 Alternative Allele Fraction per Mutation](`r params$aafplot_mut`)
+  ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
 
-## Section 4: Alternative Allele Fraction per Amplicon
-![Figure 4 Alternative Allele Fraction per Amplicon](`r params$aafplot_amp`)
+## Section 3: Virstrain lineage assignment for samples flagged for SARS-CoV-2 coinfection
+
+## Section 4: Bammix flags for nucleotide mixture
+
+  ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
+
+## Section 5: Alternative allele fraction per mutation
+
+  ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
+
+## Section 6: Alternative allele fraction per amplicon
+
+  ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
