@@ -1,7 +1,7 @@
 ## Prerequisites
-1) This pipeline is written in nextflow, so make sure to install nextflow first by following the steps at https://www.nextflow.io/docs/latest/getstarted.html#installation
+1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
-2) The processes run on Docker containers. Install docker engine and make sure that docker is running. https://docs.docker.com/engine/install/ubuntu/
+2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubintu](https://docs.docker.com/engine/install/ubuntu/)
 
 3) Pull the following docker images used in this pipeline: 
 ```
@@ -15,13 +15,13 @@ docker pull rocker/r-rmd:latest
 ```
 
 ## How to use CoPi
-1) Download this github repository by git clone.
+1) Download this github repository using `git clone`.
 ```
 cd ~
 git clone https://github.com/lanadelrea/CoPi
 ```
 
-2) Navigate to the directory where `CoPi` is downloaded. Run the pipeline by indicating path to the input and output folders. Input directory should contain fasta, fastq, bam, and bam index files.
+2) Navigate to the directory where `CoPi` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain fasta, fastq, bam, and bam index files.
 
 ```
 cd ~
@@ -35,10 +35,10 @@ nextflow run CoPi --in_dir /mnt/c/Samples --out_dir /mnt/c/Results
 ```
 
 ## Results
-Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 coinfection. Summary report is in the final folder named `08-Report`. 
+Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report`. 
 
 ## Test the pipeline using sample files
-To test the pipeline, use the files from https://tinyurl.com/CoPi-Samples. Decompress `samples.tar.xz` by:
+To test the pipeline, use the files from [CoPi Sample Files](https://tinyurl.com/CoPi-Samples). Decompress `samples.tar.xz` by:
 ```
 xz -d samples.tar.xz
 ```
