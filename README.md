@@ -1,7 +1,7 @@
 ## Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
-2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubintu](https://docs.docker.com/engine/install/ubuntu/)
+2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
 3) Pull the following docker images used in this pipeline: 
 ```
