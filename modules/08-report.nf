@@ -2,7 +2,7 @@
 
 process report {
     tag "Generating Summary Report"
-    container 'rocker/r-rmd:latest'
+    container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(
     path: "${params.out_dir}/08-Report",
