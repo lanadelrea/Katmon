@@ -2,7 +2,7 @@
 
 process bammix {
         tag "Looking for positions with nucleotide mixtures using bammix"
-        container 'ufuomababatunde/bammix:v1.0.0'
+        container 'ufuomababatunde/bammix:v1.1.0'
 
         cpus 1
 
@@ -24,7 +24,7 @@ process bammix {
 
         script:
         """
-        bammix.py ${nextclade_tsv} ${params.in_dir}
+        bammix.py ${nextclade_tsv} ${PWD}/${params.in_dir}
         """
 }
 
@@ -46,6 +46,6 @@ process bam_filter {
 
         script:
         """
-        bammix-flagged-sample-name.py ${bammixflagged_csv} ${params.in_dir}
+        bammix-flagged-sample-name.py ${bammixflagged_csv} ${PWD}/${params.in_dir}
         """
 }

@@ -2,6 +2,7 @@
 
 process bammixplot {
     tag "Plotting bammix plot for ${sample}"
+    container 'ufuomababatunde/bammix:v1.1.0'
 
     publishDir(
     path: "${params.out_dir}/06-Plots",
@@ -17,7 +18,7 @@ process bammixplot {
 
     script:
     """
-    bammix_plot.py ${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
+    bammix_plot.py ${PWD}/${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
     ${sample}_bammix_plot.png \
     ${sample}
     """
@@ -25,6 +26,7 @@ process bammixplot {
 
 process aafplot_mutations {
     tag "Plotting alternative allele fraction per mutation of ${sample}"
+    container 'ufuomababatunde/bammix:v1.1.0'
 
     publishDir(
     path: "${params.out_dir}/06-Plots",
@@ -51,6 +53,7 @@ process aafplot_mutations {
 
 process aafplot_amplicons {
     tag "Plotting alternative allele fraction per mutation of ${sample}"
+    container 'ufuomababatunde/bammix:v1.1.0'
 
     publishDir(
     path: "${params.out_dir}/06-Plots",

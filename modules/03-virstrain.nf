@@ -2,6 +2,8 @@
 
 process virstrain {
         tag "Identifying lineage assignment for ${fastqPath.baseName} using Virstrain"
+        container 'ufuomababatunde/bammix:v1.1.0'
+
 
         publishDir (
         path: "${params.out_dir}/03-Virstrain",

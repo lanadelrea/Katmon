@@ -14,7 +14,7 @@ process concat {
 
         script:
         """
-        cat ${params.in_dir}/*.fasta > all_sequences.fasta
+        cat ${PWD}/${params.in_dir}/*.fasta > all_sequences.fasta
         """
 }
 
@@ -67,6 +67,7 @@ process nextclade {
 
 process lineage_assignment {
         tag "Create summary table for lineage assignment"
+        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.out_dir}/01-LineageAssignment",
