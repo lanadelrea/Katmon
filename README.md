@@ -40,5 +40,5 @@ Output directory will have 8 folders containing results from each step used to t
 ## Test the pipeline using sample files
 To test the pipeline, use the files from [CoPi Sample Files](https://tinyurl.com/CoPi-Samples). Decompress `samples.tar.xz` by:
 ```
-xz -d samples.tar.xz
+tar -xvf samples.tar.xz
 ```
