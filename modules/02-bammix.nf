@@ -46,6 +46,6 @@ process bam_filter {
 
         script:
         """
-        bammix-flagged-sample-name.py ${bammixflagged_csv} ${params.in_dir}
+        bammix-flagged-sample-name.py ${bammixflagged_csv} ${PWD}/${params.in_dir}
         """
 }
