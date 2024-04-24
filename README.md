@@ -7,7 +7,7 @@
 ```
 docker pull staphb/pangolin:latest
 docker pull nextstrain/nextclade:latest
-docker pull ufuomababatunde/bammix:v1.0.0
+docker pull ufuomababatunde/bammix:v1.1.0
 docker pull staphb/freyja:latest
 docker pull pegi3s/samtools_bcftools:latest
 docker pull vandhanak/bcftools:1.3.1
