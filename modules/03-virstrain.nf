@@ -2,7 +2,7 @@
 
 process virstrain {
         tag "Identifying lineage assignment for ${fastqPath.baseName} using Virstrain"
-        container 'ufuomababatunde/bammix:v1.1.0'
+        container 'lanadelrea/virstrain:v0.2.0'
 
         publishDir (
         path: "${params.out_dir}/03-Virstrain",
@@ -15,7 +15,7 @@ process virstrain {
 
         script:
         """
-        python ${baseDir}/bin/VirStrain/VirStrain.py \
+        python /usr/src/app/VirStrain.py \
         -i ${params.in_dir}/${fastqPath} \
         -d ${baseDir}/bin/VirStrain/Custom_DB \
         -o ${params.out_dir}/03-Virstrain/${fastqPath.baseName}

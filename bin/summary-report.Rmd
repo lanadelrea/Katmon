@@ -9,6 +9,7 @@ output: pdf_document
     library(knitr)
     library(magrittr)
     library(gt)
+    library(kableExtra)
     data <- read.table(params$lineage_assignment, header = TRUE, sep = "\t")
     table_lineage <- kable(data)
     styled_table <- table_lineage %>%
