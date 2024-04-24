@@ -2,7 +2,7 @@
 
 process bammix {
         tag "Looking for positions with nucleotide mixtures using bammix"
-        container 'ufuomababatunde/bammix:v1.0.0'
+        container 'ufuomababatunde/bammix:v1.1.0'
 
         cpus 1
 
