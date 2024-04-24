@@ -3,17 +3,6 @@
 
 2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-3) Pull the following docker images used in this pipeline: 
-```
-docker pull staphb/pangolin:latest
-docker pull nextstrain/nextclade:latest
-docker pull ufuomababatunde/bammix:v1.1.0
-docker pull staphb/freyja:latest
-docker pull pegi3s/samtools_bcftools:latest
-docker pull vandhanak/bcftools:1.3.1
-docker pull rocker/r-rmd:latest
-```
-
 ## How to use CoPi
 1) Download this github repository using `git clone`.
 ```
