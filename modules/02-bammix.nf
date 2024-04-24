@@ -24,7 +24,7 @@ process bammix {
 
         script:
         """
-        bammix.py ${nextclade_tsv} ${params.in_dir}
+        bammix.py ${nextclade_tsv} ${PWD}/${params.in_dir}
         """
 }
 
