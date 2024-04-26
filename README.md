@@ -22,7 +22,7 @@ nextflow run CoPi --in_dir <input directory> --out_dir <output directory>
 For example:
 ```
 cd ~
-nextflow run CoPi --in_dir /mnt/c/Samples --out_dir /mnt/c/Results
+nextflow run CoPi --in_dir Samples/ --out_dir Results/
 ```
 
 ## Results
