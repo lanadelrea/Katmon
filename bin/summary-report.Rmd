@@ -1,45 +1,63 @@
 ---
-title: "SARS-CoV-2 Variant Coinfection"
-author: "A.M. Realingo"
+title: "SARS-CoV-2 Variants Coinfection"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
-output: pdf_document
+output: 
+  html_document: 
+    fig_caption: yes
+    highlight: textmate
+    theme: flatly
+    toc: yes
 ---
-## Section 1: Lineage assignment
-  ```{r, echo=FALSE, warning=FALSE}
-    library(knitr)
-    library(magrittr)
-    library(gt)
-    library(kableExtra)
-    data <- read.table(params$lineage_assignment, header = TRUE, sep = "\t")
-    table_lineage <- kable(data)
-    styled_table <- table_lineage %>%
-    kable_styling(full_width = FALSE) %>%
-    row_spec(0, bold = TRUE, color = "white", background = "#0073e6") %>%
-    row_spec(c(1,3), bold = TRUE) %>%
-    column_spec(1, bold = TRUE, color = "white", background = "#009933") %>%
-    column_spec(2:3, italic = TRUE)
+## Lineage assignment
+### Pangolin and Nextclade
+Lineage assigment of all samples run through the pipeline using Pangolin and Nextclade.
 
-    styled_table
-  ```
-
-## Section 2: Freyja lineage abundance
-
+### Freyja
+Freyja plot shows the variant frequency for each sample. Samples suspected for coinfection of Delta and Omicron variants will show mixed variant prevalence. 
   ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
 
-## Section 3: Virstrain lineage assignment for samples flagged for SARS-CoV-2 coinfection
+### VirStrain
+The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
+
   include_graphics(params$virstrain_html)
 
-  virstrain_txt <- read.table(params$virstrain_txt, header = TRUE)
-  kable(virstrain_txt)
-
-## Section 4: Bammix flags for nucleotide mixture
+## Bammix flags for nucleotide mixture
+Bammix is a tool for plotting the nucleotide present 
 
   ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
 
-## Section 5: Alternative allele fraction per mutation
+## Alternative allele fraction
+
+### For each lineage-defining mutations
 
   ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
 
-## Section 6: Alternative allele fraction per amplicon
+### For each amplicon
 
   ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
+  
+## References {.tabset .tabset-fade}
+
+### Pipeline
+The pipeline is available at [CoPi](https://github.com/lanadelrea) by [Adeliza Realingo](https://github.com/lanadelrea).
+
+Tools used:
+
+- [Pangolin](https://github.com/cov-lineages/pangolin) 
+
+- [Nextclade](https://github.com/nextstrain/nextclade)
+
+- [Freyja](https://github.com/andersen-lab/Freyja)
+
+- [VirStrain](https://github.com/liaoherui/VirStrain)
+
+- [Bammix](https://github.com/chrisruis/bammix)
+
+- Custom scripts adopted from [Bolze et al.](doi: 10.1016/j.medj.2022.10.002) 
+
+### Session Info
+```{r}
+sessionInfo()
+```
+
+
