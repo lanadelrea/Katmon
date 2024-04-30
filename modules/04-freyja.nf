@@ -86,10 +86,14 @@ process freyja_plot {
         path aggregated_file
 
         output:
+        path ("*.tsv")
         path ("*.png"), emit: freyja_plot
 
         script:
         """
-        freyja plot ${aggregated_file} --output freyja-lineage-abundance-plot.png
+        sed 's/_variants\\.tsv\s*//' '${aggregated_file}' > aggregated.tsv
+
+        freyja plot aggregated.tsv --output freyja-lineage-abundance-plot.png
         """
+
 }

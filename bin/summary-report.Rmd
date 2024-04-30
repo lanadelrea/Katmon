@@ -11,35 +11,36 @@ output:
 ## Lineage assignment
  
 ### Pangolin and Nextclade 
+ Lineage assigment table using Pangolin and Nextclade of all samples.
  ```{r, echo=FALSE}
- kable(params$lineage_assignment, "simple", caption = "Lineage assigment using Pangolin and Nextclade of all samples.")
+ kable(params$lineage_assignment, "simple")
  ```
 
 ### Freyja
-
- ![Freyja plot showing relative SARS-CoV-2 lineage abundance in each sample](`r params$freyja_plot`)
+  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants. 
+ ![](`r params$freyja_plot`)
 
 ### VirStrain
  
- The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
-
+ Sample/s suspect for coinfection were run against a database containing representative SARS-CoV-2 sequences. The VirStrain result shows the possible lineage assignment for the sample/s.
 
 ## Bammix flags for nucleotide mixture
-
- ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
+  The figure below shows the Bammix plot for nucleotide mixtures of the flagged sample/s. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
+ ![](`r params$bammix_plot`)
 
 ## Alternative allele fraction
 
 ### For each lineage-defining mutations
- 
- ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
+ The alternative allele fraction (AAF) determines the number of reads supporting each variant detected in the sample/s. The AAF per mutation of sample/s flagged for SARS-CoV-2 coinfection are shown in the figure. Delta, Omicron, and shared mutations are represented by blue, pink, and purple, respectively. 
+ ![](`r params$aafplot_mut`)
 
 ### For each amplicon
- ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
+  The AAF for each amplicon is plotted by getting the average allele fraction for Delta and Omicron defining mutation within the range of that amplicon.
+ ![](`r params$aafplot_amp`)
   
 ## References {.tabset .tabset-fade}
 ### Pipeline
- The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adeliza Realingo](https://github.com/lanadelrea). The tools used in this pipeline are as follows:
+ The tools used in this [pipeline](https://github.com/lanadelrea/CoPi) are as follows: 
 
  - [Pangolin](https://github.com/cov-lineages/pangolin) 
 
