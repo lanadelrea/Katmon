@@ -5,7 +5,7 @@ process virstrain {
         container 'lanadelrea/virstrain:v0.2.0'
 
         publishDir (
-        path: "${params.out_dir}/03-Virstrain/${fastqPath.baseName}",
+        path: "${params.out_dir}/03-Virstrain",
         mode: 'copy',
         overwrite: 'true'
         )    
@@ -18,6 +18,6 @@ process virstrain {
         python /usr/src/app/VirStrain.py \
         -i ${params.in_dir}/${fastqPath} \
         -d ${baseDir}/bin/VirStrain/Custom_DB \
-        -o ${PWD}/${params.out_dir}/03-Virstrain/${fastqPath.baseName}
+        -o 03-Virstrain/${fastqPath.baseName}
         """
 }
