@@ -10,38 +10,36 @@ output:
 ---
 ## Lineage assignment
 ### Pangolin and Nextclade
-Lineage assigment of all samples run through the pipeline using Pangolin and Nextclade.
+ Lineage assigment of all samples run through the pipeline using Pangolin and Nextclade.
 
 ### Freyja
-Freyja plot shows the variant frequency for each sample. Samples suspected for coinfection of Delta and Omicron variants will show mixed variant prevalence. 
-  ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
+ Freyja plot shows the variant frequency for each sample. Samples suspected for coinfection of Delta and Omicron variants will show mixed variant prevalence.
+
+ ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
 
 ### VirStrain
-The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
+ The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
 
-  include_graphics(params$virstrain_html)
+ include_graphics(params$virstrain_html)
 
 ## Bammix flags for nucleotide mixture
-Bammix is a tool for plotting the nucleotide present 
+ Bammix is a tool for plotting the nucleotide present 
 
-  ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
+ ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
 
 ## Alternative allele fraction
 
 ### For each lineage-defining mutations
-
-  ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
+ 
+ ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
 
 ### For each amplicon
-
-  ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
+ ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
   
 ## References {.tabset .tabset-fade}
 
 ### Pipeline
-The pipeline is available at [CoPi](https://github.com/lanadelrea) by [Adeliza Realingo](https://github.com/lanadelrea).
-
-Tools used:
+The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adeliza Realingo](https://github.com/lanadelrea). Tools used:
 
 - [Pangolin](https://github.com/cov-lineages/pangolin) 
 
