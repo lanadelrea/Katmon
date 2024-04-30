@@ -10,8 +10,10 @@ output:
 ---
 ## Lineage assignment
 ### Pangolin and Nextclade
- Lineage assigment of all samples run through the pipeline using Pangolin and Nextclade.
-
+ Lineage assigment using Pangolin and Nextclade of all samples run through the pipeline. 
+ ```{r}
+ knitr::kable(params$lineage_assignment)
+ ```
 ### Freyja
  Freyja plot shows the variant frequency for each sample. Samples suspected for coinfection of Delta and Omicron variants will show mixed variant prevalence.
 

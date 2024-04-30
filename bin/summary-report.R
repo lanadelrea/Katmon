@@ -1,10 +1,15 @@
 library(rmarkdown)
 library(knitr)
+library(readr)
+
 
 args <- commandArgs(trailingOnly = TRUE)
 
+lineage_table_tsv <- args[1]
+lineage_table <- read_csv(lineage_table_tsv)
+
 # Define parameters
-params <- list(lineage_assignment = args[1],
+params <- list(lineage_assignment = lineage_table,
                bammix_plot = args[2],
                freyja_plot = args[3],
                aafplot_mut = args[4],
