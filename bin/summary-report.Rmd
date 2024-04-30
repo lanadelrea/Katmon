@@ -2,22 +2,24 @@
 title: "SARS-CoV-2 Variants Coinfection"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
-  prettydoc::html_pretty:
-    fig_caption: yes
-    theme: leonids
+  html_document:
+    theme: cosmo
     toc: yes
+    toc_float:
+      collapsed: true
 ---
 ## Lineage assignment
- ### Pangolin and Nextclade 
+ 
+### Pangolin and Nextclade 
  ```{r, echo=FALSE}
  kable(params$lineage_assignment, "simple", caption = "Lineage assigment using Pangolin and Nextclade of all samples.")
  ```
 
- ### Freyja
+### Freyja
 
  ![Freyja plot showing relative SARS-CoV-2 lineage abundance in each sample](`r params$freyja_plot`)
 
- ### VirStrain
+### VirStrain
  
  The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
 
@@ -28,15 +30,15 @@ output:
 
 ## Alternative allele fraction
 
- ### For each lineage-defining mutations
+### For each lineage-defining mutations
  
  ![Alternative allele fraction per mutation of sample flagged for SARS-CoV-2 coinfection](`r params$aafplot_mut`)
 
- ### For each amplicon
+### For each amplicon
  ![Alternative allele fraction per amplicon](`r params$aafplot_amp`)
   
 ## References {.tabset .tabset-fade}
- ### Pipeline
+### Pipeline
  The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adeliza Realingo](https://github.com/lanadelrea). The tools used in this pipeline are as follows:
 
  - [Pangolin](https://github.com/cov-lineages/pangolin) 
@@ -51,7 +53,7 @@ output:
 
  - Custom scripts adopted from [Bolze et al.](doi: 10.1016/j.medj.2022.10.002) 
 
- ### Session Info
+### Session Info
  ```{r, echo=FALSE}
  sessionInfo()
  ```
