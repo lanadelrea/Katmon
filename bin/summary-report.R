@@ -1,5 +1,6 @@
 library(rmarkdown)
 library(knitr)
+library(kableExtra)
 library(readr)
 
 

@@ -2,29 +2,30 @@
 title: "SARS-CoV-2 Variants Coinfection"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
-  html_document: 
-    fig_caption: yes
-    highlight: textmate
-    theme: flatly
+  prettydoc::html_pretty:
+    theme: leonids
     toc: yes
 ---
 ## Lineage assignment
-### Pangolin and Nextclade
- Lineage assigment using Pangolin and Nextclade of all samples run through the pipeline. 
- ```{r}
- knitr::kable(params$lineage_assignment, "pipe")
+### Pangolin and Nextclade 
+ Lineage assigment using Pangolin and Nextclade of all samples
+ ```{r, echo=FALSE}
+ kable(params$lineage_assignment, "simple")
  ```
 ### Freyja
+ 
  Freyja plot shows the variant frequency for each sample. Samples suspected for coinfection of Delta and Omicron variants will show mixed variant prevalence.
 
  ![Freyja plot showing relative SARS-CoV-2 lineage abundance in the samples](`r params$freyja_plot`)
 
 ### VirStrain
+ 
  The samples were run against a database containing SARS-CoV-2 representative sequences for each variant. The VirStrain results shows the most possible lineage assignment for each sample. The figure and table below only shows samples that are suspected for coinfection.
 
  include_graphics(params$virstrain_html)
 
 ## Bammix flags for nucleotide mixture
+
  Bammix is a tool for plotting the nucleotide present 
 
  ![Bammix plot for nucleotide mixtures of flagged sample](`r params$bammix_plot`)
@@ -41,7 +42,7 @@ output:
 ## References {.tabset .tabset-fade}
 
 ### Pipeline
-The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adeliza Realingo](https://github.com/lanadelrea). Tools used:
+The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adeliza Realingo](https://github.com/lanadelrea). The tools used in this pipeline are as follows:
 
 - [Pangolin](https://github.com/cov-lineages/pangolin) 
 
@@ -56,7 +57,7 @@ The pipeline is available at [CoPi](https://github.com/lanadelrea/CoPi) by [Adel
 - Custom scripts adopted from [Bolze et al.](doi: 10.1016/j.medj.2022.10.002) 
 
 ### Session Info
-```{r}
+```{r, echo=FALSE}
 sessionInfo()
 ```
 
