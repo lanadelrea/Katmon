@@ -6,7 +6,7 @@ library(readr)
 args <- commandArgs(trailingOnly = TRUE)
 
 lineage_table_tsv <- args[1]
-lineage_table <- read_csv(lineage_table_tsv)
+lineage_table <- read_tsv(lineage_table_tsv)
 
 # Define parameters
 params <- list(lineage_assignment = lineage_table,
