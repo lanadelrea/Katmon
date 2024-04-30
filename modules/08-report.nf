@@ -19,7 +19,7 @@ process report {
     path (report_rmd)
 
     output:
-    path ("*.pdf")
+    path ("*.html")
 
     script:
     """

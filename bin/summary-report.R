@@ -15,5 +15,5 @@ summary_report_rmd = args[6]
 
 # Render the R Markdown file with parameters
 render(summary_report_rmd,
-       output_format = 'pdf_document',
+       output_format = 'html_document',
        params = params)
