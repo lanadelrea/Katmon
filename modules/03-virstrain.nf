@@ -17,7 +17,7 @@ process virstrain {
         """
         virstrain \
         -i ${fastqPath} \
-        -d $PWD/CoPi/bin/Custom_DB \
+        -d $PWD/CoPi/assets/Custom_DB \
         -o 03-Virstrain/${fastqPath.baseName}
         """
 }
