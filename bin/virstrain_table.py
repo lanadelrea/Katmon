@@ -1,9 +1,10 @@
 import os
 import re
 import pandas as pd
+import sys
 
 # Directory containing the text files
-directory_path = "/content/drive/MyDrive/Coinfection_Paper/"
+directory_path = sys.argv[1]
 
 # Regular expression pattern to match the first two strings separated by "_"
 pattern = r'>([^_]+)_([^_]+)'
@@ -103,3 +104,5 @@ for filename in os.listdir(directory_path):
  
 # Create a DataFrame from the data
 df = pd.DataFrame(data, columns=["Sample", "Most Possible Strain", "Other Possible Strain"])
+
+df.to_csv("virstrainSummary.tsv", sep='\t', index=False)
