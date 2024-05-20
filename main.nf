@@ -9,7 +9,7 @@ include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { virstrain } from './modules/03-virstrain.nf'
-include { nanoq } from './modules/03-virstrain.nf'
+//include { nanoq } from './modules/03-virstrain.nf'
 include { freyja } from './modules/04-freyja.nf'
 include { freyja_demix } from './modules/04-freyja.nf'
 include { freyja_aggregate } from './modules/04-freyja.nf'
@@ -52,8 +52,8 @@ workflow {
                lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
                bam_filter ( bammix.out.bammixflagged_csv)
-               nanoq ( ch_fastq )
-               virstrain ( nanoq.out.nanoq_fastq )
+//               nanoq ( ch_fastq )
+               virstrain ( ch_fastq )
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
