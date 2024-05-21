@@ -55,7 +55,7 @@ workflow {
                bam_filter ( bammix.out.bammixflagged_csv)
 //               nanoq ( ch_fastq )
                virstrain ( ch_fastq )
-//               virstrain_summary_txt( virstrain.out.virstrain_txt)
+               virstrain_summary_txt( virstrain.out.virstrain_txt)
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect().view() )
@@ -71,5 +71,5 @@ workflow {
                ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
                ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.fasta.collect())
                ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset)
-               report( lineage_assignment.out.lineageAssign_tsv, bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, params.report_rmd)
+               report( lineage_assignment.out.lineageAssign_tsv, bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, params.report_rmd, virstrain_summary_txt.out.virstrain_tsv)
 }
