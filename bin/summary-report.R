@@ -14,7 +14,8 @@ params <- list(lineage_assignment = lineage_table,
                bammix_plot = args[2],
                freyja_plot = args[3],
                aafplot_mut = args[4],
-               aafplot_amp = args[5])
+               aafplot_amp = args[5],
+               virstrain_table = args[6])
 
 summary_report_rmd = args[6]
 #sample = args[7]
