@@ -13,16 +13,15 @@ process virstrain {
         input:
         path fastqPath
 
+        output:
+        tuple val(fastqPath.baseName), path ('*.txt'), emit: virstrain_txt
+
         script:
         """
         virstrain \
         -i ${fastqPath} \
         -d $PWD/CoPi/assets/Custom_DB \
         -o $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}
-
-        mkdir -p $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
-        cp  $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}/*.txt ${fastqPath.baseName}_VirStrain.txt
-        mv  ${fastqPath.baseName}_VirStrain.txt $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
         """
 }
 
@@ -43,7 +42,11 @@ process virstrain_summary_txt {
         path ('*.tsv'), emit: virstrain_tsv
 
         script:
-        """
+        """   
+        mkdir -p $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
+        cp  $PWD/${params.out_dir}/03-Virstrain/${sample}/*.txt ${sample}_VirStrain.txt
+        mv  ${sample}_VirStrain.txt $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
+
         virstrain_table.py $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
         """
 }
