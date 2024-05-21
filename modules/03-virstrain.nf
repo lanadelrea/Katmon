@@ -14,7 +14,7 @@ process virstrain {
         path fastqPath
 
         output:
-        tuple val(fastqPath.baseName), path ('*.txt'), emit: virstrain_txt
+        val(fastqPath.baseName), emit: virstrain_txt
 
         script:
         """
@@ -36,7 +36,7 @@ process virstrain_summary_txt {
         )
 
         input:
-        tuple val(sample), path(txt)
+        val(sample)
 
         output:
         path ('*.tsv'), emit: virstrain_tsv
