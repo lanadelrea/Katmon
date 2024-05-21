@@ -14,7 +14,7 @@ process virstrain {
         path fastqPath
 
         output:
-        val(fastqPath.baseName), emit: virstrain_txt
+        tuple val(fastqPath.baseName), path('*.txt'), emit: virstrain_txt
 
         script:
         """
@@ -22,6 +22,8 @@ process virstrain {
         -i ${fastqPath} \
         -d $PWD/CoPi/assets/Custom_DB \
         -o $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}
+
+        cat $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}/VirStrain_report.txt
         """
 }
 
@@ -36,7 +38,7 @@ process virstrain_summary_txt {
         )
 
         input:
-        val(sample)
+        tuple val(sample), path(txt)
 
         output:
         path ('*.tsv'), emit: virstrain_tsv
