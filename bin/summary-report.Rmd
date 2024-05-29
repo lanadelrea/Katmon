@@ -23,9 +23,9 @@ output:
 ### VirStrain
  
  Sample/s suspect for coinfection were run against a database containing representative SARS-CoV-2 sequences. The VirStrain result shows the possible lineage assignment for the sample/s.
- ```{r, echo=FALSE}
- kable(params$virstrain_table, "simple")
- ```
+  ```{r, echo=FALSE}
+  kable(params$virstrain, "simple")
+  ```
 ## Bammix flags for nucleotide mixture
   The figure below shows the Bammix plot for nucleotide mixtures of the flagged sample/s. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
  ![](`r params$bammix_plot`)

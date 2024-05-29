@@ -27,7 +27,7 @@ process virstrain {
         """
 }
 
-process virstrain_summary_txt {
+process virstrain_summary {
         tag "Summarizing VirStrain results"
         container 'ufuomababatunde/bammix:v1.1.0'
 
@@ -41,7 +41,7 @@ process virstrain_summary_txt {
         tuple val(sample), path(txt)
 
         output:
-        path ('*.tsv'), emit: virstrain_tsv
+        path ('*.tsv'), emit: tsv
 
         script:
         """   
