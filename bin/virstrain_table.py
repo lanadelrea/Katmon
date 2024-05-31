@@ -93,7 +93,8 @@ def process_file(file_path):
     other_possible_strains_combined = "; ".join(other_possible_strains_extracted)
 
     # Add the data to the list
-    sample_name = os.path.basename(file_path)
+    file_name = os.path.basename(file_path)
+    sample_name = file_name.split('_')[0]
     data.append([sample_name, most_possible_strains_combined, other_possible_strains_combined])
 
 # Process each file in the directory
