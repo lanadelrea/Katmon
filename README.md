@@ -12,17 +12,21 @@ cd ~
 git clone https://github.com/lanadelrea/CoPi
 ```
 
-2) Navigate to the directory where `CoPi` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain fasta, fastq, bam, and bam index files.
+2) Navigate to the directory where `CoPi` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain fasta, fastq, bam, and bam index files. Remove the slash "/" after the input and output directory. You can run the pipeline using docker or conda by indicating the `-profile`. 
 
 ```
 cd ~
-nextflow run CoPi --in_dir <input directory> --out_dir <output directory>
+nextflow run CoPi/main.nf --in_dir <input directory> --out_dir <output directory> -profile <docker or conda>
 ```
 
 For example:
 ```
 cd ~
-nextflow run CoPi --in_dir Samples/ --out_dir Results/
+nextflow run CoPi/main.nf --in_dir Samples --out_dir Results -profile docker
+
+or 
+
+nextflow run CoPi/main.nf --in_dir Samples --out_dir Results -profile conda
 ```
 
 ## Results
