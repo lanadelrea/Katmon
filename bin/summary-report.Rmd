@@ -55,7 +55,7 @@ output:
 
  - [Bammix](https://github.com/chrisruis/bammix)
 
- - Custom scripts adopted from [Bolze et al.](doi: 10.1016/j.medj.2022.10.002) 
+ - Custom scripts adopted from [Bolze et al.](https://doi.org/10.1016/j.medj.2022.10.002) 
 
 ### Session Info
  ```{r, echo=FALSE}
