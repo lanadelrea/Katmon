@@ -1,0 +1,9 @@
+name: freyja
+channels:
+  - nanoporetech
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - freyja
+  - samtools 

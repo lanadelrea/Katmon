@@ -1,0 +1,7 @@
+name: pangolin
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - pangolin

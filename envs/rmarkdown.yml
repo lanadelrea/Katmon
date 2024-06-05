@@ -1,0 +1,10 @@
+name: rmarkdown
+channels:
+  - nanoporetech
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-rmarkdown
+  - r-kableextra
+  - r-readr

@@ -21,7 +21,6 @@ virstrain_table_tsv <- args[6]
 virstrain_table <- read_tsv(virstrain_table_tsv)
 
 summary_report_rmd = args[7]
-#sample = args[8]
 
 # Render the R Markdown file with parameters
 render(summary_report_rmd,

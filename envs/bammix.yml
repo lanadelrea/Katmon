@@ -1,0 +1,13 @@
+name: bammix
+channels:
+  - nanoporetech
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python
+  - pandas
+  - seaborn
+  - pip:
+    - bammix
+

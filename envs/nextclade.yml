@@ -1,0 +1,7 @@
+name: nextclade
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - nextclade

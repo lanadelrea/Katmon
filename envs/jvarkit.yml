@@ -1,0 +1,8 @@
+name: jvarkit
+channels:
+  - nanoporetech
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - jvarkit-bam2svg
