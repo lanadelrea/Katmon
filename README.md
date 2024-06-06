@@ -1,5 +1,3 @@
-<img src="https://github.com/lanadelrea/CoPi/blob/main/assets/CoPi_logo.png" alt="logo" width="200"/>
-
 ## Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
