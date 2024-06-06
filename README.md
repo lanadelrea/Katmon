@@ -28,7 +28,7 @@ nextflow run CoPi/main.nf --in_dir Samples --out_dir Results -profile conda
 ```
 
 ## Results
-Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report`. A sample [summary-report.html](https://github.com/lanadelrea/CoPi/blob/main/assets/summary-report.html) can be downloaded in assets. 
+Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report` with the file name as `summary-report.html`.
 
 ## Test the pipeline using sample files
 To test the pipeline, use the files from [CoPi Sample Files](https://tinyurl.com/CoPi-Samples). Decompress `samples.tar.xz` by:
