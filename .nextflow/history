@@ -1,0 +1,1 @@
+2024-06-06 12:51:48	6.9s	agitated_jang	ERR	f3f33f438c5524f2a179ef3dbed1e2db	5ba65173-2faa-411e-aea1-ab6480066fa0	nextflow run main.nf --in_dir ../SC2_Samples --out_dir ../Katmon_results

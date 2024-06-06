@@ -20,7 +20,7 @@ process virstrain {
         """
         virstrain \
         -i ${fastqPath} \
-        -d $PWD/CoPi/assets/Custom_DB \
+        -d $PWD/Katmon/assets/Custom_DB \
         -o $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}
 
         cp $PWD/${params.out_dir}/03-Virstrain/${fastqPath.baseName}/VirStrain_report.txt ${fastqPath.baseName}_VirStrain.txt
@@ -49,6 +49,6 @@ process virstrain_summary {
         cp  $PWD/${params.out_dir}/03-Virstrain/${sample}/*.txt ${sample}_VirStrain.txt
         mv  ${sample}_VirStrain.txt $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
 
-        python3 $PWD/CoPi/bin/virstrain_table.py $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
+        python3 $PWD/Katmon/bin/virstrain_table.py $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
         """
 }
