@@ -14,7 +14,7 @@ process concat {
 
         script:
         """
-        cat ${PWD}/${params.in_dir}/*.fasta > all_sequences.fasta
+        cat ${params.in_dir}/*.fasta > all_sequences.fasta
         """
 }
 

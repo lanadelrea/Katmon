@@ -36,7 +36,7 @@ workflow {
                     .fromPath("${params.in_dir}/**.bai", type: 'file')
                     .ifEmpty { error "Cannot find any BAM index files on ${params.in_dir}"}
         ch_fastq = Channel
-                    .fromPath("${params.in_dir}/**.fastq", type: 'file')
+                    .fromPath("${params.in_dir}/**.fastq.gz", type: 'file')
                     .ifEmpty { error "Cannot find any fastq files" on ${params.in_dir}}
         ch_fasta = Channel
                     .fromPath("${params.in_dir}/**.fasta", type: 'file')
