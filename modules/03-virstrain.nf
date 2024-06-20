@@ -11,19 +11,19 @@ process virstrain {
         )    
 
         input:
-        tuple path(fastqPath), val(sample)
+        path(fastqPath)
 
         output:
-        tuple val(sample), path('*.txt'), emit: virstrain_txt
+        tuple val(fastqPath.SimpleName), path('*.txt'), emit: virstrain_txt
 
         script:
         """
         virstrain \
         -i ${fastqPath} \
         -d $PWD/Katmon/assets/Custom_DB \
-        -o $PWD/${params.out_dir}/03-Virstrain/${sample}
+        -o $PWD/${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}
 
-        cp $PWD/${params.out_dir}/03-Virstrain/${sample}/VirStrain_report.txt ${sample}_VirStrain.txt
+        cp $PWD/${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}/VirStrain_report.txt ${fastqPath.SimpleName}_VirStrain.txt
         """
 }
 

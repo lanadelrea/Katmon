@@ -54,7 +54,7 @@ workflow {
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
                bam_filter ( bammix.out.bammixflagged_csv)
 //               nanoq ( ch_fastq )
-               virstrain ( ch_fastq, ch_fastq.SimpleName() )
+               virstrain ( ch_fastq )
                virstrain_summary( virstrain.out.virstrain_txt)
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
