@@ -14,14 +14,14 @@ process makevcf {
     path reference
 
     output:
-    tuple val (filtered_bam.baseName), path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), path ("*.vcf"), emit: filtered_vcf
+    tuple val (filtered_bam.SimpleName), path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), path ("*.vcf"), emit: filtered_vcf
 
     script:
     """
-    samtools sort ${filtered_bam} -o ${filtered_bam.baseName}_filtered.sorted.bam
-    samtools index ${filtered_bam.baseName}_filtered.sorted.bam
-    samtools mpileup -uf ${reference} ${filtered_bam.baseName}_filtered.sorted.bam > ${filtered_bam.baseName}.mpileup
-    bcftools call -mv -O b -o ${filtered_bam.baseName}.bcf ${filtered_bam.baseName}.mpileup
-    bcftools view -O v -o ${filtered_bam.baseName}.vcf ${filtered_bam.baseName}.bcf
+    samtools sort ${filtered_bam} -o ${filtered_bam.SimpleName}_filtered.sorted.bam
+    samtools index ${filtered_bam.SimpleName}_filtered.sorted.bam
+    samtools mpileup -uf ${reference} ${filtered_bam.SimpleName}_filtered.sorted.bam > ${filtered_bam.SimpleName}.mpileup
+    bcftools call -mv -O b -o ${filtered_bam.SimpleName}.bcf ${filtered_bam.SimpleName}.mpileup
+    bcftools view -O v -o ${filtered_bam.SimpleName}.vcf ${filtered_bam.SimpleName}.bcf
     """
 }

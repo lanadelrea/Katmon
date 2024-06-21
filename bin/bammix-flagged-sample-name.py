@@ -14,6 +14,7 @@ with open(csv_file, 'r') as csv_file:
     next(csv_reader)
     sample_names = [row[0].lstrip("./") for row in csv_reader] # Gets the sample names flagged by bammix
     for sample_name in sample_names:
-        print(sample_name)
-        filtered_bam = f'samtools view -b -q 12 {in_dir}/{sample_name}.bam > {sample_name}.bam' # Filters the bam file of reads with at least Q 12 
-        filtered_bam_output = sp.check_output(filtered_bam, shell=True).decode()
+        print(f'Processing {sample_name}')
+        filtered_bam_command = f'samtools view -b -q 12 {in_dir}/{sample_name}.bam > {sample_name}.filtered.bam' # Filters the bam file of reads with at least Q 12
+        sp.run(filtered_bam_command, shell=True)
+        print(f'Finished {sample_name}.filtered.bam')
