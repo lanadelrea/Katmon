@@ -8,13 +8,13 @@ include { nextclade } from './modules/01-lineageAssignment.nf'
 include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
+include { makevcf } from './modules/02-bammix.nf'
 include { virstrain } from './modules/03-virstrain.nf'
 include { virstrain_summary } from './modules/03-virstrain.nf'
 include { freyja } from './modules/04-freyja.nf'
 include { freyja_demix } from './modules/04-freyja.nf'
 include { freyja_aggregate } from './modules/04-freyja.nf'
 include { freyja_plot } from './modules/04-freyja.nf'
-include { makevcf } from './modules/05-makeVCF.nf'
 include { bammixplot } from './modules/06-plots.nf'
 include { aafplot_mutations } from './modules/06-plots.nf'
 include { aafplot_amplicons } from './modules/06-plots.nf'
@@ -50,10 +50,10 @@ workflow {
                pangolin( concat.out.fasta )
                nextclade( concat.out.fasta, params.SC2_dataset )
                lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
-               
-               bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
-               bam_filter ( bammix.out.bammixflagged_csv)
 
+               bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
+               bam_filter ( bammix.out.bammixflagged_csv )
+ 
                virstrain ( ch_fastq )
                virstrain_summary( virstrain.out.virstrain_txt)
                freyja( ch_bam_file )
@@ -63,7 +63,7 @@ workflow {
 
                makevcf( bam_filter.out.filtered_bam, params.reference )
 
-               bammixplot ( makevcf.out.filtered_vcf.collect())
+               bammixplot ( makevcf.out.filtered_vcf)
                aafplot_mutations( makevcf.out.filtered_vcf.collect())
                aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
 
