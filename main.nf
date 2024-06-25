@@ -51,17 +51,19 @@ workflow {
                nextclade( concat.out.fasta, params.SC2_dataset )
                lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
 
-               bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
+               bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index ) // TO-DO: will put operator here if there are no flags
                bam_filter ( bammix.out.bammixflagged_csv )
+
+               ch_bam_filter.flatmap { filtered_bam -> bam_filter.out.filtered_bam }
+
+               makevcf( ch_bam_filter, params.reference ) // TO-DO: fixing to accomodate multiple flagged samples
  
                virstrain ( ch_fastq )
-               virstrain_summary( virstrain.out.virstrain_txt)
+               virstrain_summary( virstrain.out.virstrain_txt) // TO-DO: fixing to apply evidence supporting strong other possible strain in the summary table
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())
                freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
-
-               makevcf( bam_filter.out.filtered_bam, params.reference )
 
                bammixplot ( makevcf.out.filtered_vcf)
                aafplot_mutations( makevcf.out.filtered_vcf.collect())
