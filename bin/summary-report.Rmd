@@ -8,8 +8,10 @@ output:
     toc_float:
       collapsed: true
 ---
-## Lineage assignment
- 
+<hr/>
+
+## <b> Lineage assignment </b>
+
 ### Pangolin and Nextclade 
  Lineage assigment table using Pangolin and Nextclade of all samples.
  ```{r, echo=FALSE}
@@ -19,6 +21,7 @@ output:
 ### Freyja
   The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants. 
  ![](`r params$freyja_plot`)
+ <img src="`r params$freyja_plot`" alt="freyja" width="200"/>
 
 ### VirStrain
  
@@ -28,10 +31,13 @@ output:
   ```
 
 ## Bammix flags for nucleotide mixture
-  The figure below shows the Bammix plot for nucleotide mixtures of the flagged sample/s. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
+  The figure below shows the Bammix plot for nucleotide mixtures of the sample/s with potential SARS-CoV-2 variants coinfection. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
  ![](`r params$bammix_plot`)
 
-## Alternative allele fraction
+
+<hr/>
+
+## <b> Alternative allele fraction </br>
 
 ### For each lineage-defining mutations
  The alternative allele fraction (AAF) determines the number of reads supporting each variant detected in the sample/s. The AAF per mutation of sample/s flagged for SARS-CoV-2 coinfection are shown in the figure. Delta, Omicron, and shared mutations are represented by blue, pink, and purple, respectively. 
@@ -41,7 +47,10 @@ output:
   The AAF for each amplicon is plotted by getting the average allele fraction for Delta and Omicron defining mutation within the range of that amplicon.
  ![](`r params$aafplot_amp`)
   
-## References {.tabset .tabset-fade}
+<hr/>
+
+## <b> References </b> {.tabset .tabset-fade}
+
 ### Pipeline
  The tools used in this [pipeline](https://github.com/lanadelrea/CoPi) are as follows: 
 

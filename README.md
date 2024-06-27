@@ -1,5 +1,3 @@
-![Katmon logo](assets/Katmon-logo.png)
-
 ## Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 

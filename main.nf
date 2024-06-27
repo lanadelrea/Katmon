@@ -54,9 +54,9 @@ workflow {
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index ) // TO-DO: will put operator here if there are no flags
                bam_filter ( bammix.out.bammixflagged_csv )
 
-//               ch_bam_filter = Channel.of(bam_filter.out.filtered_bam).map() // TO-DO: fixing to accomodate multiple flagged samples
+//               bam_filter_result = Channel.of(bam_filter.out.filtered_bam).map() // TO-DO: fixing to accomodate multiple flagged samples
 
-               makevcf( bam_filter.out.filtered_bam, params.reference ) 
+               makevcf( bam_filter.out.filtered_bam.flatten(), params.reference ) 
 
                virstrain ( ch_fastq )
                virstrain_summary( virstrain.out.virstrain_txt) // TO-DO: fixing to apply evidence supporting strong other possible strain in the summary table
