@@ -18,9 +18,9 @@ nextflow run Katmon --in_dir <input directory> --out_dir <output directory> -pro
 For example:
 ```
 nextflow run Katmon --in_dir Samples --out_dir Results -profile docker
-
+```
 or 
-
+```
 nextflow run Katmon --in_dir Samples --out_dir Results -profile conda
 ```
 
