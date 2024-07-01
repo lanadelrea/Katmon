@@ -66,7 +66,7 @@ process nextclade {
 }
 
 process lineage_assignment {
-        tag "Create summary table for lineage assignment"
+        tag "Creating summary table for lineage assignment"
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (

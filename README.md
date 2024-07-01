@@ -1,9 +1,11 @@
+![Katmon Logo]('/assets/katmon-logo.png')
+
 ## :clipboard: Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
 2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-## :blossom: How to use Katmon
+## :computer: How to use Katmon
 1) Download this github repository using `git clone`.
 ```
 git clone https://github.com/lanadelrea/Katmon

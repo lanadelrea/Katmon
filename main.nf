@@ -66,8 +66,8 @@ workflow {
                freyja_plot( freyja_aggregate.out.freyja_aggregated_file )
 
                bammixplot ( makevcf.out.filtered_vcf)
-               aafplot_mutations( makevcf.out.filtered_vcf.collect())
-               aafplot_amplicons( aafplot_mutations.out.aafplot_mut.collect()) 
+               aafplot_mutations( makevcf.out.filtered_vcf)
+               aafplot_amplicons( aafplot_mutations.out.aafplot_mut) 
 
                ampliconsorting_DeltaReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_delta_reads)
                ampliconsorting_OmicronReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_omicron_reads)

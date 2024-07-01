@@ -16,6 +16,7 @@ bammix_plot = sys.argv[2]
 
 sample = sys.argv[3]
 
+# Create a plot from the positions and proportions
 df_bam = position_base_counts[["Position", "A_proportion", "C_proportion", "G_proportion","T_proportion"]].copy()
 df_bam.rename(columns = {'A_proportion':'A', 'C_proportion':'C', 'G_proportion':'G', 'T_proportion': 'T'}, inplace=True)
 df_bam.set_index("Position", inplace=True)
@@ -34,4 +35,4 @@ plt.xticks(rotation=90, fontsize=5)
 plt.ylim([0,1])
 plt.legend(bbox_to_anchor=[1,1], ncol=1)
 plt.tight_layout()
-plt.savefig('bammix_plot', dpi=200)
+plt.savefig(f"{sample}_bammix_plot", dpi=200) # Name plot file according to sample
