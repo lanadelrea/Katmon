@@ -1,11 +1,9 @@
-![Katmon Logo](https://github.com/lanadelrea/Katmon/blob/main/assets/katmon-logo.PNG)
-
-## Prerequisites
+## :clipboard: Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
 2) The processes run on Docker containers. Install docker engine by following steps at [Docker Installation Guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
-## How to use Katmon
+## :computer: How to use Katmon
 1) Download this github repository using `git clone`.
 ```
 git clone https://github.com/lanadelrea/Katmon
@@ -26,7 +24,7 @@ or
 nextflow run Katmon --in_dir Samples --out_dir Results -profile conda
 ```
 
-## Results
+## :open_file_folder: Results
 Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report` with the file name as `summary-report.html`.
 
 ## Test the pipeline using sample files
