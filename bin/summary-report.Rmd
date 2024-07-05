@@ -28,7 +28,7 @@ output:
   kable(params$virstrain, "simple")
   ```
 
-## Bammix flags for nucleotide mixture
+### Bammix flags for nucleotide mixture
   The figure below shows the Bammix plot for nucleotide mixtures of the sample/s with potential SARS-CoV-2 variants coinfection. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
  ![](`r params$bammix_plot`)
 
