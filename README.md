@@ -1,3 +1,5 @@
+![Katmon Logo](https://github.com/lanadelrea/Katmon/blob/main/assets/katmon-logo.PNG)
+
 ## :clipboard: Prerequisites
 1) This pipeline is written in nextflow. Install nextflow by following the steps at [Nextflow Installation Guide](https://www.nextflow.io/docs/latest/getstarted.html#installation)
 
@@ -22,6 +24,11 @@ nextflow run Katmon --in_dir Samples --out_dir Results -profile docker
 or 
 ```
 nextflow run Katmon --in_dir Samples --out_dir Results -profile conda
+```
+
+You can also view the help documentations by:
+```
+nextflow run Katmon --help
 ```
 
 ## :open_file_folder: Results

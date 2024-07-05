@@ -79,3 +79,25 @@ workflow {
 
                report( lineage_assignment.out.lineageAssign_tsv, bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, virstrain_summary.out.tsv, params.report_rmd )
 }
+
+if (params.help) {
+        help = """The Katmon pipeline is designed to look for potential Omicron and Delta Co-infection from an NGS run.
+                |
+                | To run the pipeline, do:
+                |       nextflow run Katmon --in_dir <input dir> --out_dir <out dir> -profile <docker or conda>
+                |  
+                | Required arguments:
+                |
+                |      --in_dir       Location of the input files containing fasta, fastq, bam and bam index files.
+                |      --out_dir      Location of the results directory.
+                | 
+                | Optional arguments:
+                |      -profile       Can be docker or conda.
+                |      -resume        To resume the pipeline.
+                |      -w             The NextFlow work directory. Delete this directory once the process is finished.
+                |                     Default: ${workDir} 
+                |      --help         To view this help page.
+                |""".stripMargin()
+        println(help)
+        exit(0)
+}
