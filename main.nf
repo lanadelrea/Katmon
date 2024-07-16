@@ -75,7 +75,7 @@ workflow {
                ampliconsorting_bgzip( ampliconsorting_samtools.out.vcf.collect())
                ampliconsorting_fasta( ampliconsorting_bgzip.out.vcfgz.collect(), params.reference )
                ampliconsorting_lineageAssignment_Pangolin( ampliconsorting_fasta.out.fasta.collect())
-               ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset) // TO-DO: Find a way to show amplicon sorting in the final report
+               ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset) // TO-DO: finding a way to show amplicon sorting in the final report
 
                report( lineage_assignment.out.lineageAssign_tsv, bammixplot.out.bammix_plot, freyja_plot.out.freyja_plot, aafplot_mutations.out.aafplot_mut, aafplot_amplicons.out.aafplot_amp, virstrain_summary.out.tsv, params.report_rmd )
                // Surely, there is a much better way to do this but for now you have to deal with this lenghty line of code, I'm just a girl lmao
