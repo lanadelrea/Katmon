@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin python3
 import sys
 import re
 import os
@@ -94,7 +94,7 @@ print(f"Path for finding BAM files: {analysis_folder}") # Look at path to BAM fi
 # Glob for names of all BAM files in the bam folder
 #bam_files = glob.glob(f"{analysis_folder}/**/*.bam", recursive=True) 
 
-# Call bammix command from shell with all_snps_and_single_Ns as input.
+# Call bammix command from shell with all_snps_and_single_Ns as input. We're looking if there are mixture in these positions.
 # Use run name, barcode, and central_id as prefix.
 for bam in bam_files:
     #prefix  = re.sub('.bam','',bam.split('/')[1])

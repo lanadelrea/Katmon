@@ -1,4 +1,4 @@
-#!/usr/bin/env nextflow
+#!/usr/bin nextflow
 
 process bammix {
         tag "Looking for positions with nucleotide mixtures using bammix"

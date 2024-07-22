@@ -89,15 +89,15 @@ if (params.help) {
                 |  
                 | Required arguments:
                 |
-                |      --in_dir       Location of the input files containing fasta, fastq, bam and bam index files.
-                |      --out_dir      Location of the results directory.
+                |      --in_dir       Location of the input files containing fasta, fastq, bam and bam index files
+                |      --out_dir      Location of the results directory
                 | 
                 | Optional arguments:
-                |      -profile       Can be docker or conda.
-                |      -resume        To resume the pipeline.
-                |      -w             The NextFlow work directory. Delete this directory once the process is finished.
+                |      -profile       Can be docker or conda
+                |      -resume        To resume the pipeline
+                |      -w             The NextFlow work directory. Delete this directory once the process is finished
                 |                     Default: ${workDir} 
-                |      --help         To view this help page.
+                |      --help         To view this help page
                 |""".stripMargin()
         println(help)
         exit(0)
