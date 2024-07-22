@@ -20,7 +20,7 @@ process bammix {
         output:
         path '*.csv'
         path '*.pdf'
-        path 'flagged_barcodes_positions_proportions.csv', emit: bammixflagged_csv
+        path 'bammixFlags.csv', emit: bammixflagged_csv
 
         script:
         """

@@ -172,7 +172,7 @@ bammix_bad_mixtures_csv = pd.DataFrame()
 bammix_bad_mixtures_csv['barcode'] = bad_mixtures
 bammix_bad_mixtures_csv['positions'] = bad_mixtures_positions
 bammix_bad_mixtures_csv['base_prop'] = bad_mixtures_base_prop
-bammix_bad_mixtures_csv.to_csv("flagged_barcodes_positions_proportions.csv", index=False)
+bammix_bad_mixtures_csv.to_csv("bammixFlags.csv", index=False)
 
 # Debugging messages
 print("Number of CSV files found:", len(bammix_csv_files))
