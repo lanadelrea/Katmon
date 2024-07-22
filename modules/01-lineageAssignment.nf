@@ -84,6 +84,6 @@ process lineage_assignment {
 
         script:
         """
-        python ${baseDir}/bin/lineageAssign_table.py ${pangolin_csv} ${nextclade_tsv}
+        lineageAssign_table.py ${pangolin_csv} ${nextclade_tsv}
         """
 }
