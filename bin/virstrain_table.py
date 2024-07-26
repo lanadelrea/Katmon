@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# Import modules
 import os
 import re
 import pandas as pd
@@ -26,6 +27,14 @@ def extract_strain(line):
     match = re.search(strain_pattern, line.strip())
     if match:
         return match.group(1)
+    return None
+
+# Function to extract the Valid Map Rate from the given line
+def extract_valid_map_rate(line):
+    columns = line.split('\t')
+    if len(columns) >= 5:
+        # Extract the 5th column which contains the valid map rate
+        return columns[4]
     return None
 
 # Initialize a list to hold data for the DataFrame
@@ -58,8 +67,6 @@ def process_file(file_path):
             # If we are capturing lines and encounter a new section, stop capturing
             if stripped_line.startswith(">>") and not stripped_line.startswith(">>>"):
                 capture_most_possible = False
-            #if stripped_line.startswith(">"):
-            #    capture_other_possible = False
 
             # Capture the lines in the ">>Most possible strains:" section that start with '>'
             if capture_most_possible and stripped_line.startswith('>'):
@@ -68,9 +75,11 @@ def process_file(file_path):
             if capture_other_possible:
                 if stripped_line == "Can not detect other strains.":
                     other_possible_strains.append(stripped_line)
+                    valid_map_rate = None
                     first_capture_done = True
                 elif stripped_line.startswith('>') and not stripped_line.startswith('>>') and not first_capture_done:
                     other_possible_strains.append(stripped_line)
+                    valid_map_rate = extract_valid_map_rate(stripped_line)
                     first_capture_done = True
 
     # Extract the desired substrings from each captured line in ">>Most possible strains:" section
@@ -97,15 +106,15 @@ def process_file(file_path):
     # Add the data to the list
     file_name = os.path.basename(file_path)
     sample_name = file_name.split('_')[0]
-    data.append([sample_name, most_possible_strains_combined, other_possible_strains_combined])
+    data.append([sample_name, most_possible_strains_combined, other_possible_strains_combined, valid_map_rate])
 
 # Process each file in the directory
 for filename in os.listdir(directory_path):
     if filename.endswith(".txt"):  # Assuming the files are .txt files
         file_path = os.path.join(directory_path, filename)
         process_file(file_path)
- 
+
 # Create a DataFrame from the data
-df = pd.DataFrame(data, columns=["Sample", "Most Possible Strain", "Other Possible Strain"])
+df = pd.DataFrame(data, columns=["Sample", "Most Possible Strain", "Other Possible Strain", "Valid Map Rate"])
 
 df.to_csv("virstrainSummary.tsv", sep='\t', index=False)

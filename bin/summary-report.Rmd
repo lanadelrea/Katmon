@@ -23,7 +23,9 @@ output:
 
 ### VirStrain
  
- Sample/s suspect for coinfection were run against a database containing representative SARS-CoV-2 sequences. The VirStrain result shows the possible lineage assignment for the sample/s.
+Suspected coinfection samples were analyzed using the VirStrain tool against a database of representative SARS-CoV-2 sequences. The results are summarized in the table below, where the ‘Most Possible Strain’ represents the lineage with the highest Vscore in the initial iteration. 
+Meanwhile, the ‘Other Possible Strain’ is identified by the highest Vscore in subsequent iterations and is considered highly supported if the ‘Valid Map Rate’ is 10 or more mutations, as outlined by Liao et al. (2022). 
+According to our study, a high support for the ‘Other Possible Strain’ indicates a likely case of co-infection.
   ```{r, echo=FALSE}
   kable(params$virstrain, "simple")
   ```
