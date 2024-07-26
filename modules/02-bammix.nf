@@ -29,7 +29,7 @@ process bammix {
 }
 
 process bam_filter {
-        tag "Getting positions flagged by bammix"
+        tag "Determining samples flagged by bammix then filtering the high quality reads"
         container 'pegi3s/samtools_bcftools:latest'
 
         publishDir (
