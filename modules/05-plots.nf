@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 process bammixplot {
+//    errorStrategy = 'ignore'
     tag "Plotting bammix plot for ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0'
 
@@ -25,6 +26,7 @@ process bammixplot {
 }
 
 process aafplot_mutations {
+//    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
@@ -52,6 +54,7 @@ process aafplot_mutations {
 }
 
 process aafplot_amplicons {
+//    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0'
     

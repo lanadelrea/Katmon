@@ -25,6 +25,14 @@ process report {
 
     script:
     """
-    Rscript ${baseDir}/bin/summary-report.R ${lineage_assignment} ${bammix_plot} ${freyja_plot} ${aafplot_mut} ${aafplot_amp} ${virstrain_tsv} ${report_rmd} ${sample} 
+    Rscript ${baseDir}/bin/summary-report.R \
+    ${lineage_assignment} \
+    ${bammix_plot} \
+    ${freyja_plot} \
+    ${aafplot_mut} \
+    ${aafplot_amp} \
+    ${virstrain_tsv} \
+    ${report_rmd} \
+    ${sample} 
     """
 }

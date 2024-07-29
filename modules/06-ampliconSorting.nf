@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 process ampliconsorting_DeltaReads {
+//        errorStrategy = 'ignore'
         tag "Sorting Delta reads of ${sample} suspect for coinfection"
         container 'lindenb/jvarkit:1b2aedf24'
 
@@ -26,6 +27,7 @@ process ampliconsorting_DeltaReads {
 }
 
 process ampliconsorting_OmicronReads {
+//    errorStrategy = 'ignore'
     tag "Sorting Omicron reads of ${sample} suspect for coinfection"
     container 'lindenb/jvarkit:1b2aedf24'
 
@@ -51,6 +53,7 @@ process ampliconsorting_OmicronReads {
 }
 
 process ampliconsorting_samtools {
+//    errorStrategy = 'ignore'
     tag "Creating vcf from Delta and Omicron sorted reads"
     container 'pegi3s/samtools_bcftools:latest'
 
@@ -84,6 +87,7 @@ process ampliconsorting_samtools {
 }
 
 process ampliconsorting_bgzip {
+//    errorStrategy = 'ignore'
     container 'vandhanak/bcftools:1.3.1'
     publishDir (
     path: "${params.out_dir}/07-AmpliconSorting",
@@ -108,6 +112,7 @@ process ampliconsorting_bgzip {
 }
 
 process ampliconsorting_fasta {
+//    errorStrategy = 'ignore'
     tag "Creating consensus from sorted reads"
     container 'pegi3s/samtools_bcftools:latest'
 
@@ -132,6 +137,7 @@ process ampliconsorting_fasta {
 }
 
 process ampliconsorting_lineageAssignment_Pangolin {
+//    errorStrategy = 'ignore'
     tag "Lineage assignment of sorted reads using Pangolin tool"
     container 'staphb/pangolin:latest'
 
@@ -155,6 +161,7 @@ process ampliconsorting_lineageAssignment_Pangolin {
 }
 
 process ampliconsorting_lineageAssignment_Nextclade {
+//    errorStrategy = 'ignore'
     tag "Lineage assignment of sorted reads using Nextclade"
     container 'nextstrain/nextclade:latest'
     
