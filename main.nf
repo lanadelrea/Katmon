@@ -59,7 +59,7 @@ workflow {
                makevcf( bam_filter.out.filtered_bam.flatten(), params.reference ) 
 
                virstrain ( ch_fastq )
-               virstrain_summary( virstrain.out.virstrain_txt) // TO-DO: fixing to apply evidence supporting strong other possible strain in the summary report
+               virstrain_summary( virstrain.out.virstrain_txt)
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())
