@@ -1,0 +1,460 @@
+>Cluster1_1
+	>B	*	0
+>Cluster2_1
+	>BA.1	*	1
+>Cluster3_1
+	>BA.1.18|BA.1.18	*	2
+>Cluster4_1
+	>BA.2|BA.2	*	3
+>Cluster5_1
+	>BA.4	*	4
+>Cluster6_1
+	>BA.5	*	5
+>Cluster7_1
+	>BA.2.12.1	*	6
+>Cluster8_1
+	>BA.2.75	*	7
+>Cluster9_1
+	>BA.2	*	8
+>Cluster10_1
+	>BA.2.56	*	9
+>Cluster11_1
+	>AY.4	*	10
+>Cluster12_1
+	>B.1.1.7	*	11
+>Cluster13_1
+	>B.1.351	*	12
+>Cluster14_1
+	>P.1	*	13
+>Cluster15_1
+	>Epsilon_B.1.429	*	14
+>Cluster16_1
+	>B.1.427	*	15
+>Cluster17_1
+	>P.2	*	16
+>Cluster18_1
+	>B.1.525	*	17
+>Cluster19_1
+	>P.3	*	18
+>Cluster20_1
+	>B.1.526	*	19
+>Cluster21_1
+	>B.1.617.1	*	20
+>Cluster22_1
+	>C.37	*	21
+>Cluster23_1
+	>B.1.621	*	22
+>Cluster24_1
+	>BA.2.36	*	23
+>Cluster25_1
+	>BA.2.72	*	24
+>Cluster26_1
+	>BA.2.5	*	25
+>Cluster27_1
+	>BA.2.18	*	26
+>Cluster28_1
+	>BA.2.13	*	27
+>Cluster29_1
+	>BA.2.9	*	28
+>Cluster30_1
+	>BA.2.2	*	29
+>Cluster31_1
+	>BA.3	*	30
+>Cluster32_1
+	>BA.4.4	*	31
+>Cluster33_1
+	>BA.4.1	*	32
+>Cluster34_1
+	>Omicron_BA.4.6__Omicron_BA.4	*	33
+>Cluster35_1
+	>BA.1.1	*	34
+>Cluster36_1
+	>BA.1.17.2	*	35
+>Cluster37_1
+	>BA.1.15.1	*	36
+>Cluster38_1
+	>BA.1.15	*	37
+>Cluster39_1
+	>B.1.1.529	*	38
+>Cluster40_1
+	>XD	*	39
+>Cluster41_1
+	>B.1.1.519	*	40
+>Cluster42_1
+	>B.1.637	*	41
+>Cluster43_1
+	>C.36.3	*	42
+>Cluster44_1
+	>B.1.1.318	*	43
+>Cluster45_1
+	>AZ.5	*	44
+>Cluster46_1
+	>B.1.619.1	*	45
+>Cluster47_1
+	>B.1.620	*	46
+>Cluster48_1
+	>A.23.1	*	47
+>Cluster49_1
+	>A.27	*	48
+>Cluster50_1
+	>B.1.177	*	49
+>Cluster51_1
+	>B.1.234	*	50
+>Cluster52_1
+	>B.1.1.284	*	51
+>Cluster53_1
+	>B.1.466.2	*	52
+>Cluster54_1
+	>R.1	*	53
+>Cluster55_1
+	>B.1.258.17	*	54
+>Cluster56_1
+	>B.1.575	*	55
+>Cluster57_1
+	>B.1.214	*	56
+>Cluster58_1
+	>B.1.1.523	*	57
+>Cluster59_1
+	>A.2.5	*	58
+>Cluster60_1
+	>B.1.640.1	*	59
+>Cluster61_1
+	>B.1.640.2	*	60
+>Cluster62_1
+	>C.1.2	*	61
+>Cluster63_1
+	>AT.1	*	62
+>Cluster64_1
+	>N.10	*	63
+>Cluster65_1
+	>AY.9	*	64
+>Cluster66_1
+	>AY.33	*	65
+>Cluster67_1
+	>AY.3	*	66
+>Cluster68_1
+	>B.1.617.2	*	67
+>Cluster69_1
+	>AY.25	*	68
+>Cluster70_1
+	>AY.4.2	*	69
+>Cluster71_1
+	>AY.98.1	*	70
+>Cluster72_1
+	>AY.47	*	71
+>Cluster73_1
+	>AY.27	*	72
+>Cluster74_1
+	>AY.122	*	73
+>Cluster75_1
+	>AY.26	*	74
+>Cluster76_1
+	>AY.75.3	*	75
+>Cluster77_1
+	>AY.29	*	76
+>Cluster78_1
+	>AY.29.1	*	77
+>Cluster79_1
+	>B.1.429.1	*	78
+>Cluster80_1
+	>Q.2	*	79
+>Cluster81_1
+	>Q.4	*	80
+>Cluster82_1
+	>B.1.429	*	81
+>Cluster83_1
+	>Q.6	*	82
+>Cluster84_1
+	>AY.119	*	83
+>Cluster85_1
+	>AY.2	*	84
+>Cluster86_1
+	>AY.39.1	*	85
+>Cluster87_1
+	>AY.77	*	86
+>Cluster88_1
+	>AY.13	*	87
+>Cluster89_1
+	>AY.35	*	88
+>Cluster90_1
+	>AY.23	*	89
+>Cluster91_1
+	>AY.54	*	90
+>Cluster92_1
+	>AY.107	*	91
+>Cluster93_1
+	>AY.114	*	92
+>Cluster94_1
+	>AY.20	*	93
+>Cluster95_1
+	>AY.15	*	94
+>Cluster96_1
+	>AY.117	*	95
+>Cluster97_1
+	>AY.81	*	96
+>Cluster98_1
+	>AY.74	*	97
+>Cluster99_1
+	>AY.52	*	98
+>Cluster100_1
+	>AY.64	*	99
+>Cluster101_1
+	>AY.116	*	100
+>Cluster102_1
+	>AY.119.2	*	101
+>Cluster103_1
+	>AY.105	*	102
+>Cluster104_1
+	>AY.127	*	103
+>Cluster105_1
+	>AY.65	*	104
+>Cluster106_1
+	>AY.116.1	*	105
+>Cluster107_1
+	>AY.46.1	*	106
+>Cluster108_1
+	>AY.38	*	107
+>Cluster109_1
+	>AY.121	*	108
+>Cluster110_1
+	>AY.5.3	*	109
+>Cluster111_1
+	>AY.34	*	110
+>Cluster112_1
+	>AY.14	*	111
+>Cluster113_1
+	>AY.16	*	112
+>Cluster114_1
+	>AY.1	*	113
+>Cluster115_1
+	>AY.112	*	114
+>Cluster116_1
+	>AY.42.1	*	115
+>Cluster117_1
+	>AY.44	*	116
+>Cluster118_1
+	>AY.122.2	*	117
+>Cluster119_1
+	>B.1.617.3	*	118
+>Cluster120_1
+	>AY.39.2	*	119
+>Cluster121_1
+	>AY.122.1	*	120
+>Cluster122_1
+	>AY.30	*	121
+>Cluster123_1
+	>AY.85	*	122
+>Cluster124_1
+	>AY.108	*	123
+>Cluster125_1
+	>AY.101	*	124
+>Cluster126_1
+	>AY.3.1	*	125
+>Cluster127_1
+	>AY.110	*	126
+>Cluster128_1
+	>AY.39	*	127
+>Cluster129_1
+	>AY.83	*	128
+>Cluster130_1
+	>AY.67	*	129
+>Cluster131_1
+	>AY.56	*	130
+>Cluster132_1
+	>AY.55	*	131
+>Cluster133_1
+	>AY.75	*	132
+>Cluster134_1
+	>B.1.621.1	*	133
+>Cluster135_1
+	>AY.39.1.1	*	134
+>Cluster136_1
+	>AY.24	*	135
+>Cluster137_1
+	>AY.59	*	136
+>Cluster138_1
+	>AY.37	*	137
+>Cluster139_1
+	>AY.25.1.1	*	138
+>Cluster140_1
+	>AY.113	*	139
+>Cluster141_1
+	>Q.3	*	140
+>Cluster142_1
+	>AY.62	*	141
+>Cluster143_1
+	>AY.23.1	*	142
+>Cluster144_1
+	>AY.119.1	*	143
+>Cluster145_1
+	>AY.26.1	*	144
+>Cluster146_1
+	>AY.36	*	145
+>Cluster147_1
+	>AY.46.4	*	146
+>Cluster148_1
+	>AY.118	*	147
+>Cluster149_1
+	>AY.25.1	*	148
+>Cluster150_1
+	>AY.103	*	149
+>Cluster151_1
+	>AY.43.1	*	150
+>Cluster152_1
+	>AY.120.1	*	151
+>Cluster153_1
+	>AY.32	*	152
+>Cluster154_1
+	>AY.45	*	153
+>Cluster155_1
+	>AY.99	*	154
+>Cluster156_1
+	>AY.99.2	*	155
+>Cluster157_1
+	>AY.19	*	156
+>Cluster158_1
+	>AY.92	*	157
+>Cluster159_1
+	>AV.1	*	158
+>Cluster160_1
+	>AY.111	*	159
+>Cluster161_1
+	>Q.8	*	160
+>Cluster162_1
+	>AY.5	*	161
+>Cluster163_1
+	>AY.10	*	162
+>Cluster164_1
+	>AY.11	*	163
+>Cluster165_1
+	>AY.8	*	164
+>Cluster166_1
+	>AY.98	*	165
+>Cluster167_1
+	>AY.120	*	166
+>Cluster168_1
+	>AY.7	*	167
+>Cluster169_1
+	>AY.90	*	168
+>Cluster170_1
+	>AY.58	*	169
+>Cluster171_1
+	>AY.87	*	170
+>Cluster172_1
+	>AY.95	*	171
+>Cluster173_1
+	>AY.4.9	*	172
+>Cluster174_1
+	>AY.4.5	*	173
+>Cluster175_1
+	>AY.91.1	*	174
+>Cluster176_1
+	>AY.61	*	175
+>Cluster177_1
+	>AY.22	*	176
+>Cluster178_1
+	>AY.106	*	177
+>Cluster179_1
+	>AY.88	*	178
+>Cluster180_1
+	>AY.46.2	*	179
+>Cluster181_1
+	>AY.109	*	180
+>Cluster182_1
+	>AY.91	*	181
+>Cluster183_1
+	>AY.41	*	182
+>Cluster184_1
+	>AY.120.2.1	*	183
+>Cluster185_1
+	>AY.50	*	184
+>Cluster186_1
+	>AY.68	*	185
+>Cluster187_1
+	>AY.46.5	*	186
+>Cluster188_1
+	>AY.124	*	187
+>Cluster189_1
+	>AY.53	*	188
+>Cluster190_1
+	>AY.4.3	*	189
+>Cluster191_1
+	>AY.17	*	190
+>Cluster192_1
+	>AY.4.1	*	191
+>Cluster193_1
+	>AY.60	*	192
+>Cluster194_1
+	>AY.4.8	*	193
+>Cluster195_1
+	>AY.4.2.2	*	194
+>Cluster196_1
+	>AY.75.2	*	195
+>Cluster197_1
+	>AY.129	*	196
+>Cluster198_1
+	>AY.73	*	197
+>Cluster199_1
+	>AY.94	*	198
+>Cluster200_1
+	>AY.104	*	199
+>Cluster201_1
+	>AY.34.2	*	200
+>Cluster202_1
+	>AY.63	*	201
+>Cluster203_1
+	>AY.4.2.3	*	202
+>Cluster204_1
+	>AY.7.2	*	203
+>Cluster205_1
+	>AY.72	*	204
+>Cluster206_1
+	>AY.51	*	205
+>Cluster207_1
+	>AY.84	*	206
+>Cluster208_1
+	>AY.124.1.1	*	207
+>Cluster209_1
+	>AY.39.1.2	*	208
+>Cluster210_1
+	>AY.23.2	*	209
+>Cluster211_1
+	>AY.69	*	210
+>Cluster212_1
+	>AY.127.1	*	211
+>Cluster213_1
+	>AY.43.3	*	212
+>Cluster214_1
+	>AY.46.6	*	213
+>Cluster215_1
+	>AY.9.2.2	*	214
+>Cluster216_1
+	>AY.125	*	215
+>Cluster217_1
+	>AY.126	*	216
+>Cluster218_1
+	>AY.7.1	*	217
+>Cluster219_1
+	>AY.42	*	218
+>Cluster220_1
+	>AY.43	*	219
+>Cluster221_1
+	>AY.123.1	*	220
+>Cluster222_1
+	>AY.112.1	*	221
+>Cluster223_1
+	>AY.5.1	*	222
+>Cluster224_1
+	>AY.46.6.1	*	223
+>Cluster225_1
+	>AY.43.5	*	224
+>Cluster226_1
+	>AY.122.3	*	225
+>Cluster227_1
+	>AY.43.6	*	226
+>Cluster228_1
+	>AY.132	*	227
+>Cluster229_1
+	>AY.5.2	*	228
+>Cluster230_1
+	>AY.4.4	*	229
