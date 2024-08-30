@@ -1,26 +1,5 @@
 #!/usr/bin/env nextflow
 
-process concat {
-        tag "Concatenating fasta files into all_sequences.fasta"
-
-        publishDir (
-        path: "${params.out_dir}/01-LineageAssignment",
-        mode: 'copy',
-        overwrite: 'true'
-        )
-
-        input:
-        path(fasta_files)
-
-        output:
-        path ('*.fasta'), emit: fasta
-
-        script:
-        """
-        cat ${params.in_dir}/*.fasta > all_sequences.fasta
-        """
-}
-
 process pangolin {
         cpus 1
         container 'staphb/pangolin:latest'
