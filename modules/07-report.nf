@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 process report {
+//    errorStrategy = 'ignore'
     tag "Generating Summary Report"
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
@@ -23,7 +24,7 @@ process report {
     output:
     path ("*.html")
 
-    script:
+    script: 
     """
     Rscript ${baseDir}/bin/summary-report.R \
     ${lineage_assignment} \
@@ -33,6 +34,6 @@ process report {
     ${aafplot_amp} \
     ${virstrain_tsv} \
     ${report_rmd} \
-    ${sample} 
+    ${sample}
     """
 }

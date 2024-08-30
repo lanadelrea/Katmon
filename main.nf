@@ -2,7 +2,6 @@
 nextflow.enable.dsl=2
 
 //import modules
-include { concat } from './modules/01-lineageAssignment.nf'
 include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { lineage_assignment } from './modules/01-lineageAssignment.nf'
@@ -44,11 +43,10 @@ workflow {
         main:
                ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
                ch_fastq.map { fastqPath -> tuple(fastqPath) }
-               ch_fasta.map { fastaPath -> tuple(fastaPath) }
+               ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
 
-               concat()
-               pangolin( concat.out.fasta )
-               nextclade( concat.out.fasta, params.SC2_dataset )
+               pangolin(ch_cat_fasta)
+               nextclade( ch_cat_fasta, params.SC2_dataset )
                lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
 
                bammix ( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index ) // TO-DO: will put operator here if there are no flags
@@ -59,7 +57,7 @@ workflow {
                makevcf( bam_filter.out.filtered_bam.flatten(), params.reference ) 
 
                virstrain ( ch_fastq )
-               virstrain_summary( virstrain.out.virstrain_txt)
+              virstrain_summary( virstrain.out.virstrain_txt)
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())
@@ -67,7 +65,7 @@ workflow {
 
                bammixplot ( makevcf.out.filtered_vcf)
                aafplot_mutations( makevcf.out.filtered_vcf)
-               aafplot_amplicons( aafplot_mutations.out.aafplot_mut) 
+               aafplot_amplicons( aafplot_mutations.out.aafplot_mut)
 
                ampliconsorting_DeltaReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_delta_reads)
                ampliconsorting_OmicronReads( makevcf.out.filtered_vcf.collect(), params.jvarkit_jar, params.sort_omicron_reads)

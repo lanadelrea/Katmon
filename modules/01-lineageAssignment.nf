@@ -9,6 +9,9 @@ process concat {
         overwrite: 'true'
         )
 
+        input:
+        path(fasta_files)
+
         output:
         path ('*.fasta'), emit: fasta
 
@@ -37,7 +40,7 @@ process pangolin {
 
         script:
         """
-        pangolin all_sequences.fasta
+        pangolin ${fasta}
         """
 }
 

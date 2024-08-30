@@ -29,7 +29,7 @@ process bammix {
 }
 
 process bam_filter {
-        errorStrategy = 'ignore'
+//        errorStrategy = 'ignore'
         tag "Determining samples flagged by bammix then filtering the high quality reads"
         container 'pegi3s/samtools_bcftools:latest'
 
@@ -52,7 +52,7 @@ process bam_filter {
 }
 
 process makevcf {
-    errorStrategy = 'ignore'
+//    errorStrategy = 'ignore'
     tag "Making vcf file of high quality reads from bam file of ${filtered_bam.name}"
     container 'pegi3s/samtools_bcftools:latest'
     

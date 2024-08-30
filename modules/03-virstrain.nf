@@ -2,7 +2,7 @@
 
 process virstrain {
         tag "Identifying lineage assignment for ${fastqPath.SimpleName} using VirsStrain"
-        container 'lanadelrea/virstrain:latest'
+        container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
         path: "${params.out_dir}/03-VirStrain",
