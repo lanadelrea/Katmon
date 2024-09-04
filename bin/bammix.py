@@ -17,6 +17,7 @@ pos_thresh = 4
 #meta_folder = sys.argv[1]
 nextclade_tsv = sys.argv[1]
 analysis_folder = sys.argv[2]
+
 #analysis_folder = '/mnt/c/COINFECTION_PAPER/Samples/Batch28'
 #meta_analysis_csv = pd.read_csv(f'{meta_folder}/nextclade.tsv', sep='\t')
 #meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t')

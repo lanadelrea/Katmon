@@ -57,7 +57,11 @@ workflow {
                makevcf( bam_filter.out.filtered_bam.flatten(), params.reference ) 
 
                virstrain ( ch_fastq )
-              virstrain_summary( virstrain.out.virstrain_txt)
+
+               ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
+
+               virstrain_summary( ch_virstrain_txt.collect() )
+               
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())

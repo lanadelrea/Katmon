@@ -21,9 +21,9 @@ process virstrain {
         virstrain \
         -i ${fastqPath} \
         -d $PWD/Katmon/assets/Custom_DB \
-        -o $PWD/${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}
+        -o ${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}
 
-        cp $PWD/${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}/VirStrain_report.txt ${fastqPath.SimpleName}_VirStrain.txt
+        cp ${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}/VirStrain_report.txt ${fastqPath.SimpleName}_VirStrain.txt
         """
 }
 
@@ -38,17 +38,13 @@ process virstrain_summary {
         )
 
         input:
-        tuple val(sample), path(txt)
+        path (txt_files)
 
         output:
         path ('*.tsv'), emit: tsv
 
         script:
-        """   
-        mkdir -p $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
-        cp  $PWD/${params.out_dir}/03-Virstrain/${sample}/*.txt ${sample}_VirStrain.txt
-        mv  ${sample}_VirStrain.txt $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
-
-        virstrain_table.py $PWD/${params.out_dir}/03-Virstrain/VirStrain_txt
+        """
+        virstrain_table.py ${txt_files}
         """
 }
