@@ -5,7 +5,7 @@ process virstrain {
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain",
+        path: "${params.out_dir}/03-VirStrain/",
         mode: 'copy',
         overwrite: 'true'
         )    
@@ -14,7 +14,7 @@ process virstrain {
         path(fastqPath)
 
         output:
-        tuple val(fastqPath.SimpleName), path('*.txt'), emit: virstrain_txt
+        path('*.txt'), emit: txt
 
         script:
         """
@@ -45,6 +45,8 @@ process virstrain_summary {
 
         script:
         """
-        virstrain_table.py ${txt_files}
+        mkdir VirStrain_txt
+        cp ${txt_files} VirStrain_txt/
+        virstrain_table.py VirStrain_txt/
         """
 }
