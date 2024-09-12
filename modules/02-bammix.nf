@@ -31,7 +31,7 @@ process bammix {
 process bam_filter {
 //        errorStrategy = 'ignore'
         tag "Determining samples flagged by bammix then filtering the high quality reads"
-        container 'pegi3s/samtools_bcftools:latest'
+        container 'staphb/samtools:latest'
 
         publishDir (
         path: "${params.out_dir}/05-makeVCF",
@@ -43,18 +43,18 @@ process bam_filter {
         path bammixflagged_csv
 
         output:
-        path ('*.bam'), emit: filtered_bam
+        stdout
 
         script:
         """
-        bammix-flagged-sample-name.py ${bammixflagged_csv} ${params.in_dir}
+        bammix-flagged-2.py ${bammixflagged_csv}
         """
 }
 
 process makevcf {
 //    errorStrategy = 'ignore'
-    tag "Making vcf file of high quality reads from bam file of ${filtered_bam.name}"
-    container 'pegi3s/samtools_bcftools:latest'
+    tag "Making vcf file of high quality reads from bam file of ${sample}"
+    container 'staphb/samtools:latest'
     
     publishDir(
         path: "${params.out_dir}/05-makeVCF",
@@ -63,18 +63,41 @@ process makevcf {
     )
 
     input:
-    path filtered_bam
+    val sample
     path reference
 
     output:
-    tuple val (filtered_bam.SimpleName), path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), path ("*.vcf"), emit: filtered_vcf
+    tuple path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), emit: filtered_bam_bai
+    path ("*.mpileup"), emit: mpileup
 
     script:
     """
-    samtools sort ${filtered_bam} -o ${filtered_bam.SimpleName}_filtered.sorted.bam
-    samtools index ${filtered_bam.SimpleName}_filtered.sorted.bam
-    samtools mpileup -uf ${reference} ${filtered_bam.SimpleName}_filtered.sorted.bam > ${filtered_bam.SimpleName}.mpileup
-    bcftools call -mv -O b -o ${filtered_bam.SimpleName}.bcf ${filtered_bam.SimpleName}.mpileup
-    bcftools view -O v -o ${filtered_bam.SimpleName}.vcf ${filtered_bam.SimpleName}.bcf
+    samtools view -b ${params.in_dir}/${sample}.bam > ${sample}.filtered.bam 
+    samtools sort ${sample}.filtered.bam -o ${sample}_filtered.sorted.bam
+    samtools index ${sample}_filtered.sorted.bam
+    samtools mpileup -uf ${reference} ${sample}_filtered.sorted.bam > ${sample}.mpileup
+    """
+}
+
+process bcftools {
+    tag "Making vcf file of high quality reads from bam file of ${sample}"
+    container 'staphb/bcftools:latest'
+
+    publishDir(
+        path: "${params.out_dir}/05-makeVCF",
+        mode: 'copy',
+        overwrite: 'true'
+    )
+
+    input:
+    path(mpileup)
+
+    output:
+    tuple val(mpileup.SimpleName), path("*.vcf"), emit: filtered_vcf
+
+    script:
+    """
+    bcftools call -mv -O b -o ${mpileup.SimpleName}.bcf ${mpileup}
+    bcftools view -O v -o ${mpileup.SimpleName}.vcf ${mpileup.SimpleName}.bcf
     """
 }

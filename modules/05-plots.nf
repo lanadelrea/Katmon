@@ -12,7 +12,7 @@ process bammixplot {
     )
 
     input:
-    tuple val(sample), path (filtered_bam), path (filtered_bam_bai), path(vcf)
+    tuple val(sample), path(vcf)
 
     output:
     path ("*.png"), emit: bammix_plot
@@ -37,7 +37,8 @@ process aafplot_mutations {
     )
 
     input:
-    tuple val(sample), path (filtered_bam), path (filtered_bam_bai), path(vcf)
+    tuple val(sample), path(vcf)
+    tuple path(filtered_bam), path(filtered_bam_bai) 
 
     output:
     tuple val (sample), path ("*.tsv"), path ("*.png"), emit: aafplot_mut

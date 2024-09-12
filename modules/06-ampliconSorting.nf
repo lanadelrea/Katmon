@@ -12,17 +12,17 @@ process ampliconsorting_DeltaReads {
         )
 
         input:
-        tuple val(sample), path(bam), path(bai), path(vcf)
+        tuple path(bam), path(bai)
         path jvarkit_jar
         path sort_delta_reads
 
         output:
-        tuple val(sample), path ("*.bam"), emit: delta_bam 
+        tuple val(bam.SimpleName), path ("*.bam"), emit: delta_bam 
 
         script:
         """
         java -jar ${jvarkit_jar} samjdk -f ${sort_delta_reads} ${bam} \
-        -o ${sample}_sorted_delta_reads.bam
+        -o ${bam.SimpleName}_sorted_delta_reads.bam
         """
 }
 
@@ -38,17 +38,17 @@ process ampliconsorting_OmicronReads {
     )
 
     input:
-    tuple val(sample), path(bam), path(bai), path(vcf)
+    tuple path(bam), path(bai)
     path jvarkit_jar
     path sort_omicron_reads
 
     output:
-    tuple val(sample), path ("*.bam"), emit: omicron_bam
+    tuple val(bam.SimpleName), path ("*.bam"), emit: omicron_bam
 
     script:
     """
     java -jar ${jvarkit_jar} samjdk -f ${sort_omicron_reads} ${bam} \
-    -o ${sample}_sorted_omicron_reads.bam
+    -o ${bam.SimpleName}_sorted_omicron_reads.bam
     """
 }
 
@@ -152,7 +152,7 @@ process ampliconsorting_lineageAssignment_Pangolin {
 
     output:
     path ("*.csv"), emit: pangolineageAssign
-    
+
     script:
     """
     pangolin ${delta} > ${sample}_delta_ampliconsorted_lineage_assignment.csv

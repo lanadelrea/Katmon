@@ -46,7 +46,7 @@ process virstrain_summary {
         script:
         """
         mkdir VirStrain_txt
-        cp ${txt_files} VirStrain_txt/
+        cp -r ${txt_files} VirStrain_txt/
         virstrain_table.py VirStrain_txt/
         """
 }
