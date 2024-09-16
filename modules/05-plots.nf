@@ -58,7 +58,7 @@ process aafplot_amplicons {
 //    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0'
-    
+
     publishDir(
     path: "${params.out_dir}/06-Plots",
     mode: 'copy',
@@ -69,7 +69,7 @@ process aafplot_amplicons {
     tuple val (sample), path (read_depth_tsv), path("*.png")
 
     output:
-    tuple val(sample), path("*.png"), emit: aafplot_amp
+    path ("*.png"), emit: aafplot_amp
 
     script:
     """

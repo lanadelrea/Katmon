@@ -40,7 +40,7 @@ workflow {
         ch_fasta = Channel
                     .fromPath("${params.in_dir}/**.fasta", type: 'file')
                     .ifEmpty { error "Cannot find any fasta files" on ${params.in_dir}}
-    
+
     main:
         ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
         ch_fastq.map { fastqPath -> tuple(fastqPath) }
@@ -51,11 +51,9 @@ workflow {
         lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
         bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
 
-        bam_filter( bammix.out.bammixflagged_csv )
-        ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
-//      ch_bammix_flagged = bam_filter.out.collect{ it.split("\n")}
-//        ch_bammix_flagged = bam_filter.out.collect()
+        bam_filter( bammix.out.bammixflagged_csv ).ifEmpty("There are no samples flagged for nucleotide mixtures")
 
+        ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
         makevcf( ch_bammix_flagged, params.reference )
         bcftools( makevcf.out.mpileup )
 
@@ -81,19 +79,21 @@ workflow {
         ampliconsorting_lineageAssignment_Nextclade( ampliconsorting_fasta.out.fasta.collect(), params.SC2_dataset) // TO-DO: finding a way to show amplicon sorting in the final report
 
         // Channels with placeholder for the report
-        ch_bammixplot = bammixplot.out.bammix_plot.ifEmpty { Channel.of(null) }
-        ch_aafplot_mutations = aafplot_mutations.out.aafplot_mut.ifEmpty { Channel.of(null) }
-        ch_aafplot_amplicon = aafplot_amplicons.out.aafplot_amp.ifEmpty { Channel.of(null) }
+//        ch_bammixplot = bammixplot.out.bammix_plot.ifEmpty { Channel.of(null) }
+//        ch_aafplot_mutations = aafplot_mutations.out.aafplot_mut.ifEmpty { Channel.of(null) }
+//        ch_aafplot_amplicon = aafplot_amplicons.out.aafplot_amp.ifEmpty { Channel.of(null) }
 
         report(
          lineage_assignment.out.lineageAssign_tsv,
-         ch_bammixplot.flatten(),
+         bammixplot.out.bammix_plot.flatten(),
          freyja_plot.out.freyja_plot,
-         ch_aafplot_mutations.flatten(),
-         ch_aafplot_amplicon.flatten(),
+         aafplot_mutations.out.aafplot_mut,
+         aafplot_amplicons.out.aafplot_amp,
          virstrain_summary.out.tsv,
          params.report_rmd )
+
 }
+
 
 if (params.help) {
         help = """The Katmon pipeline is designed to look for potential Omicron and Delta Co-infection from an NGS run.
