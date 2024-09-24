@@ -1,0 +1,57 @@
+---
+title: "SARS-CoV-2 Variants Coinfection"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+output: 
+  html_document:
+    theme: cosmo
+    toc: yes
+    toc_float:
+      collapsed: true
+---
+
+## <b> Lineage assignment </b>
+### Pangolin and Nextclade 
+ Lineage assigment table using Pangolin and Nextclade of all samples.
+ ```{r, echo=FALSE}
+ kable(params$lineage_assignment, "simple")
+ ```
+
+### Freyja
+  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants. 
+ ![](`r params$freyja_plot`)
+
+
+### VirStrain
+ 
+ Suspected coinfection samples were analyzed using the VirStrain tool against a database of representative SARS-CoV-2 sequences. The results are summarized in the table below, where the ‘Most Possible Strain’ represents the lineage with the highest Vscore in the initial iteration. 
+ Meanwhile, the ‘Other Possible Strain’ is identified by the highest Vscore in subsequent iterations and is considered highly supported if the ‘Valid Map Rate’ is 10 or more mutations, as outlined by Liao et al. (2022).
+  ```{r, echo=FALSE}
+  kable(params$virstrain, "simple")
+  ```
+
+
+## <b> Nucleotide mixture per position </b>
+ No samples were flagged by bammix for nucleotide mixtures.
+
+  
+## <b> References </b> {.tabset .tabset-fade}
+
+### Pipeline
+ The tools used in this [pipeline](https://github.com/lanadelrea/CoPi) are as follows: 
+
+ - [Pangolin](https://github.com/cov-lineages/pangolin) 
+
+ - [Nextclade](https://github.com/nextstrain/nextclade)
+
+ - [Freyja](https://github.com/andersen-lab/Freyja)
+
+ - [VirStrain](https://github.com/liaoherui/VirStrain)
+
+ - [Bammix](https://github.com/chrisruis/bammix)
+
+ - Custom scripts adopted from [Bolze et al.](https://doi.org/10.1016/j.medj.2022.10.002) 
+
+### Session Info
+ ```{r, echo=FALSE}
+ sessionInfo()
+ ```

@@ -54,6 +54,34 @@ process aafplot_mutations {
     """
 }
 
+process aafplot_mutations_2 {
+//    errorStrategy = 'ignore'
+    tag "Plotting alternative allele fraction per mutation of ${sample}"
+    container 'ufuomababatunde/bammix:v1.1.0' // to fix
+
+    publishDir(
+    path: "${params.out_dir}/06-Plots",
+    mode: 'copy',
+    overwrite: 'true'
+    )
+
+    input:
+    tuple val(sample), path(vcf)
+
+    output:
+    tuple val (sample), path ("*.tsv"), path ("*.png"), emit: aafplot_mut
+
+    script:
+    """
+    aafplot.py ${vcf} \
+    ${baseDir}/assets/mutations.tsv \
+    ${params.in_dir}/${sample}.bam \
+    ${sample} \
+    ${sample}_read_depth.tsv \
+    ${sample}_AAFplot_mutations.png
+    """
+}
+
 process aafplot_amplicons {
 //    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"

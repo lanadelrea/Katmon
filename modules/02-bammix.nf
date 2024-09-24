@@ -55,7 +55,7 @@ process makevcf {
 //    errorStrategy = 'ignore'
     tag "Making vcf file of high quality reads from bam file of ${sample}"
     container 'staphb/samtools:latest'
-    
+
     publishDir(
         path: "${params.out_dir}/05-makeVCF",
         mode: 'copy',
@@ -72,10 +72,35 @@ process makevcf {
 
     script:
     """
-    samtools view -b ${params.in_dir}/${sample}.bam > ${sample}.filtered.bam 
+    samtools view -q 20 -b ${params.in_dir}/${sample}.bam > ${sample}.filtered.bam 
     samtools sort ${sample}.filtered.bam -o ${sample}_filtered.sorted.bam
     samtools index ${sample}_filtered.sorted.bam
     samtools mpileup -uf ${reference} ${sample}_filtered.sorted.bam > ${sample}.mpileup
+    """
+}
+
+process makevcf_2 {
+//    errorStrategy = 'ignore'
+    tag "Making vcf file of high quality reads from bam file of ${sample}"
+    container 'staphb/samtools:latest'
+
+    publishDir(
+        path: "${params.out_dir}/05-makeVCF",
+        mode: 'copy',
+        overwrite: 'true'
+    )
+
+    input:
+    val sample
+    path reference
+
+    output:
+    tuple path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), emit: filtered_bam_bai
+    path ("*.mpileup"), emit: mpileup
+
+    script:
+    """
+    samtools mpileup -f ${reference} ${params.in_dir}/${sample}.bam > ${sample}.mpileup
     """
 }
 

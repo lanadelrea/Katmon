@@ -44,7 +44,7 @@ process freyja_demix {
 
         script:
         """
-        freyja demix ${variants_tsv} ${depth_tsv} --output ${sample}_demix.tsv
+        freyja demix ${variants_tsv} ${depth_tsv} --output ${sample}_demix.tsv --depthcutoff 5
         """
 }
 

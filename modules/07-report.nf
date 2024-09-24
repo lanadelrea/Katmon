@@ -36,3 +36,31 @@ process report {
     ${report_rmd}
     """
 }
+
+process report_no_flag {
+//    errorStrategy = 'ignore'
+    tag "Generating Summary Report"
+    container 'ufuomababatunde/rmarkdown:1.1.0'
+
+    publishDir(
+    path: "${params.out_dir}/08-Report",
+    mode: 'copy',
+    overwrite: 'true'
+    )
+
+    input:
+    path (lineage_assignment)
+    path (freyja_plot)
+    path (virstrain_tsv)
+    path (report_rmd_no_bammix)
+
+
+    script: 
+    """
+    Rscript ${baseDir}/bin/summary-report-no-bammix.R \
+    ${lineage_assignment} \
+    ${freyja_plot} \
+    ${virstrain_tsv} \
+    ${report_rmd_no_bammix}
+    """
+}
