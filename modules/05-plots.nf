@@ -45,7 +45,7 @@ process aafplot_mutations {
 
     script:
     """
-    aafplot.py ${vcf} \
+    aafplot_mutation.py ${vcf} \
     ${baseDir}/assets/mutations.tsv \
     ${filtered_bam} \
     ${sample} \
@@ -73,7 +73,7 @@ process aafplot_mutations_2 {
 
     script:
     """
-    aafplot.py ${vcf} \
+    aafplot_mutation.py ${vcf} \
     ${baseDir}/assets/mutations.tsv \
     ${params.in_dir}/${sample}.bam \
     ${sample} \
