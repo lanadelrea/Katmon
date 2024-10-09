@@ -54,26 +54,16 @@ workflow {
 
 
 //               bam_filter_2(bammix.out.bammixflagged_csv)
-               bam_filter ( bammix.out.bammixflagged_csv).ifEmpty('No flagged samples')
-                   else { 
+               bam_filter ( bammix.out.bammixflagged_csv)
 ////               bam_filter_result = Channel.of(bam_filter.out.filtered_bam).map() // TO-DO: fixing to accomodate multiple flagged samples
-                  makevcf( bam_filter.out.filtered_bam.flatten(), params.reference )
+               makevcf( bam_filter.out.filtered_bam.flatten(), params.reference )
 
-<<<<<<< HEAD
-                  virstrain ( ch_fastq )
+               virstrain ( ch_fastq )
 //               virstrain_summary(virstrain.out.txt.collect())
 
-                  ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
-                  virstrain_summary( ch_virstrain_txt.collect() )
-
-=======
-               virstrain ( ch_fastq )
-
                ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
-
                virstrain_summary( ch_virstrain_txt.collect() )
-               
->>>>>>> parent of 721cf39 (VirsStrain process fix)
+
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())
@@ -104,28 +94,6 @@ workflow {
                 ch_aafplot_amplicon.flatten(),
                 virstrain_summary.out.tsv,
                 params.report_rmd )
-                }
+              
                // Surely, there is a much better way to do this but for now you have to deal with this lenghty line of code. I'm just a girl lmao
-}
-
-if (params.help) {
-        help = """The Katmon pipeline is designed to look for potential Omicron and Delta Co-infection from an NGS run.
-                |
-                | To run the pipeline, do:
-                |       nextflow run Katmon --in_dir <input dir> --out_dir <out dir> -profile <docker or conda>
-                |  
-                | Required arguments:
-                |
-                |      --in_dir       Location of the input files containing fasta, fastq, bam and bam index files
-                |      --out_dir      Location of the results directory
-                | 
-                | Optional arguments:
-                |      -profile       Can be docker or conda
-                |      -resume        To resume the pipeline
-                |      -w             The NextFlow work directory. Delete this directory once the process is finished
-                |                     Default: ${workDir} 
-                |      --help         To view this help page
-                |""".stripMargin()
-        println(help)
-        exit(0)
 }
