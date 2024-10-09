@@ -59,12 +59,21 @@ workflow {
 ////               bam_filter_result = Channel.of(bam_filter.out.filtered_bam).map() // TO-DO: fixing to accomodate multiple flagged samples
                   makevcf( bam_filter.out.filtered_bam.flatten(), params.reference )
 
+<<<<<<< HEAD
                   virstrain ( ch_fastq )
 //               virstrain_summary(virstrain.out.txt.collect())
 
                   ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
                   virstrain_summary( ch_virstrain_txt.collect() )
 
+=======
+               virstrain ( ch_fastq )
+
+               ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
+
+               virstrain_summary( ch_virstrain_txt.collect() )
+               
+>>>>>>> parent of 721cf39 (VirsStrain process fix)
                freyja( ch_bam_file )
                freyja_demix( freyja.out.freyja_variants )
                freyja_aggregate( freyja_demix.out.tsv_demix.collect())

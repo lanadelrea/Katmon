@@ -29,6 +29,7 @@ include { ampliconsorting_lineageAssignment_Pangolin } from '../modules/06-ampli
 include { ampliconsorting_lineageAssignment_Nextclade } from '../modules/06-ampliconSorting.nf'
 include { report } from '../modules/07-report.nf'
 include { report_no_flag } from '../modules/07-report.nf'
+
 workflow no_bammix_flag {
     ch_bam_file = Channel
                  .fromPath("${params.in_dir}/**.bam", type: 'file')
@@ -42,6 +43,12 @@ workflow no_bammix_flag {
     ch_fasta = Channel
                  .fromPath("${params.in_dir}/**.fasta", type: 'file')
                  .ifEmpty { error "Cannot find any fasta files on ${params.in_dir}"}
+
+//    take:
+//    absent
+//    ch_nextclade_tsv
+
+
     main: 
         ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
         ch_fastq.map { fastqPath -> tuple(fastqPath) }

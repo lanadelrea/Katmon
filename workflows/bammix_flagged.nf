@@ -43,23 +43,31 @@ workflow bammix_flagged {
     ch_fasta = Channel
                   .fromPath("${params.in_dir}/**.fasta", type: 'file')
                   .ifEmpty { error "Cannot find any fasta files on ${params.in_dir}"}
+    
+//    take:
+//    present
+//    ch_bammix_csv
+
     main:
+        // Input bam, fastq, and fasta files
         ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
         ch_fastq.map { fastqPath -> tuple(fastqPath) }
         ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
 
+        // Lineage assignment
         pangolin( ch_cat_fasta )
         nextclade( ch_cat_fasta, params.SC2_dataset )
         lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
 
+        // Process samples flagged by bammix
         bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
         bam_filter( bammix.out.bammixflagged_csv )
         ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
         makevcf( ch_bammix_flagged, params.reference )
-//                makevcf_2( ch_bammix_flagged, params.reference  )
+        //makevcf_2( ch_bammix_flagged, params.reference  )
         bcftools(makevcf.out.mpileup)
 
-         // Freyja and VirStrain workflow
+        // Freyja and VirStrain workflow
         freyja(ch_bam_file)
         freyja_demix(freyja.out.freyja_variants)
         freyja_aggregate(freyja_demix.out.tsv_demix.collect())
