@@ -5,7 +5,7 @@ process virstrain {
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain",
+        path: "${params.out_dir}/03-VirStrain/",
         mode: 'copy',
         overwrite: 'true'
         )    
@@ -15,7 +15,7 @@ process virstrain {
         path(fasta)
 
         output:
-        tuple val(fastqPath.SimpleName), path('*.txt'), emit: virstrain_txt
+        path('*.txt'), emit: txt
 
         script:
         """
@@ -46,12 +46,8 @@ process virstrain_summary {
 
         script:
         """
-<<<<<<< HEAD
-        mkdir -p VirStrain_txt
-        cp -r ${txt_files} VirStrain_txt/
+        mkdir VirStrain_txt
+        cp ${txt_files} VirStrain_txt/
         virstrain_table.py VirStrain_txt/
-=======
-        virstrain_table.py ${txt_files}
->>>>>>> parent of 721cf39 (VirsStrain process fix)
         """
 }
