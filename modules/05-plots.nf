@@ -37,8 +37,9 @@ process aafplot_mutations {
     )
 
     input:
-    tuple val(sample), path(vcf)
     tuple path(filtered_bam), path(filtered_bam_bai) 
+    tuple val(sample), path(vcf)
+
 
     output:
     tuple val (sample), path ("*.tsv"), path ("*.png"), emit: aafplot_mut

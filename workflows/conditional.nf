@@ -10,11 +10,10 @@ workflow conditional {
         result
     
     main:
-    result.view()
-    if ( result != null ){
+    if ( result == true ){
         bammix_flagged()
     }
-    else if ( result == null || 0 ){
+    else if ( result == false ){
         no_bammix_flag()
     }
 }

@@ -73,7 +73,7 @@ workflow bammix_flagged {
         freyja_aggregate(freyja_demix.out.tsv_demix.collect())
         freyja_plot(freyja_aggregate.out.freyja_aggregated_file)
 
-        virstrain(ch_fastq, lineage_assignment.out.lineageAssign_tsv)
+        virstrain(ch_fastq)
 //            ch_virstrain_txt = Channel.fromPath("${params.out_dir}/03-VirStrain", type: 'dir')
         virstrain_summary(virstrain.out.txt.collect())
 //            virstrain_summary(ch_virstrain_txt.collect())
