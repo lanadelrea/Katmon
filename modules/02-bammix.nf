@@ -73,10 +73,10 @@ process makevcf {
 
         script:
         """
-        samtools view -q 20 -b ${params.in_dir}/${sample}.bam > ${sample}.filtered.bam 
+        samtools view -q 20 -b ${params.in_dir}/${sample}.bam -o ${sample}.filtered.bam 
         samtools sort ${sample}.filtered.bam -o ${sample}_filtered.sorted.bam
         samtools index ${sample}_filtered.sorted.bam
-        samtools mpileup -uf ${reference} ${sample}_filtered.sorted.bam > ${sample}.mpileup
+        samtools mpileup -uf ${reference} ${sample}_filtered.sorted.bam -o ${sample}.mpileup
         """
 }
 
