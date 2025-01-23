@@ -5,6 +5,7 @@ import os
 import re
 import pandas as pd
 import sys
+from pathlib import Path
 
 # Directory containing the text files
 directory_path = sys.argv[1]
@@ -105,7 +106,8 @@ def process_file(file_path):
 
     # Add the data to the list
     file_name = os.path.basename(file_path)
-    sample_name = file_name.split('_')[0]
+    #sample_name = file_name.split('_')[0]
+    sample_name = Path(file_name).stem
     data.append([sample_name, most_possible_strains_combined, other_possible_strains_combined, valid_map_rate])
 
 # Process each file in the directory

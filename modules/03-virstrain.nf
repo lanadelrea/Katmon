@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 process virstrain {
-        tag "Identifying lineage assignment for ${fastqPath.SimpleName} using VirsStrain"
+        tag "Identifying lineage assignment for ${fastqPath.BaseName} using VirsStrain"
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
@@ -22,9 +22,9 @@ process virstrain {
         virstrain \
         -i ${fastqPath} \
         -d $PWD/Katmon/assets/Custom_DB \
-        -o ${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}
+        -o ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}
 
-        cp ${params.out_dir}/03-Virstrain/${fastqPath.SimpleName}/VirStrain_report.txt ${fastqPath.SimpleName}_VirStrain.txt
+        cp ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}/VirStrain_report.txt ${fastqPath.BaseName}_VirStrain.txt
         """
 }
 

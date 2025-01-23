@@ -69,7 +69,7 @@ workflow {
            virstrain_summary(virstrain.out.txt)
 
         // Lineage abundance estimation per sample through Freyja using BAM files
-           freyja(ch_bam_file)
+           freyja(params.reference, ch_bam_file)
            freyja_demix(freyja.out.freyja_variants)
            freyja_aggregate(freyja_demix.out.tsv_demix.collect())
            freyja_plot(freyja_aggregate.out.freyja_aggregated_file)
@@ -83,12 +83,12 @@ workflow {
         // IF ch_count > 0 ; There are samples flagged by bammix
           // Filter high quality reads from samples with nucleotide mixture and make VCF
            ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
-           makevcf( ch_bammix_flagged, params.reference )
-           bcftools(makevcf.out.mpileup)
+           makevcf_2( ch_bammix_flagged, params.reference )
+           bcftools(makevcf_2.out.mpileup)
         
            // Alternative Allele Fraction (AAF) plotting
            bammixplot(bcftools.out.filtered_vcf)
-           aafplot_mutations_2(bcftools.out.filtered_vcf)
+           aafplot_mutations_2(params.mutations_table, bcftools.out.filtered_vcf)
            aafplot_amplicons(aafplot_mutations_2.out.aafplot_mut)
 
         // IF ch_count = 0 ; No samples flagged by bammix 

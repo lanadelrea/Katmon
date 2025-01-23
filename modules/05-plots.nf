@@ -37,6 +37,7 @@ process aafplot_mutations {
     )
 
     input:
+    val mutations
     tuple path(filtered_bam), path(filtered_bam_bai) 
     tuple val(sample), path(vcf)
 
@@ -47,7 +48,7 @@ process aafplot_mutations {
     script:
     """
     aafplot_mutation.py ${vcf} \
-    ${baseDir}/assets/mutations.tsv \
+    ${mutations} \
     ${filtered_bam} \
     ${sample} \
     ${sample}_read_depth.tsv \
@@ -67,6 +68,7 @@ process aafplot_mutations_2 {
     )
 
     input:
+    val mutations
     tuple val(sample), path(vcf)
 
     output:
@@ -75,7 +77,7 @@ process aafplot_mutations_2 {
     script:
     """
     aafplot_mutation.py ${vcf} \
-    ${baseDir}/assets/mutations.tsv \
+    ${mutations} \
     ${params.in_dir}/${sample}.bam \
     ${sample} \
     ${sample}_read_depth.tsv \

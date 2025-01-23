@@ -35,4 +35,4 @@ plt.xticks(rotation=90, fontsize=5)
 plt.ylim([0,1])
 plt.legend(bbox_to_anchor=[1,1], ncol=1)
 plt.tight_layout()
-plt.savefig(f"{sample}_bammix_plot", dpi=200) # Name plot file according to sample
+plt.savefig(f"{sample}_bammix_plot.png", dpi=200) # Name plot file according to sample

@@ -83,7 +83,7 @@ process makevcf {
 process makevcf_2 {
 //    errorStrategy = 'ignore'
         tag "Making vcf file of high quality reads from bam file of ${sample}"
-        container 'staphb/samtools:latest'
+        container 'staphb/bcftools:latest'
 
         publishDir(
         path: "${params.out_dir}/05-makeVCF",
@@ -93,20 +93,19 @@ process makevcf_2 {
 
         input:
         val sample
-        path reference
+        path GISAID_reference
 
         output:
-        tuple path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), emit: filtered_bam_bai
         path ("*.mpileup"), emit: mpileup
 
         script:
         """
-        samtools mpileup -f ${reference} ${params.in_dir}/${sample}.bam > ${sample}.mpileup
+        bcftools mpileup -f ${GISAID_reference} ${params.in_dir}/${sample}.bam -o ${sample}.mpileup
         """
 }
 
 process bcftools {
-        tag "Making vcf file of high quality reads from bam file of ${sample}"
+        tag "Making vcf file of high quality reads from bam file of ${mpileup.BaseName}"
         container 'staphb/bcftools:latest'
 
         publishDir(
@@ -119,11 +118,11 @@ process bcftools {
         path(mpileup)
 
         output:
-        tuple val(mpileup.SimpleName), path("*.vcf"), emit: filtered_vcf
+        tuple val(mpileup.BaseName), path("*.vcf"), emit: filtered_vcf
 
         script:
         """
-        bcftools call -mv -O b -o ${mpileup.SimpleName}.bcf ${mpileup}
-        bcftools view -O v -o ${mpileup.SimpleName}.vcf ${mpileup.SimpleName}.bcf
+        bcftools call -mv -O b -o ${mpileup.BaseName}.bcf ${mpileup}
+        bcftools view -O v -o ${mpileup.BaseName}.vcf ${mpileup.BaseName}.bcf
         """
 }

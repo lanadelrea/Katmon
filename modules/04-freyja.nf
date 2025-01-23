@@ -11,6 +11,7 @@ process freyja {
         )
 
         input:
+        path reference
         path bamfilePath
 
         output:
@@ -21,7 +22,7 @@ process freyja {
         freyja variants ${bamfilePath} \
         --variants ${bamfilePath.baseName}_variants.tsv \
         --depths ${bamfilePath.baseName}_depth.tsv \
-        --ref ${baseDir}/assets/sars-cov-2/reference-sequence.fasta
+        --ref ${reference}
         """
 }
 

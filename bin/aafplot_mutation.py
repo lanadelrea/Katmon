@@ -25,7 +25,7 @@ sample = sys.argv[4]            # 'PH-RITM-1395'
 
 # Output files
 read_depth_path = sys.argv[5]   # 'read_depths/PH-RITM-1395.tsv'
-plot_path = sys.argv[6]          # 'PH-RITM-1395-final.png'
+plot_path = sys.argv[6]         # 'PH-RITM-1395-final.png'
 ###########################################################################
 
 def get_lineage(delta_annotation: str, omicron_annotation: str) -> str:
