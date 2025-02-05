@@ -5,14 +5,14 @@ process virstrain {
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain/",
+        path: "${params.out_dir}/03-VirStrain/VirStrain_txt",
         mode: 'copy',
         overwrite: 'true'
         )    
 
         input:
+        path(virstrain_database)
         path(fastqPath)
-//        path(fasta)
 
         output:
         path('*.txt'), emit: txt
@@ -21,10 +21,10 @@ process virstrain {
         """
         virstrain \
         -i ${fastqPath} \
-        -d $PWD/Katmon/assets/Custom_DB \
+        -d ${virstrain_database} \
         -o ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}
 
-        cp ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}/VirStrain_report.txt ${fastqPath.BaseName}_VirStrain.txt
+        cp ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}/VirStrain_report.txt ${fastqPath.BaseName}.txt
         """
 }
 
@@ -39,6 +39,7 @@ process virstrain_summary {
         )
 
         input:
+        path (virstrain_txt_dir)
         path (txt_files)
 
         output:
@@ -46,8 +47,6 @@ process virstrain_summary {
 
         script:
         """
-        mkdir VirStrain_txt
-        cp -r ${txt_files} VirStrain_txt/
-        virstrain_table.py VirStrain_txt/
+        virstrain_table.py ${virstrain_txt_dir}
         """
 }

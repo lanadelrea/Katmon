@@ -5,21 +5,26 @@ nextflow.enable.dsl=2
 include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { lineage_assignment } from './modules/01-lineageAssignment.nf'
+
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { makevcf } from './modules/02-bammix.nf'
 include { makevcf_2 } from './modules/02-bammix.nf'
 include { bcftools } from './modules/02-bammix.nf'
+
 include { virstrain } from './modules/03-virstrain.nf'
 include { virstrain_summary } from './modules/03-virstrain.nf'
+
 include { freyja } from './modules/04-freyja.nf'
 include { freyja_demix } from './modules/04-freyja.nf'
 include { freyja_aggregate } from './modules/04-freyja.nf'
 include { freyja_plot } from './modules/04-freyja.nf'
+
 include { bammixplot } from './modules/05-plots.nf'
 include { aafplot_mutations } from './modules/05-plots.nf'
 include { aafplot_mutations_2 } from './modules/05-plots.nf'
 include { aafplot_amplicons } from './modules/05-plots.nf'
+
 include { ampliconsorting_DeltaReads } from './modules/06-ampliconSorting.nf'
 include { ampliconsorting_OmicronReads } from './modules/06-ampliconSorting.nf'
 include { ampliconsorting_samtools } from './modules/06-ampliconSorting.nf'
@@ -27,6 +32,7 @@ include { ampliconsorting_bgzip } from './modules/06-ampliconSorting.nf'
 include { ampliconsorting_fasta } from './modules/06-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Pangolin } from './modules/06-ampliconSorting.nf'
 include { ampliconsorting_lineageAssignment_Nextclade } from './modules/06-ampliconSorting.nf'
+
 include { report } from './modules/07-report.nf'
 include { report_no_flag } from './modules/07-report.nf'
 
@@ -65,8 +71,8 @@ workflow {
            nextclade( ch_cat_fasta, params.SC2_dataset )
            lineage_assignment( pangolin.out.pangolin_csv, nextclade.out.nextclade_tsv )
            // through VirStrain using FASTQ files
-           virstrain(ch_fastq)
-           virstrain_summary(virstrain.out.txt)
+           virstrain(params.virstrain_database, ch_fastq)
+           virstrain_summary(params.virstrain_txt_dir, virstrain.out.txt)
 
         // Lineage abundance estimation per sample through Freyja using BAM files
            freyja(params.reference, ch_bam_file)
