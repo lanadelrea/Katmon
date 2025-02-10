@@ -31,10 +31,6 @@ virstrain_table <- read_tsv(virstrain_table_tsv, locale(encoding = "UTF-8"))
 
 summary_report_rmd = args[7]
 
-#bammix_plots <- strsplit(bammix_plots_str, ",")[[1]]
-#aafplots_mut <- strsplit(aafplots_mut_str, ",")[[1]]
-#aafplots_amp <- strsplit(aafplots_amp_str, ",")[[1]]
-
 # Defining parameters
 params <- list(lineage_assignment = lineage_table,
                virstrain = virstrain_table,

@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = FALSE)
 ### Pangolin and Nextclade 
  Lineage assigment table using Pangolin and Nextclade of all samples.
  ```{r, echo=FALSE}
+ colnames(params$lineage_assignment) <- params$lineage_assignment[1, ]
+ params$lineage_assignment <- params$lineage_assignment[-1, ]
  kable(params$lineage_assignment, "simple")
  ```
 
@@ -30,6 +32,8 @@ knitr::opts_chunk$set(echo = FALSE)
  Suspected coinfection samples were analyzed using the VirStrain tool against a database of representative SARS-CoV-2 sequences. The results are summarized in the table below, where the ‘Most Possible Strain’ represents the lineage with the highest Vscore in the initial iteration. 
  Meanwhile, the ‘Other Possible Strain’ is identified by the highest Vscore in subsequent iterations and is considered highly supported if the ‘Valid Map Rate’ is 10 or more mutations, as outlined by Liao et al. (2022).
   ```{r, echo=FALSE}
+  colnames(params$virstrain) <- params$virstrain[1, ]
+  params$virstrain <- params$virstrain[-1, ]
   kable(params$virstrain, "simple")
   ```
 
