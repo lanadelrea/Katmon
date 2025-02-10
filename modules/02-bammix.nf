@@ -31,7 +31,6 @@ process bammix {
 process bam_filter {
 //        errorStrategy = 'ignore'
         tag "Determining samples flagged by bammix then filtering the high quality reads"
-        container 'staphb/samtools:latest'
 
         publishDir (
         path: "${params.out_dir}/05-makeVCF",

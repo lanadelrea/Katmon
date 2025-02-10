@@ -12,10 +12,11 @@ process report {
     )
 
     input:
+    path (report_r)
     path (lineage_assignment)
     path (bammix_plot)
     path (freyja_plot)
-    tuple val (sample), path(tsv), path(aafplot_mut)
+    path (aafplot_mut)
     path (aafplot_amp)
     path (virstrain_tsv)
     path (report_rmd)
@@ -26,7 +27,7 @@ process report {
 
     script: 
     """
-    Rscript ${baseDir}/bin/summary-report.R \
+    Rscript ${report_r} \
     ${lineage_assignment} \
     ${bammix_plot} \
     ${freyja_plot} \

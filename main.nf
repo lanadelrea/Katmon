@@ -95,17 +95,30 @@ workflow {
            // Alternative Allele Fraction (AAF) plotting
            bammixplot(bcftools.out.filtered_vcf)
            aafplot_mutations_2(params.mutations_table, bcftools.out.filtered_vcf)
-           aafplot_amplicons(aafplot_mutations_2.out.aafplot_mut)
+           aafplot_amplicons(aafplot_mutations_2.out.aafplot_mut_tsv)
 
         // IF ch_count = 0 ; No samples flagged by bammix 
         
         // Report generation
+           bammix_plot_tsv = bammixplot.out.bammix_plot
+                              .collect() // Collect all paths to bam plots
+                              .map{ it.join("\t") + "\n" } // Join paths with tabs and add a new line
+                              .collectFile ( name: "bammix_plots.tsv")
+           aafplot_mutations_tsv = aafplot_mutations_2.out.aafplot_mut
+                              .collect() 
+                              .map{ it.join("\t") + "\n" }
+                              .collectFile ( name: "aafplot_mutations.tsv")
+           aafplot_amplicons_tsv = aafplot_amplicons.out.aafplot_amp
+                              .collect() 
+                              .map{ it.join("\t") + "\n" }
+                              .collectFile( name: "aafplot_amplicons.tsv")
            report(
+                 params.report_r,
                  lineage_assignment.out.lineageAssign_tsv,
-                 bammixplot.out.bammix_plot.flatten(),
+                 bammix_plot_tsv,
                  freyja_plot.out.freyja_plot,
-                 aafplot_mutations_2.out.aafplot_mut,
-                 aafplot_amplicons.out.aafplot_amp,
+                 aafplot_mutations_tsv,
+                 aafplot_amplicons_tsv,
                  virstrain_summary.out.tsv,
                  params.report_rmd )
 }

@@ -72,7 +72,8 @@ process aafplot_mutations_2 {
     tuple val(sample), path(vcf)
 
     output:
-    tuple val (sample), path ("*.tsv"), path ("*.png"), emit: aafplot_mut
+    tuple val (sample), path ("*.tsv"), emit: aafplot_mut_tsv
+    path ("*.png"), emit: aafplot_mut
 
     script:
     """
@@ -97,7 +98,7 @@ process aafplot_amplicons {
     )
 
     input:
-    tuple val (sample), path (read_depth_tsv), path("*.png")
+    tuple val (sample), path (read_depth_tsv)
 
     output:
     path ("*.png"), emit: aafplot_amp

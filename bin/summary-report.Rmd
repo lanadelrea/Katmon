@@ -9,6 +9,10 @@ output:
       collapsed: true
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
 ## <b> Lineage assignment </b>
 ### Pangolin and Nextclade 
  Lineage assigment table using Pangolin and Nextclade of all samples.
