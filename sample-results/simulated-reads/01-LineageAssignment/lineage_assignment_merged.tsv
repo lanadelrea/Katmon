@@ -1,0 +1,6 @@
+Sample	Coverage	Pangolin	Scorpio	Nextclade	WHO clade	Note
+AY.75_10_BA.2.5_90	99.02%	BA.2.5	Probable Omicron (Unassigned)	BA.2.5	Omicron	Usher placements: BA.2.5(1/1); scorpio found insufficient support to assign a specific lineage
+AY.75_5_BA.2.5_95	99.2%	BA.2.5	Omicron (BA.2-like)	BA.2.5	Omicron	Assigned from designation hash.
+AY.75_20_BA.2.5_80	98.94%	BA.2		BA.2	Omicron	Usher placements: BA.2(2/2)
+AY.75_2_BA.2.5_98	99.2%	BA.2.5	Omicron (BA.2-like)	BA.2.5	Omicron	Assigned from designation hash.
+AY.75_50_BA.2.5_50	98.93%	BA.2		BA.2	Omicron	Usher placements: BA.2(2/2)
