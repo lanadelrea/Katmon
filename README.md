@@ -19,10 +19,6 @@ For example:
 ```
 nextflow run Katmon --in_dir Samples --out_dir Results -profile docker
 ```
-or 
-```
-nextflow run Katmon --in_dir Samples --out_dir Results -profile conda
-```
 
 You can also view the help documentations by:
 ```
