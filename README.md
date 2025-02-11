@@ -12,12 +12,12 @@ git clone https://github.com/lanadelrea/Katmon
 2) Navigate to the directory where `Katmon` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain fasta, fastq, bam, and bam index files. Remove the slash "/" after the input and output directory. You can run the pipeline using docker or conda by indicating the `-profile`. 
 
 ```
-nextflow run Katmon --in_dir <input directory> --out_dir <output directory> -profile <docker or conda>
+nextflow run Katmon --in_dir <input dir> --out_dir <output dir> -profile <docker or conda>
 ```
 
 For example:
 ```
-nextflow run Katmon --in_dir Samples --out_dir Results -profile docker
+nextflow run Katmon --in_dir /Samples --out_dir /Results -profile docker
 ```
 
 You can also view the help documentations by:
