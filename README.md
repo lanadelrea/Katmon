@@ -3,7 +3,7 @@
 
 2) If you want to run through Docker, follow the [Docker installation guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
 
-## 🌼: How to use Katmon
+## 🌼How to use Katmon
 1) Download this github repository using `git clone`.
 ```
 git clone https://github.com/lanadelrea/Katmon
