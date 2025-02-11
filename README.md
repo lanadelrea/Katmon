@@ -1,7 +1,7 @@
 ## :clipboard: Prerequisites
-1) This pipeline is written in [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation)
+1) This pipeline is written in [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation).
 
-2) If you want to run through Docker, follow the [Docker installation guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+2) If you want to run through Docker, follow the [Docker installation guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
 
 ## 🌼: How to use Katmon
 1) Download this github repository using `git clone`.
