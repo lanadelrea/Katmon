@@ -30,10 +30,4 @@ nextflow run Katmon --help
 ```
 
 ## :open_file_folder: Results
-Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report` with the file name as `summary-report.html`.
-
-## Test the pipeline using sample files
-To test the pipeline, use [sample files](https://tinyurl.com/CoPi-Samples). Decompress `samples.tar.xz` by:
-```
-tar -xvf samples.tar.xz
-```
+Output directory will have 7 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `07-Report` with the file name as `summary-report.html`.
