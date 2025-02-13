@@ -21,10 +21,9 @@ process virstrain {
         """
         virstrain \
         -i ${fastqPath} \
-        -d ${virstrain_database} \
-        -o ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}
+        -d ${virstrain_database}
 
-        cp ${params.out_dir}/03-Virstrain/${fastqPath.BaseName}/VirStrain_report.txt ${fastqPath.BaseName}.txt
+        mv ./VirStrain_Out/VirStrain_report.txt ${fastqPath.BaseName}.txt
         """
 }
 
