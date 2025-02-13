@@ -1,6 +1,0 @@
-taxon,lineage,conflict,ambiguity_score,scorpio_call,scorpio_support,scorpio_conflict,scorpio_notes,version,pangolin_version,scorpio_version,constellation_version,is_designated,qc_status,qc_notes,note
-AY.75_10_BA.2.5_90,BA.2.5,0.0,,Probable Omicron (Unassigned),0.47,0.0,scorpio call: Alt alleles 15; Ref alleles 0; Amb alleles 17; Oth alleles 0,PUSHER-v1.27,4.3.1,0.3.19,v0.1.12,False,pass,Ambiguous_content:0.02,Usher placements: BA.2.5(1/1); scorpio found insufficient support to assign a specific lineage
-AY.75_5_BA.2.5_95,BA.2.5,0.0,,Omicron (BA.2-like),1.0,0.0,scorpio call: Alt alleles 62; Ref alleles 0; Amb alleles 0; Oth alleles 0,PANGO-v1.27,4.3.1,0.3.19,v0.1.12,True,pass,Ambiguous_content:0.02,Assigned from designation hash.
-AY.75_20_BA.2.5_80,BA.2,0.0,,,,,,PUSHER-v1.27,4.3.1,0.3.19,v0.1.12,False,pass,Ambiguous_content:0.02,Usher placements: BA.2(2/2)
-AY.75_2_BA.2.5_98,BA.2.5,0.0,,Omicron (BA.2-like),1.0,0.0,scorpio call: Alt alleles 62; Ref alleles 0; Amb alleles 0; Oth alleles 0,PANGO-v1.27,4.3.1,0.3.19,v0.1.12,True,pass,Ambiguous_content:0.02,Assigned from designation hash.
-AY.75_50_BA.2.5_50,BA.2,0.0,,,,,,PUSHER-v1.27,4.3.1,0.3.19,v0.1.12,False,pass,Ambiguous_content:0.02,Usher placements: BA.2(2/2)
