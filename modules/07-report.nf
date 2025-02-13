@@ -44,7 +44,7 @@ process report_no_flag {
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(
-    path: "${params.out_dir}/087-Report",
+    path: "${params.out_dir}/07-Report",
     mode: 'copy',
     overwrite: 'true'
     )
