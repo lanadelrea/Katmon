@@ -42,7 +42,7 @@ process virstrain_summary {
         path (txt_files)
 
         output:
-        path ('*.tsv'), emit: tsv
+        path ('virstrainSummary.tsv'), emit: tsv
 
         script:
         """

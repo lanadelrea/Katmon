@@ -25,7 +25,7 @@ def extract_substrings(line):
 
 # Function to extract the strain name from the given line
 def extract_strain(line):
-    match = re.search(strain_pattern, line.strip())
+    match = re.search(strain_pattern, line.strip()) #Changed from strain_pattern to pattern parameter
     if match:
         return match.group(1)
     return None
