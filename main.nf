@@ -18,7 +18,8 @@ include { virstrain_summary } from './modules/03-virstrain.nf'
 include { freyja } from './modules/04-freyja.nf'
 include { freyja_demix } from './modules/04-freyja.nf'
 include { freyja_aggregate } from './modules/04-freyja.nf'
-include { freyja_plot } from './modules/04-freyja.nf'
+include { freyja_plot_summarized } from './modules/04-freyja.nf'
+include { freyja_plot_lineage } from './modules/04-freyja.nf'
 
 include { bammixplot } from './modules/05-plots.nf'
 include { aafplot_mutations } from './modules/05-plots.nf'
@@ -38,9 +39,9 @@ include { report_no_flag } from './modules/07-report.nf'
 
 
 // import subworkflows
-include { bammix_flagged } from './workflows/bammix_flagged.nf'
-include { no_bammix_flag } from './workflows/no_bammix_flag.nf'
-include { conditional } from './workflows/conditional.nf'
+//include { bammix_flagged } from './workflows/bammix_flagged.nf'
+//include { no_bammix_flag } from './workflows/no_bammix_flag.nf'
+//include { conditional } from './workflows/conditional.nf'
 
 
 workflow {
@@ -78,7 +79,8 @@ workflow {
            freyja(params.reference, ch_bam_file)
            freyja_demix(freyja.out.freyja_variants)
            freyja_aggregate(freyja_demix.out.tsv_demix.collect())
-           freyja_plot(freyja_aggregate.out.freyja_aggregated_file)
+           freyja_plot_summarized(freyja_aggregate.out.freyja_aggregated_file)
+           freyja_plot_lineage(freyja_plot_summarized.out.aggregated_tsv)
 
         // Detecting of nucleotide mixtures from all samples
            bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
@@ -116,7 +118,8 @@ workflow {
                  params.report_r,
                  lineage_assignment.out.lineageAssign_tsv,
                  bammix_plot_tsv,
-                 freyja_plot.out.freyja_plot,
+                 freyja_plot_summarized.out.freyja_plot_sum,
+                 freyja_plot_lineage.out.freyja_plot_lin,
                  aafplot_mutations_tsv,
                  aafplot_amplicons_tsv,
                  virstrain_summary.out.tsv,

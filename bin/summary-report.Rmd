@@ -23,9 +23,11 @@ knitr::opts_chunk$set(echo = FALSE)
  ```
 
 ### Freyja
-  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants. 
- ![](`r params$freyja_plot`)
+  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants.
+ ![](`r params$freyja_plot_sum`)
 
+  The plot below shows the specific lineages and their abundance as detected by Freyja.
+ ![](`r params$freyja_plot_lin`)
 
 ### VirStrain
  

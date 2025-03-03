@@ -15,7 +15,8 @@ process report {
     path (report_r)
     path (lineage_assignment)
     path (bammix_plot)
-    path (freyja_plot)
+    path (freyja_plot_summarized)
+    path (freyja_plot_lineage)
     path (aafplot_mut)
     path (aafplot_amp)
     path (virstrain_tsv)
@@ -30,7 +31,8 @@ process report {
     Rscript ${report_r} \
     ${lineage_assignment} \
     ${bammix_plot} \
-    ${freyja_plot} \
+    ${freyja_plot_summarized} \
+    ${freyja_plot_lineage} \
     ${aafplot_mut} \
     ${aafplot_amp} \
     ${virstrain_tsv} \

@@ -45,7 +45,7 @@ process freyja_demix {
 
         script:
         """
-        freyja demix ${variants_tsv} ${depth_tsv} --output ${sample}_demix.tsv --depthcutoff 20
+        freyja demix ${variants_tsv} ${depth_tsv} --output ${sample}.tsv --depthcutoff 20
         """
 }
 
@@ -73,7 +73,7 @@ process freyja_aggregate {
         """
 }
 
-process freyja_plot {
+process freyja_plot_summarized {
         tag "Plotting relative lineage abundances of samples"
         container 'staphb/freyja:latest'
 
@@ -87,14 +87,60 @@ process freyja_plot {
         path aggregated_file
 
         output:
-        path ("*.tsv")
-        path ("*.png"), emit: freyja_plot
+        path ("*.tsv"), emit: aggregated_tsv
+        path ("*.png"), emit: freyja_plot_sum
 
         script:
         """
         sed 's/_variants\\.tsv\s*//' '${aggregated_file}' > aggregated.tsv
 
-        freyja plot aggregated.tsv --output freyja-lineage-abundance-plot.png
+        freyja plot aggregated.tsv --output freyja-summarized-plot.png
+        """
+
+}
+
+process freyja_plot_lineage {
+        tag "Plotting specific lineage abundances of samples"
+        container 'staphb/freyja:latest'
+
+        publishDir (
+        path: "${params.out_dir}/04-Freyja",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
+        input:
+        path aggregated_tsv
+
+        output:
+        path ("*.png"), emit: freyja_plot_lin
+
+        script:
+        """
+        freyja plot ${aggregated_tsv} --lineages --output freyja-lineage-specific-plot.png
+        """
+
+}
+
+process freyja_get_lineage_def {
+        tag "Getting lineage defining mutations of variants detected by Freyja"
+        container 'staphb/freyja:latest'
+
+        publishDir (
+        path: "${params.out_dir}/04-Freyja",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
+        input:
+        path aggregated_tsv
+
+        output:
+        path ("*.png"), emit: freyja_plot_lin
+
+        script:
+        """
+        freyja get-lineage-def ${lineage}
         """
 
 }
