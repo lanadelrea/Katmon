@@ -20,6 +20,8 @@ include { freyja_demix } from './modules/04-freyja.nf'
 include { freyja_aggregate } from './modules/04-freyja.nf'
 include { freyja_plot_summarized } from './modules/04-freyja.nf'
 include { freyja_plot_lineage } from './modules/04-freyja.nf'
+include { freyja_list_lineages } from './modules/04-freyja.nf'
+include { freyja_get_lineage_def } from './modules/04-freyja.nf'
 
 include { bammixplot } from './modules/05-plots.nf'
 include { aafplot_mutations } from './modules/05-plots.nf'
@@ -81,6 +83,8 @@ workflow {
            freyja_aggregate(freyja_demix.out.tsv_demix.collect())
            freyja_plot_summarized(freyja_aggregate.out.freyja_aggregated_file)
            freyja_plot_lineage(freyja_plot_summarized.out.aggregated_tsv)
+           freyja_list_lineages(freyja_demix.out.tsv_demix)
+           freyja_get_lineage_def(freyja_list_lineages.out.freyja_list_lin, params.annot, params.ref)
 
         // Detecting of nucleotide mixtures from all samples
            bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
@@ -125,3 +129,8 @@ workflow {
                  virstrain_summary.out.tsv,
                  params.report_rmd )
 }
+
+// written by Adeliza Realingo
+// I know this is a very loooong main.nf
+// I'm doing my best, okay?!?!!    (╥ᆺ╥；)
+// Will write this in a better way someday, I promise!

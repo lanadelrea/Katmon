@@ -60,7 +60,7 @@ process freyja_aggregate {
         )
         
         input:
-        path tsv_demix
+        path (tsv_demix)
 
         output:
         path ("*.tsv"), emit: freyja_aggregated_file
@@ -122,25 +122,48 @@ process freyja_plot_lineage {
 
 }
 
-process freyja_get_lineage_def {
+process freyja_list_lineages {
         tag "Getting lineage defining mutations of variants detected by Freyja"
-        container 'staphb/freyja:latest'
+        container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja",
+        path: "${params.out_dir}/04-Freyja/Lineages",
         mode: 'copy',
         overwrite: 'true'
         )
 
         input:
-        path aggregated_tsv
+        path (tsv_demix)
 
         output:
-        path ("*.png"), emit: freyja_plot_lin
+        tuple val(tsv_demix.baseName), path ("*.tsv"), emit: freyja_list_lin
 
         script:
         """
-        freyja get-lineage-def ${lineage}
+        freyja-list-lineages.py ${tsv_demix.baseName}_lineages.tsv ${tsv_demix}
         """
+}
 
+process freyja_get_lineage_def {
+        tag "Getting lineage defining mutations of variants detected by Freyja"
+        container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
+
+        publishDir (
+        path: "${params.out_dir}/04-Freyja/Mutations",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
+        input:
+        tuple val (sample), path (lineage_list)
+        path annot
+        path ref
+
+        output:
+        tuple val (sample), path ("*.tsv"), emit: lin_mut_tsv
+
+        script:
+        """
+        freyja-get-mutations.sh ${lineage_list} ${sample} ${annot} ${ref}
+        """
 }
