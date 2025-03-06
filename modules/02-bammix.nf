@@ -13,9 +13,9 @@ process bammix {
         )
 
         input:
-        path(nextclade_tsv)
-        path(bam)
-        path(bam_index)
+        path (nextclade_tsv)
+        path (bam)
+        path (bam_index)
 
         output:
         path '*.csv'
@@ -29,7 +29,6 @@ process bammix {
 }
 
 process bam_filter {
-//        errorStrategy = 'ignore'
         tag "Determining samples flagged by bammix then filtering the high quality reads"
 
         publishDir (
@@ -39,11 +38,10 @@ process bam_filter {
         )
 
         input:
-        path bammixflagged_csv
+        path (bammixflagged_csv)
 
         output:
         stdout
-//        path ('*.bam'), emit: filtered_bam
 
         script:
         """
@@ -52,35 +50,6 @@ process bam_filter {
 }
 
 process makevcf {
-//    errorStrategy = 'ignore'
-        tag "Making vcf file of high quality reads from bam file of ${sample}"
-        container 'staphb/samtools:latest'
-
-        publishDir(
-        path: "${params.out_dir}/05-makeVCF",
-        mode: 'copy',
-        overwrite: 'true'
-        )
-
-        input:
-        val sample
-        path reference
-
-        output:
-        tuple path ("*_filtered.sorted.bam"), path ("*_filtered.sorted.bam.bai"), emit: filtered_bam_bai
-        path ("*.mpileup"), emit: mpileup
-
-        script:
-        """
-        samtools view -q 20 -b ${params.in_dir}/${sample}.bam -o ${sample}.filtered.bam 
-        samtools sort ${sample}.filtered.bam -o ${sample}_filtered.sorted.bam
-        samtools index ${sample}_filtered.sorted.bam
-        samtools mpileup -uf ${reference} ${sample}_filtered.sorted.bam -o ${sample}.mpileup
-        """
-}
-
-process makevcf_2 {
-//    errorStrategy = 'ignore'
         tag "Making vcf file of high quality reads from bam file of ${sample}"
         container 'staphb/bcftools:latest'
 
@@ -91,7 +60,7 @@ process makevcf_2 {
         )
 
         input:
-        val sample
+        val (sample)
         path GISAID_reference
 
         output:
@@ -114,7 +83,7 @@ process bcftools {
         )
 
         input:
-        path(mpileup)
+        path (mpileup)
 
         output:
         tuple val(mpileup.BaseName), path("*.vcf"), emit: filtered_vcf

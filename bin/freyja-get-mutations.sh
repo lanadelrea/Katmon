@@ -24,13 +24,5 @@ while [ ${i} -lt 4 ]; do
         i=$((i + 1))
 done
 
-# Concatenate all generated TSVs if they exist
-#cat ${sample_name}_*.tsv > ${sample_name}_mutations.tsv
-#if ls "${sample_name}"_*.tsv 1> /dev/null 2>&1; then
-#    cat "${sample_name}"_*.tsv > "${sample_name}_mutations.tsv"
-#    echo "Merged mutations saved to ${sample_name}_mutations.tsv"
-#else
-#    echo "No TSV files were generated."
-#fi
-
 #   command:       freyja-get-lineage.sh ${lineage_list} ${sample} ${annot} ${ref}
+# Writtten by Adeliza Realingo (04 March 2025)

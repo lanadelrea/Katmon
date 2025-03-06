@@ -148,12 +148,6 @@ process freyja_get_lineage_def {
         tag "Getting lineage defining mutations of variants detected by Freyja"
         container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
 
-        publishDir (
-        path: "${params.out_dir}/04-Freyja/Mutations",
-        mode: 'copy',
-        overwrite: 'true'
-        )
-
         input:
         tuple val (sample), path (lineage_list)
         path annot
@@ -165,5 +159,27 @@ process freyja_get_lineage_def {
         script:
         """
         freyja-get-mutations.sh ${lineage_list} ${sample} ${annot} ${ref}
+        """
+}
+
+process mutations {
+        tag "Creating mutations tsv file"
+        container 'ufuomababatunde/bammix:v1.1.0' // to fix
+
+        publishDir (
+        path: "${params.out_dir}/04-Freyja/Mutations",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
+        input:
+        tuple val (sample), path (lin_mut_tsv)
+
+        output:
+        tuple val (sample), path ("*.tsv"), emit: processed_mut_tsv
+
+        script:
+        """
+        process-mutations.py ${lin_mut_tsv} ${sample}
         """
 }
