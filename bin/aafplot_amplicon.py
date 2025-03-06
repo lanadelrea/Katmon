@@ -23,8 +23,10 @@ alt_plot = pd.read_csv(read_depth_path, sep='\t')
 
 sample = sys.argv[3]
 
+mutation_path = sys.argv[4]
+
 # Output files
-aaf_plot = sys.argv[4]                                         # AAFplot_amplicons.png
+aaf_plot = sys.argv[5]                                         # AAFplot_amplicons.png
 
 ############################################################################
 
@@ -72,20 +74,13 @@ for primer_number, positions in primer_pairs.items():
 # Create a DataFrame from the amplicon_ranges list
 amplicon_ranges_df = pd.DataFrame(amplicon_ranges)
 
-
-
 # Adding annotation
-# alt_plot['aa'] = alt_plot.apply(lambda x: f'{x.gene}:{x.protein_change}', axis=1)
-# alt_plot['lineage'] = alt_plot.apply(lambda x: get_lineage(x.Delta, x.Omicron), axis=1)
-from ast import literal_eval
-
 alt_plot_variant = alt_plot['variant']
 alt_plot['variant'] = alt_plot_variant.apply(literal_eval)
 alt_plot['variant'] = alt_plot['variant'].apply(lambda x: (int(x[0]), x[1], x[2]))
 alt_plot['position'] = alt_plot['variant'].apply(lambda x: int(x[0]))
 alt_plot['ref'] = alt_plot['variant'].apply(lambda x: x[1])
 alt_plot['alt'] = alt_plot['variant'].apply(lambda x: x[2])
-
 alt_plot['gene'] = alt_plot['aa'].apply(lambda x: x.split(':')[0])
 alt_plot['protein_change'] = alt_plot['aa'].apply(lambda x: x.split(':')[1])
 
@@ -124,6 +119,12 @@ matching_positions_df = pd.DataFrame(matching_positions)
 matching_positions_df.set_index(['Gene', 'Amplicon', 'Position'], inplace=True)
 #matching_positions_df = matching_positions_df[matching_positions_df['Lineage'].notna()]
 
+## Get lineage names
+mutations_df = pd.read_csv( mutation_path, sep='\t')
+A_lineage = mutations_df.columns[5]
+B_lineage = mutations_df.columns[6]
+
+# Assign matching positions dataframe to new df
 mp_df = matching_positions_df
 
 # Group by Amplicon and perform the necessary calculations
@@ -132,61 +133,82 @@ grouped = mp_df.groupby(['Amplicon'])
 def process_group(group):
     if len(group) == 1:
         row = group.iloc[0]
-        if row['Lineage'] == 'Omicron':
-            group['Omicron'] = row['AAF']
-            group['Delta'] = 1 - row['AAF']
-        elif row['Lineage'] == 'Delta':
-            group['Delta'] = row['AAF']
-            group['Omicron'] = 1 - row['AAF']
+        if row['Lineage'] == A_lineage:
+            group[A_lineage] = row['AAF']
+            group[B_lineage] = 1 - row['AAF']
+        elif row['Lineage'] == B_lineage:
+            group[B_lineage] = row['AAF']
+            group[A_lineage] = 1 - row['AAF']
         else:
             group['Both'] = 1
     else:
-        delta_rows = group[group['Lineage'] == 'Delta']
-        omicron_rows = group[group['Lineage'] == 'Omicron']
+        B_lineage_rows = group[group['Lineage'] == B_lineage]
+        A_lineage_rows = group[group['Lineage'] == A_lineage]
 
-        if len(delta_rows) == len(group):
+        if len(B_lineage_rows) == len(group):
             max_aaf = group['AAF'].max()
-            group['Delta'] = max_aaf
-            group['Omicron'] = 1 - max_aaf
-        elif len(omicron_rows) == len(group):
+            group[B_lineage] = max_aaf
+            group[A_lineage] = 1 - max_aaf
+        elif len(A_lineage_rows) == len(group):
             max_aaf = group['AAF'].max()
-            group['Omicron'] = max_aaf
-            group['Delta'] = 1 - max_aaf
+            group[A_lineage] = max_aaf
+            group[B_lineage] = 1 - max_aaf
         else:
-            delta_max_aaf = delta_rows['AAF'].max()
-            omicron_max_aaf = omicron_rows['AAF'].max()
-            group['Delta'] = delta_max_aaf
-            group['Omicron'] = omicron_max_aaf
+            B_lineage_max_aaf = B_lineage_rows['AAF'].max()
+            A_lineage_max_aaf = A_lineage_rows['AAF'].max()
+            group[B_lineage] = B_lineage_max_aaf
+            group[A_lineage] = A_lineage_max_aaf
 
     return group.head(1)  # Keep only the first row with the calculated AAF values
 
 result_df = grouped.apply(process_group).reset_index(drop=True)
 
-#result_df.set_index('Amplicon_num', inplace=True)
-
-# result_df = result_df[result_df['Alt_allele_depth'].notna()]
 result_df = result_df[result_df['Alt_allele_depth'] !=0]
-result_df = result_df[result_df['Both']!=1]
+result_df = result_df[result_df['Read_depth'] !=0]
 
-# Create dataframe with Amplicon, Delta AAF, and Omicron AAF
-# df_aaf = df_aaf[df_aaf['Lineage'].notna()]
-df_aaf = result_df[["Amplicon_num", "Omicron", "Delta"]].copy()
+# Create dataframe with Amplicon, and Lineage A and B AAF
+df_aaf = result_df[["Amplicon_num", A_lineage, B_lineage]].copy()
 df_aaf.rename(columns = {'Amplicon_num':'Amplicon'}, inplace=True)
 df_aaf.set_index("Amplicon", inplace=True)
-df_aaf['Delta'] = 1 - df_aaf['Omicron']
+df_aaf[B_lineage] = 1 - df_aaf[A_lineage]
+# Drop rows with missing values
+df_aaf = df_aaf[(df_aaf[A_lineage] != 0) | (df_aaf[B_lineage] != 0)]
+df_aaf = df_aaf[df_aaf[A_lineage].notna()]
 
+df_aaf.to_csv(f'amplicon_aaf_{sample}.tsv', sep='\t')
+
+##################
 # Create stacked bar chart
-df_aaf.plot(kind='bar', stacked=True, color=['hotpink', 'blue'], figsize=(20, 5))
+#df_aaf.plot(kind='bar', stacked=True, color=['hotpink', 'blue'], figsize=(20, 5))
 
 # Labels for x and y axis
-plt.xlabel('Amplicon')
-plt.ylabel('Alternative Allele Fraction')
+#plt.xlabel('Amplicon')
+#plt.ylabel('Alternative Allele Fraction')
 
 # Other plot stuff
-plt.title(sample)
+#plt.title(sample)
+#plt.xticks(rotation=90)
+#plt.ylim([0,1])
+#plt.legend(bbox_to_anchor=[1,1], ncol=1)
+#plt.tight_layout()
+#plt.savefig(aaf_plot, dpi=200)
 
-plt.xticks(rotation=90)
-plt.ylim([0,1])
-plt.legend(bbox_to_anchor=[1,1], ncol=1)
-plt.tight_layout()
-plt.savefig(aaf_plot, dpi=200)
+if not df_aaf.empty:
+    # Create stacked bar chart
+    df_aaf.plot(kind='bar', stacked=True, color=['hotpink', 'blue'], figsize=(20, 5))
+
+    # Labels for x and y axis
+    plt.xlabel('Amplicon')
+    plt.ylabel('Alternative Allele Fraction')
+
+    # Other plot customizations
+    plt.title(sample)
+    plt.xticks(rotation=90)
+    plt.ylim([0, 1])
+    plt.legend(bbox_to_anchor=[1, 1], ncol=1)
+    plt.tight_layout()
+    plt.savefig(aaf_plot, dpi=200)
+
+    print(f"Plot saved to {aaf_plot}")
+else:
+    print("No data to plot. DataFrame is empty.")

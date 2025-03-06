@@ -27,18 +27,21 @@ sample = sys.argv[4]            # 'PH-RITM-1395'
 read_depth_path = sys.argv[5]   # 'read_depths/PH-RITM-1395.tsv'
 plot_path = sys.argv[6]         # 'PH-RITM-1395-final.png'
 ###########################################################################
+mutations_df = pd.read_csv( mutation_path, sep='\t')
+A_lineage = mutations_df.columns[5]
+B_lineage = mutations_df.columns[6]
 
-def get_lineage(delta_annotation: str, omicron_annotation: str) -> str:
-    if delta_annotation == omicron_annotation == None:
+def get_lineage(A_lineage_annotation: str, B_lineage_annotation: str) -> str:
+    if A_lineage_annotation == B_lineage_annotation == None:
         return 'None'
-    if delta_annotation == omicron_annotation == 'yes':
+    if A_lineage_annotation == B_lineage_annotation == 'yes':
         return 'Both'
     else:
-        if isinstance(delta_annotation, str) and delta_annotation.lower() == 'yes':
-            return 'Delta'
-        if isinstance(omicron_annotation, str) and omicron_annotation.lower() == 'yes':
-            return 'Omicron'
-        
+        if isinstance(A_lineage_annotation, str) and A_lineage_annotation.lower() == 'yes':
+            return A_lineage
+        if isinstance(B_lineage_annotation, str) and B_lineage_annotation.lower() == 'yes':
+            return B_lineage
+
 vcf_file = pd.read_csv(vcf_path, header=None, sep='\t', comment='#')
 
 # Extract values in DP4 in column 7 of the vcf file
@@ -68,20 +71,22 @@ vcf.rename(columns={ 0: 'chrom', 1: 'pos', 2: 'id', 3: 'ref', 4: 'alt', 5: 'qual
 vcf.set_index(['pos', 'ref', 'alt'], inplace=True)
 vcf = vcf[~vcf.index.duplicated(keep='first')]
 
-# Read in curated mutations 'mutations.tsv'
-mapping = pd.read_csv(mutation_path, sep='\t')
-mapping.dropna(axis='index', how='all', subset=['Delta', 'Omicron'], inplace=True)
 
 # Data wrangling
+mapping = pd.read_csv(mutation_path, sep='\t')
+mapping['VCF'] = mapping['VCF'].astype(str)
 mapping['VCF'] = mapping['VCF'].apply(literal_eval)
-mapping['VCF'] = mapping['VCF'].apply(lambda x: (int(x[0]), x[1], x[2]))
+mapping['VCF'] = mapping['VCF'].apply(lambda x: (x[0], x[1], x[2])) # Doesn't work cause x[0] is a string. Will just convert it to int along the way
+#mapping['VCF'] = mapping['VCF'].apply(lambda x: (x[0], x[1], x[2]))
 mapping['position'] = mapping['VCF'].apply(lambda x: x[0])
+mapping['position'] = mapping['position'].astype(int)
+mapping = mapping.sort_values(by=['position'])
 mapping['ref'] = mapping['VCF'].apply(lambda x: x[1])
 mapping['alt'] = mapping['VCF'].apply(lambda x: x[2])
 
 # Adding annotations
 mapping['aa'] = mapping.apply(lambda x: f'{x.gene}:{x.protein_change}', axis=1)
-mapping['lineage'] = mapping.apply(lambda x: get_lineage(x.Delta, x.Omicron), axis=1)
+mapping['lineage'] = mapping.apply(lambda x: get_lineage(x[A_lineage], x[B_lineage]), axis=1)
 mapping = mapping.set_index(['position', 'ref', 'alt'])
 
 # Loop through curated mutations, saving read depth information to file.
@@ -97,22 +102,22 @@ with open(read_depth_path, 'w') as fout:
             dp = vcf.loc[mut, 'dp']
             print(sample,
                   mut,
-                  mapping.loc[mut,'aa'].values[0],
+                  mapping.loc[mut,'aa'], #.values[0]
                   alt_ad,
                   dp,
                   alt_ad/dp,
-                  mapping.loc[mut,'lineage'].values[0],
+                  mapping.loc[mut,'lineage'], #.values[0]
                   sep='\t',
                   file=fout)
         elif mut not in vcf.index:
             # This is a reference call, so there is not AD field, only the DP field.
             print(sample,
                   mut,
-                  mapping.loc[mut,'aa'].values[0],
+                  mapping.loc[mut,'aa'], #.values[0]
                   0,
                   0,
                   0,
-                  mapping.loc[mut,'lineage'].values[0],
+                  mapping.loc[mut,'lineage'], #.values[0]
                   sep='\t',
                   file=fout)
         else:
@@ -147,14 +152,13 @@ with open(read_depth_path, 'w') as fout:
                                   sep='\t',
                                   file=fout)
 
-
 df = pd.read_csv(read_depth_path, sep='\t')
 df_stat = df[df['aaf'] != 0 ]
 plt.figure(figsize=(18,4))
 
 color_dict = { 'Both': '#967bb6',
-               'Omicron': '#efbab4',
-               'Delta': '#1484b4'}
+               B_lineage: '#efbab4',
+               A_lineage: '#1484b4'}
 sns.stripplot(x='aa', y='aaf', s=10, hue='mutation_label', palette=color_dict,
               data=df_stat)
 plt.ylabel('Allele fraction')
@@ -164,4 +168,4 @@ plt.xticks(rotation=90)
 plt.ylim([0,1.1])
 plt.legend(bbox_to_anchor=[1,1], ncol=1)
 plt.tight_layout()
-plt.savefig(plot_path, dpi=200) 
+plt.savefig(plot_path, dpi=200)

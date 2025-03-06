@@ -1,5 +1,5 @@
 ---
-title: "SARS-CoV-2 Variants Coinfection"
+title: "SARS-CoV-2 Variants Co-infection"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
 output: 
   html_document:
@@ -11,7 +11,11 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(htmltools)
 ```
+ <!-- Include Bootstrap CSS and JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 ## <b> Lineage assignment </b>
 ### Pangolin and Nextclade 
@@ -23,11 +27,42 @@ knitr::opts_chunk$set(echo = FALSE)
  ```
 
 ### Freyja
-  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants.
- ![](`r params$freyja_plot_sum`)
+  The Freyja plot shows the relative SARS-CoV-2 lineage abundance in each sample. Samples suspect for coinfection will illustrate mixed prevalence of two or more variants. The plots below shows the summarized and specific lineages and their corresponding abundance as detected by Freyja.
+ ```{r, echo=FALSE, results='asis'}
+        if (!is.null(params$freyja_plot_sum) && !is.null(params$freyja_plot_lin)) {
 
-  The plot below shows the specific lineages and their abundance as detected by Freyja.
- ![](`r params$freyja_plot_lin`)
+          freyja_html <- '<div id="freyjaCarousel" class="carousel slide" style="position: relative;" data-bs-interval="false">'
+
+          freyja_html <- paste0(freyja_html, '<div class="carousel-inner">')
+
+          freyja_images <- c(params$freyja_plot_sum, params$freyja_plot_lin)
+
+          for (i in seq_along(freyja_images)) {
+            active_class <- ifelse(i == 1, "active", "")
+            image_tag <- sprintf('<div class="carousel-item %s">
+                                    <img src="%s" class="d-block w-100">
+                                  </div>', active_class, freyja_images[i])
+            freyja_html <- paste0(freyja_html, image_tag)
+          }
+
+          freyja_html <- paste0(freyja_html, '</div>')
+
+          freyja_html <- paste0(freyja_html, '
+            <a class="carousel-control-prev" href="#freyjaCarousel" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" style="background-color: rgba(128, 128, 128, 0.5);" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#freyjaCarousel" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" style="background-color: rgba(128, 128, 128, 0.5);" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>')
+
+          HTML(freyja_html)
+}
+ ```
+
+
 
 ### VirStrain
  
@@ -43,9 +78,33 @@ knitr::opts_chunk$set(echo = FALSE)
 ## <b> Nucleotide mixture per position </b>
  The figure below shows the Bammix plot for nucleotide mixtures of the sample/s with potential SARS-CoV-2 variants coinfection. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
  ```{r, echo=FALSE, results='asis'}
- for (plot in params$bammix_plots) {
-   cat(paste0("![](", plot, ")\n"))
-  }
+        if (length(params$bammix_plots) > 0) {
+
+          bammix_html <- '<div id="bammixCarousel" class="carousel slide" style="position: relative;" data-bs-interval="false">'
+
+          bammix_html <- paste0(bammix_html, '<div class="carousel-inner">')
+          for (i in seq_along(params$bammix_plots)) {
+            active_class <- ifelse(i == 1, "active", "")
+            image_tag <- sprintf('<div class="carousel-item %s">
+                                    <img src="%s" class="d-block w-100">
+                                  </div>', active_class, params$bammix_plots[i])
+            bammix_html <- paste0(bammix_html, image_tag)
+          }
+          bammix_html <- paste0(bammix_html, '</div>')
+
+          bammix_html <- paste0(bammix_html, '
+            <a class="carousel-control-prev" href="#bammixCarousel" role="button" data-bs-slide="prev" style="position: absolute; bottom: 10px; left: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3);"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#bammixCarousel" role="button" data-bs-slide="next" style="position: absolute; bottom: 10px; right: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3);"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>')
+
+          HTML(bammix_html)
+        }
  ```
 
 
@@ -54,37 +113,79 @@ knitr::opts_chunk$set(echo = FALSE)
 ### For each lineage-defining mutations
  The alternative allele fraction (AAF) determines the number of reads supporting each variant detected in the sample/s. The AAF per mutation of sample/s flagged for SARS-CoV-2 coinfection are shown in the figure. Delta, Omicron, and shared mutations are represented by blue, pink, and purple, respectively. 
  ```{r, echo=FALSE, results='asis'}
-  for (plot in params$aafplots_mut) {
-   cat(paste0("![](", plot, ")\n"))
-  }
+        if (length(params$aafplots_mut) > 0) {
+
+          aafmut_html <- '<div id="aafmutCarousel" class="carousel slide" style="position: relative;" data-bs-interval="false">'
+
+          aafmut_html <- paste0(aafmut_html, '<div class="carousel-inner">')
+          for (i in seq_along(params$aafplots_mut)) {
+            active_class <- ifelse(i == 1, "active", "")
+            image_tag <- sprintf('<div class="carousel-item %s">
+                                    <img src="%s" class="d-block w-100">
+                                  </div>', active_class, params$aafplots_mut[i])
+            aafmut_html <- paste0(aafmut_html, image_tag)
+          }
+          aafmut_html <- paste0(aafmut_html, '</div>')
+
+          aafmut_html <- paste0(aafmut_html, '
+            <a class="carousel-control-prev" href="#aafmutCarousel" role="button" data-bs-slide="prev" style="position: absolute; bottom: 10px; left: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3);"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#aafmutCarousel" role="button" data-bs-slide="next" style="position: absolute; bottom: 10px; right: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3);"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>')
+
+          HTML(aafmut_html)
+        }
  ```
 
 ### For each amplicon
   The AAF for each amplicon is plotted by getting the average allele fraction for Delta and Omicron defining mutation within the range of that amplicon.
- ```{r, echo=FALSE, results='asis'} 
- for (plot in params$aafplots_amp) {
-   cat(paste0("![](", plot, ")\n"))
-  }
+ ```{r, echo=FALSE, results='asis'}
+        if (length(params$aafplots_amp) > 0) {
+
+          aafamp_html <- '<div id="carouselExample" class="carousel slide" style="position: relative;" data-bs-interval="false">'
+
+          aafamp_html <- paste0(aafamp_html, '<div class="carousel-inner">')
+          for (i in seq_along(params$aafplots_amp)) {
+            active_class <- ifelse(i == 1, "active", "")
+            image_tag <- sprintf('<div class="carousel-item %s">
+                                    <img src="%s" class="d-block w-100">
+                                  </div>', active_class, params$aafplots_amp[i])
+            aafamp_html <- paste0(aafamp_html, image_tag)
+          }
+          aafamp_html <- paste0(aafamp_html, '</div>')
+
+          aafamp_html <- paste0(aafamp_html, '
+            <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev" style="position: absolute; bottom: 10px; left: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); width: 100%; height: 100%;"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next" style="position: absolute; bottom: 10px; right: 10px; width: 20px; height: 20px; top: auto;">
+              <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); width: 100%; height: 100%;"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>')
+
+          HTML(aafamp_html)
+        }
  ```
-  
-## <b> References </b> {.tabset .tabset-fade}
 
-### Pipeline
- The tools used in this [pipeline](https://github.com/lanadelrea/CoPi) are as follows: 
 
- - [Pangolin](https://github.com/cov-lineages/pangolin) 
+## <b> References </b>
+ The tools used in this [pipeline](https://github.com/lanadelrea/CoPi) are as follows:
 
+ - [Pangolin](https://github.com/cov-lineages/pangolin)
+ 
  - [Nextclade](https://github.com/nextstrain/nextclade)
-
+ 
  - [Freyja](https://github.com/andersen-lab/Freyja)
-
+ 
  - [VirStrain](https://github.com/liaoherui/VirStrain)
-
+ 
  - [Bammix](https://github.com/chrisruis/bammix)
-
- - Custom scripts adopted from [Bolze et al.](https://doi.org/10.1016/j.medj.2022.10.002) 
-
-### Session Info
- ```{r, echo=FALSE}
- sessionInfo()
- ```
+ 
+ - Custom scripts adapted from [Bolze et al.](https://doi.org/10.1016/j.medj.2022.10.002)

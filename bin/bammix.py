@@ -150,18 +150,18 @@ for nam, df in zip(bammix_csv_files, bammix_csv):
     # Get positions with >20% mixture from df.
     df_prop = df[["A_proportion", "C_proportion", "G_proportion", "T_proportion"]]
     # Get largest number for each row in df.
-    #df_prop_max = df_prop.max(axis=1)
-    ## Select rows with less than 0.80 value in df_prop_max.
-    #df_prop_max_bool = df_prop_max < mix_thresh
-    #df_prop_below80max = df_prop[df_prop_max_bool]
-    ## Flag only if depth is >20 reads.
-    #df_depth = df[["Total_reads"]]
-    #df_depth_20x = df_depth["Total_reads"] > depth_thresh
-    #df_prop_below80max_20xdepth = df_prop_below80max[df_depth_20x]
-    #second_max_value = df_prop_below80max_20xdepth.apply(lambda row: row.nlargest(2).iloc[-1], axis=1)
-    ## Flag only if depth is >20 reads, rows have <0.80 value in df_prop_max, and second max value > 0.20.
-    #df_flagged = df_prop_below80max_20xdepth[(df_prop_max_bool) & df_depth_20x & (second_max_value > 0.20)]
-    df_flagged = df_pos # Edited by ALR 1/23/2025 to flag all positions with mixtures, no 20:80 minor:major variant treshold
+    df_prop_max = df_prop.max(axis=1)
+    # Select rows with less than 0.80 value in df_prop_max
+    df_prop_max_bool = df_prop_max < mix_thresh
+    df_prop_below80max = df_prop[df_prop_max_bool]
+    # Flag only if depth is >20 reads.
+    df_depth = df[["Total_reads"]]
+    df_depth_20x = df_depth["Total_reads"] > depth_thresh
+    df_prop_below80max_20xdepth = df_prop_below80max[df_depth_20x]
+    second_max_value = df_prop_below80max_20xdepth.apply(lambda row: row.nlargest(2).iloc[-1], axis=1)
+    # Flag only if depth is >20 reads, rows have <0.80 value in df_prop_max, and second max value > 0.20.
+    df_flagged = df_prop_below80max_20xdepth[(df_prop_max_bool) & df_depth_20x & (second_max_value > 0.20)]
+    #df_flagged = df_pos # Edited by ALR 1/23/2025 to flag all positions with mixtures, no 20:80 minor:major variant treshold
     if df_flagged.empty:
         pass
     elif df_flagged.shape[0] > pos_thresh:

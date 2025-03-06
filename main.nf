@@ -9,7 +9,6 @@ include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { makevcf } from './modules/02-bammix.nf'
-include { makevcf_2 } from './modules/02-bammix.nf'
 include { bcftools } from './modules/02-bammix.nf'
 
 include { virstrain } from './modules/03-virstrain.nf'
@@ -23,9 +22,10 @@ include { freyja_plot_lineage } from './modules/04-freyja.nf'
 include { freyja_list_lineages } from './modules/04-freyja.nf'
 include { freyja_get_lineage_def } from './modules/04-freyja.nf'
 
+include { mutations } from './modules/04-freyja.nf'
+
 include { bammixplot } from './modules/05-plots.nf'
 include { aafplot_mutations } from './modules/05-plots.nf'
-include { aafplot_mutations_2 } from './modules/05-plots.nf'
 include { aafplot_amplicons } from './modules/05-plots.nf'
 
 include { ampliconsorting_DeltaReads } from './modules/06-ampliconSorting.nf'
@@ -37,7 +37,7 @@ include { ampliconsorting_lineageAssignment_Pangolin } from './modules/06-amplic
 include { ampliconsorting_lineageAssignment_Nextclade } from './modules/06-ampliconSorting.nf'
 
 include { report } from './modules/07-report.nf'
-include { report_no_flag } from './modules/07-report.nf'
+//include { report_no_flag } from './modules/07-report.nf'
 
 
 // import subworkflows
@@ -86,6 +86,8 @@ workflow {
            freyja_list_lineages(freyja_demix.out.tsv_demix)
            freyja_get_lineage_def(freyja_list_lineages.out.freyja_list_lin, params.annot, params.ref)
 
+           mutations(freyja_get_lineage_def.out.lin_mut_tsv)
+
         // Detecting of nucleotide mixtures from all samples
            bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
            bam_filter( bammix.out.bammixflagged_csv )
@@ -95,13 +97,13 @@ workflow {
         // IF ch_count > 0 ; There are samples flagged by bammix
           // Filter high quality reads from samples with nucleotide mixture and make VCF
            ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
-           makevcf_2( ch_bammix_flagged, params.reference )
-           bcftools(makevcf_2.out.mpileup)
+           makevcf( ch_bammix_flagged, params.reference )
+           bcftools(makevcf.out.mpileup)
         
            // Alternative Allele Fraction (AAF) plotting
            bammixplot(bcftools.out.filtered_vcf)
-           aafplot_mutations_2(params.mutations_table, bcftools.out.filtered_vcf)
-           aafplot_amplicons(aafplot_mutations_2.out.aafplot_mut_tsv)
+           aafplot_mutations(bcftools.out.filtered_vcf)
+           aafplot_amplicons(params.primer_scheme, aafplot_mutations.out.aafplot_mut_tsv)
 
         // IF ch_count = 0 ; No samples flagged by bammix 
         
@@ -110,7 +112,7 @@ workflow {
                               .collect() // Collect all paths to bam plots
                               .map{ it.join("\t") + "\n" } // Join paths with tabs and add a new line
                               .collectFile ( name: "bammix_plots.tsv")
-           aafplot_mutations_tsv = aafplot_mutations_2.out.aafplot_mut
+           aafplot_mutations_tsv = aafplot_mutations.out.aafplot_mut
                               .collect() 
                               .map{ it.join("\t") + "\n" }
                               .collectFile ( name: "aafplot_mutations.tsv")
@@ -130,7 +132,12 @@ workflow {
                  params.report_rmd )
 }
 
+
+// TO-DO:
+   // Add branch for when there are no samples flagged by bammix for nucleotide mixtures/clean batch of samples.
+
+
 // written by Adeliza Realingo
 // I know this is a very loooong main.nf
-// I'm doing my best, okay?!?!!    (╥ᆺ╥；)
+// I'm doing my best hahahu (╥ᆺ╥；)
 // Will write this in a better way someday, I promise!

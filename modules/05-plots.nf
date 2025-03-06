@@ -25,6 +25,7 @@ process bammixplot {
     """
 }
 
+
 process aafplot_mutations {
 //    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"
@@ -37,38 +38,6 @@ process aafplot_mutations {
     )
 
     input:
-    val mutations
-    tuple path(filtered_bam), path(filtered_bam_bai) 
-    tuple val(sample), path(vcf)
-
-
-    output:
-    tuple val (sample), path ("*.tsv"), path ("*.png"), emit: aafplot_mut
-
-    script:
-    """
-    aafplot_mutation.py ${vcf} \
-    ${mutations} \
-    ${filtered_bam} \
-    ${sample} \
-    ${sample}_read_depth.tsv \
-    ${sample}_AAFplot_mutations.png
-    """
-}
-
-process aafplot_mutations_2 {
-//    errorStrategy = 'ignore'
-    tag "Plotting alternative allele fraction per mutation of ${sample}"
-    container 'ufuomababatunde/bammix:v1.1.0' // to fix
-
-    publishDir(
-    path: "${params.out_dir}/06-Plots",
-    mode: 'copy',
-    overwrite: 'true'
-    )
-
-    input:
-    val mutations
     tuple val(sample), path(vcf)
 
     output:
@@ -78,7 +47,7 @@ process aafplot_mutations_2 {
     script:
     """
     aafplot_mutation.py ${vcf} \
-    ${mutations} \
+    ${params.out_dir}/04-Freyja/Mutations/${sample}_mutations.tsv \
     ${params.in_dir}/${sample}.bam \
     ${sample} \
     ${sample}_read_depth.tsv \
@@ -87,7 +56,6 @@ process aafplot_mutations_2 {
 }
 
 process aafplot_amplicons {
-//    errorStrategy = 'ignore'
     tag "Plotting alternative allele fraction per mutation of ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0'
 
@@ -98,16 +66,19 @@ process aafplot_amplicons {
     )
 
     input:
+    path primer_scheme
     tuple val (sample), path (read_depth_tsv)
 
     output:
+    path ("*.tsv")
     path ("*.png"), emit: aafplot_amp
 
     script:
     """
-    aafplot_amplicon.py ${baseDir}/assets/primer-schemes/nCoV-2019/V4.1/SARS-CoV-2.scheme.bed \
+    aafplot_amplicon.py ${primer_scheme} \
     ${read_depth_tsv} \
     ${sample} \
+    ${params.out_dir}/04-Freyja/Mutations/${sample}_mutations.tsv \
     ${sample}_AAFplot_amplicons.png
     """
 }
