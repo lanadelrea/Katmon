@@ -116,7 +116,7 @@ process ampliconsorting_renamefasta {
 	tuple val(sample), path(fasta_lineage_A), path(fasta_lineage_B)
 
 	output:
-	tuple val (sample), path ("*ampsort.consensus.fasta"), emit: ampsort_consensus_final
+	path ("*ampsort.consensus.fasta"), emit: ampsort_consensus_final
 
 	script:
 	"""
@@ -137,14 +137,14 @@ process ampliconsorting_pangolin {
         )
 
         input:
-        tuple val (sample), path (fasta) // ampsort_consensus_final
+        path (fasta) // ampsort_consensus_final
 
         output:
-        tuple val (fasta.SimpleName), path ('*.csv'), emit: ampsort_pangolin_csv
+        path ('*.csv'), emit: ampsort_pangolin_csv
 
         script:
         """
-        pangolin ${fasta} --outfile ${fasta.SimpleName}.pangolin.csv
+        pangolin ${fasta} --outfile ampsort.pangolin.csv
         """
 }
 
@@ -159,15 +159,15 @@ process ampliconsorting_nextclade {
         )
 
         input:
-        tuple val (sample), path (fasta) // ampsort_consensus_final
+        path (fasta) // ampsort_consensus_final
         path SC2_dataset
 
         output:
-        tuple val (fasta.SimpleName), path ('*.tsv'), emit: ampsort_nextclade_tsv
+        path ('*.tsv'), emit: ampsort_nextclade_tsv
 
         script:
         """
-        nextclade run --input-dataset ${SC2_dataset} --output-tsv=${fasta.SimpleName}.nextclade.tsv ${fasta}
+        nextclade run --input-dataset ${SC2_dataset} --output-tsv=ampsort.nextclade.tsv ${fasta}
         """
 }
 
@@ -182,13 +182,14 @@ process ampliconsorting_table {
         )
 
         input:
-        tuple val (sample), path (ampsort_pangolin_csv), path (ampsort_nextclade_tsv)
+        path (ampsort_pangolin_csv)
+        path (ampsort_nextclade_tsv)
 
         output:
         path ('*.tsv'), emit: ampsort_table
 
         script:
         """
-        lineageAssign_table.py ${ampsort_pangolin_csv} ${ampsort_nextclade_tsv} ${sample}
+        lineageAssign_table.py ${ampsort_pangolin_csv} ${ampsort_nextclade_tsv} 'ampsort'
         """
 }

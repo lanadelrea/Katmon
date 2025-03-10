@@ -30,9 +30,8 @@ aafplots_amp <- readLines(args[6], encoding = "UTF-8") %>%
 virstrain_table_tsv <- args[7]
 virstrain_table <- read_tsv(virstrain_table_tsv, locale(encoding = "UTF-8"))
 
-ampsort_tables <- readLines(args[8], encoding = "UTF-8") %>%
-                strsplit("\t") %>%
-                unlist()
+ampsort_tables_tsv <- args[8]
+ampsort_tables <- read_tsv(ampsort_tables_tsv, locale(encoding = "UTF-8"))
 
 summary_report_rmd = args[9]
 

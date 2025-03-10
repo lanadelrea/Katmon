@@ -175,34 +175,12 @@ library(htmltools)
  ```
 
 ## Amplicon Sorting 
-  Based from the defining mutations of the two main lieages detected, the reads from the BAM file are sorted and consenss sequences are generated. The consensus FASTA is then subjected to lineage assignment by Pangolin and Nextclade.
  ```{r, echo=FALSE}
-        if (length(params$ampliconsorting) > 0) {
-          table_html <- '<div id="tableCarousel" class="carousel slide" style="position: relative;" data-bs-interval="false">'
-          table_html <- paste0(table_html, '<div class="carousel-inner">')
-
-          for (i in seq_along(params$ampliconsorting)) {
-            active_class <- ifelse(i == 1, "active", "")
-            table_output <- knitr::kable(params$ampliconsorting[[i]], format = "html", table.attr = "class='table table-bordered'")
-            table_tag <- sprintf('<div class="carousel-item %s">%s</div>', active_class, table_ output)
-            table_html <- paste0(table_html, table_tag)
-          }
-
-          table_html <- paste0(table_html, '</div>')
-          table_html <- paste0(table_html, '
-            <a class="carousel-control-prev" href="#tableCarousel" role="button" data-bs-slide="prev" style="position: absolute; bottom: 10px; left: 10px; width: 20px; height: 20px; top: auto;">
-              <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); width: 100%; height: 100%;"></span>
-              <span class="visually-hidden">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#tableCarousel" role="button" data-bs-slide="next" style="position: absolute; bottom: 10px; right: 10px; width: 20px; height: 20px; top: auto;">
-              <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.3); width: 100%; height: 100%;"></span>
-              <span class="visually-hidden">Next</span>
-            </a>
-          </div>')
-
-          HTML(table_html)
-        }
+ colnames(params$ampliconsorting) <- params$ampliconsorting[1, ]
+ params$ampliconsorting <- params$ampliconsorting[-1, ]
+ kable(params$ampliconsorting, "simple")
  ```
+
  
 
 ## <b> References </b>

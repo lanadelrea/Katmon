@@ -129,13 +129,14 @@ workflow {
                .set { ampsort_consensus }
            ampliconsorting_renamefasta(ampsort_consensus)
 
-           ampliconsorting_pangolin(ampliconsorting_renamefasta.out.ampsort_consensus_final)
-           ampliconsorting_nextclade(ampliconsorting_renamefasta.out.ampsort_consensus_final, params.SC2_dataset)
+           ampliconsorting_renamefasta.out.ampsort_consensus_final
+               .collectFile(name: 'all_sequences_ampsort.fasta', newLine: true )
+               .set { ch_ampsort_cat }
 
-           ampliconsorting_pangolin.out.ampsort_pangolin_csv
-               .join(ampliconsorting_nextclade.out.ampsort_nextclade_tsv)
-               .set { ampsort_table }
-           ampliconsorting_table( ampsort_table )
+           ampliconsorting_pangolin(ch_ampsort_cat)
+           ampliconsorting_nextclade(ch_ampsort_cat, params.SC2_dataset)
+
+           ampliconsorting_table(ampliconsorting_pangolin.out.ampsort_pangolin_csv, ampliconsorting_nextclade.out.ampsort_nextclade_tsv)
 
 
         // IF ch_count = 0 ; No samples flagged by bammix 
@@ -153,10 +154,7 @@ workflow {
                               .collect() 
                               .map{ it.join("\t") + "\n" }
                               .collectFile( name: "aafplot_amplicons.tsv")
-           ampliconsorting_table = ampliconsorting_table.out.ampsort_table
-                              .collect()
-                              .map{ it.join("\t") + "\n" }
-                              .collectFile( name: "ampsort.tsv")
+
            report(
                  params.report_r,
                  lineage_assignment.out.lineageAssign_tsv,
@@ -166,7 +164,7 @@ workflow {
                  aafplot_mutations_tsv,
                  aafplot_amplicons_tsv,
                  virstrain_summary.out.tsv,
-                 ampliconsorting_table,
+                 ampliconsorting_table.out.ampsort_table,
                  params.report_rmd )
 }
 

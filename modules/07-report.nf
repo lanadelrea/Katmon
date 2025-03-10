@@ -36,6 +36,7 @@ process report {
     ${aafplot_mut} \
     ${aafplot_amp} \
     ${virstrain_tsv} \
+    ${ampliconsorting} \
     ${report_rmd}
     """
 }
