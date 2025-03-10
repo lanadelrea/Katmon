@@ -174,7 +174,8 @@ library(htmltools)
         }
  ```
 
-## Amplicon Sorting 
+
+## <b> Amplicon sorting </b>
  ```{r, echo=FALSE}
  colnames(params$ampliconsorting) <- params$ampliconsorting[1, ]
  params$ampliconsorting <- params$ampliconsorting[-1, ]
