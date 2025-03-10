@@ -5,6 +5,7 @@ import sys
 
 pangolin_csv = sys.argv[1]
 nextclade_tsv = sys.argv[2]
+sample = sys.argv[3]
 
 # Read the pangolin csv and nextclade tsv files
 pangolin = pd.read_csv(pangolin_csv, sep=',')
@@ -32,4 +33,4 @@ lineage_assignment_df.rename(columns={'coverage':'Coverage','lineage':'Pangolin'
 lineage_assignment_df.iloc[:, 1] = (lineage_assignment_df.iloc[:, 1] * 100).round(2).astype(str) + '%' 
 
 # Write the dataframe into a new tsv file
-lineage_assignment_df.to_csv('lineage_assignment_merged.tsv', sep='\t', index=False)
+lineage_assignment_df.to_csv(f'{sample}_lineage_assignment_merged.tsv', sep='\t', index=False)

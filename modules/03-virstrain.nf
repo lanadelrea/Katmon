@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 process virstrain {
-        tag "Identifying lineage assignment for ${fastqPath.BaseName} using VirsStrain"
+        tag "Identifying lineage assignment for ${fastqPath.BaseName} using VirStrain"
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (

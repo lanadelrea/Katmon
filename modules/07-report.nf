@@ -6,7 +6,7 @@ process report {
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(
-    path: "${params.out_dir}/07-Report",
+    path: "${params.out_dir}/08-Report",
     mode: 'copy',
     overwrite: 'true'
     )
@@ -20,8 +20,8 @@ process report {
     path (aafplot_mut)
     path (aafplot_amp)
     path (virstrain_tsv)
+    path (ampliconsorting)
     path (report_rmd)
-
 
     output:
     path ("*.html")

@@ -30,7 +30,11 @@ aafplots_amp <- readLines(args[6], encoding = "UTF-8") %>%
 virstrain_table_tsv <- args[7]
 virstrain_table <- read_tsv(virstrain_table_tsv, locale(encoding = "UTF-8"))
 
-summary_report_rmd = args[8]
+ampsort_tables <- readLines(args[8], encoding = "UTF-8") %>%
+                strsplit("\t") %>%
+                unlist()
+
+summary_report_rmd = args[9]
 
 # Defining parameters
 params <- list(lineage_assignment = lineage_table,
@@ -39,7 +43,8 @@ params <- list(lineage_assignment = lineage_table,
                freyja_plot_sum = freyja_plot_summarized,
                freyja_plot_lin = freyja_plot_lineage,
                aafplots_mut = aafplots_mut,
-               aafplots_amp = aafplots_amp)
+               aafplots_amp = aafplots_amp,
+               ampliconsorting = ampsort_tables)
 
 # Render the R Markdown file with parameters
 render(summary_report_rmd,

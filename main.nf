@@ -25,16 +25,15 @@ include { freyja_get_lineage_def } from './modules/04-freyja.nf'
 include { mutations } from './modules/04-freyja.nf'
 
 include { bammixplot } from './modules/05-plots.nf'
-include { aafplot_mutations } from './modules/05-plots.nf'
-include { aafplot_amplicons } from './modules/05-plots.nf'
+include { aafplots } from './modules/05-plots.nf'
 
-include { ampliconsorting_DeltaReads } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_OmicronReads } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_samtools } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_bgzip } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_fasta } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_lineageAssignment_Pangolin } from './modules/06-ampliconSorting.nf'
-include { ampliconsorting_lineageAssignment_Nextclade } from './modules/06-ampliconSorting.nf'
+include { get_pos_mut } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting_consensus } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting_renamefasta } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting_pangolin } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting_nextclade } from './modules/06-ampliconSorting.nf'
+include { ampliconsorting_table } from './modules/06-ampliconSorting.nf'
 
 include { report } from './modules/07-report.nf'
 //include { report_no_flag } from './modules/07-report.nf'
@@ -102,24 +101,62 @@ workflow {
         
            // Alternative Allele Fraction (AAF) plotting
            bammixplot(bcftools.out.filtered_vcf)
-           aafplot_mutations(bcftools.out.filtered_vcf)
-           aafplot_amplicons(params.primer_scheme, aafplot_mutations.out.aafplot_mut_tsv)
+           //Combine the input for aafplots
+           mutations.out.processed_mut_tsv
+               .join(bcftools.out.filtered_vcf)
+               .set { aafplot_inputs }
+           aafplots(params.primer_scheme, aafplot_inputs)
+//           aafplot_amplicons(params.primer_scheme, aafplot_mutations.out.aafplot_mut_tsv, mutations.out.processed_mut_tsv)
+
+           // Amplicon sorting
+           bcftools.out.filtered_vcf
+               .join(freyja_get_lineage_def.out.lin_mut_tsv) // only get mutations list for bammix flagged samples
+               .set { get_posmut_flagged }
+           get_pos_mut( get_posmut_flagged ) // List mutations for the two most abundant lineages
+
+           get_pos_mut.out.pos_mut_lineage_A
+               .join(get_pos_mut.out.pos_mut_lineage_B)
+               .set { pos_mut }
+           ampliconsorting(pos_mut, params.jvarkit_jar, params.sort_reads)
+
+           ampliconsorting.out.sorted_bam_lineage_A
+               .join(ampliconsorting.out.sorted_bam_lineage_B)
+               .set { ampsort_bam }
+           ampliconsorting_consensus(ampsort_bam, params.reference)
+
+           ampliconsorting_consensus.out.consensus_lineage_A
+               .join(ampliconsorting_consensus.out.consensus_lineage_B)
+               .set { ampsort_consensus }
+           ampliconsorting_renamefasta(ampsort_consensus)
+
+           ampliconsorting_pangolin(ampliconsorting_renamefasta.out.ampsort_consensus_final)
+           ampliconsorting_nextclade(ampliconsorting_renamefasta.out.ampsort_consensus_final, params.SC2_dataset)
+
+           ampliconsorting_pangolin.out.ampsort_pangolin_csv
+               .join(ampliconsorting_nextclade.out.ampsort_nextclade_tsv)
+               .set { ampsort_table }
+           ampliconsorting_table( ampsort_table )
+
 
         // IF ch_count = 0 ; No samples flagged by bammix 
-        
+
         // Report generation
            bammix_plot_tsv = bammixplot.out.bammix_plot
                               .collect() // Collect all paths to bam plots
                               .map{ it.join("\t") + "\n" } // Join paths with tabs and add a new line
                               .collectFile ( name: "bammix_plots.tsv")
-           aafplot_mutations_tsv = aafplot_mutations.out.aafplot_mut
+           aafplot_mutations_tsv = aafplots.out.aafplot_mut
                               .collect() 
                               .map{ it.join("\t") + "\n" }
                               .collectFile ( name: "aafplot_mutations.tsv")
-           aafplot_amplicons_tsv = aafplot_amplicons.out.aafplot_amp
+           aafplot_amplicons_tsv = aafplots.out.aafplot_amp
                               .collect() 
                               .map{ it.join("\t") + "\n" }
                               .collectFile( name: "aafplot_amplicons.tsv")
+           ampliconsorting_table = ampliconsorting_table.out.ampsort_table
+                              .collect()
+                              .map{ it.join("\t") + "\n" }
+                              .collectFile( name: "ampsort.tsv")
            report(
                  params.report_r,
                  lineage_assignment.out.lineageAssign_tsv,
@@ -129,15 +166,15 @@ workflow {
                  aafplot_mutations_tsv,
                  aafplot_amplicons_tsv,
                  virstrain_summary.out.tsv,
+                 ampliconsorting_table,
                  params.report_rmd )
 }
 
-
 // TO-DO:
    // Add branch for when there are no samples flagged by bammix for nucleotide mixtures/clean batch of samples.
-
+   // Create one env/docker image for the main processes
 
 // written by Adeliza Realingo
 // I know this is a very loooong main.nf
 // I'm doing my best hahahu (╥ᆺ╥；)
-// Will write this in a better way someday, I promise!
+// Will write this in a better way, I promise!

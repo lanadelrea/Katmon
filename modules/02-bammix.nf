@@ -1,7 +1,7 @@
 #!/usr/bin nextflow
 
 process bammix {
-        tag "Looking for positions with nucleotide mixtures using bammix"
+        tag "Looking for positions with nucleotide mixtures"
         container 'ufuomababatunde/bammix:v1.1.0'
 
         cpus 1
@@ -29,7 +29,7 @@ process bammix {
 }
 
 process bam_filter {
-        tag "Determining samples flagged by bammix then filtering the high quality reads"
+        tag "Determining samples flagged for having nucleotide mixtures"
 
         publishDir (
         path: "${params.out_dir}/05-makeVCF",
@@ -50,7 +50,7 @@ process bam_filter {
 }
 
 process makevcf {
-        tag "Making vcf file of high quality reads from bam file of ${sample}"
+        tag "Making vcf file from bam file of ${sample}"
         container 'staphb/bcftools:latest'
 
         publishDir(
@@ -73,7 +73,7 @@ process makevcf {
 }
 
 process bcftools {
-        tag "Making vcf file of high quality reads from bam file of ${mpileup.BaseName}"
+        tag "Making vcf file from bam file of ${mpileup.BaseName}"
         container 'staphb/bcftools:latest'
 
         publishDir(

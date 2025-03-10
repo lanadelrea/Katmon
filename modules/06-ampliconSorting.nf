@@ -1,35 +1,33 @@
 #!/usr/bin/env nextflow
 
-process ampliconsorting_DeltaReads {
-//        errorStrategy = 'ignore'
-        tag "Sorting Delta reads of ${sample} suspect for coinfection"
-        container 'lindenb/jvarkit:1b2aedf24'
+process get_pos_mut {
+        tag "Getting list of positions and mutations for specific lineages in ${sample}"
+        container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
+        path: "${params.out_dir}/07-AmpliconSorting/PosMut_txt",
         mode: 'copy',
         overwrite: 'true'
         )
 
         input:
-        tuple path(bam), path(bai)
-        path jvarkit_jar
-        path sort_delta_reads
+        tuple val (sample), path (vcf), path (lin_mut_tsv)
 
         output:
-        tuple val(bam.SimpleName), path ("*.bam"), emit: delta_bam 
+        tuple val (sample), path ("*lineage_A.txt"), emit: pos_mut_lineage_A // ${sample}_lineage_A.txt
+        tuple val (sample), path ("*lineage_B.txt"), emit: pos_mut_lineage_B // ${sample}_lineage_B.txt
 
         script:
         """
-        java -jar ${jvarkit_jar} samjdk -f ${sort_delta_reads} ${bam} \
-        -o ${bam.SimpleName}_sorted_delta_reads.bam
+        get_pos_mut.py ${params.out_dir}/04-Freyja/Mutations/${sample} ${sample}
         """
 }
 
-process ampliconsorting_OmicronReads {
-//    errorStrategy = 'ignore'
-        tag "Sorting Omicron reads of ${sample} suspect for coinfection"
-        container 'lindenb/jvarkit:1b2aedf24'
+process ampliconsorting {
+        tag "Sorting reads of ${sample} suspect for co-infection"
+        conda 'Katmon/envs/jvarkit.yml'
+//        container 'lindenb/jvarkit:1b2aedf24'
+//        container 'kboltonlab/jvarkit:latest'
 
         publishDir (
         path: "${params.out_dir}/07-AmpliconSorting",
@@ -38,24 +36,33 @@ process ampliconsorting_OmicronReads {
         )
 
         input:
-        tuple path(bam), path(bai)
-        path jvarkit_jar
-        path sort_omicron_reads
+        tuple val (sample), path (pos_mut_lineage_A), path (pos_mut_lineage_B)
+        path (jvarkit_jar)
+        path (sort_reads)
 
         output:
-        tuple val(bam.SimpleName), path ("*.bam"), emit: omicron_bam
+        tuple val(sample), path ("*lineage_A.bam"), emit: sorted_bam_lineage_A // ${sample}_ampsort_lineage_A.bam
+        tuple val(sample), path ("*lineage_B.bam"), emit: sorted_bam_lineage_B // ${sample}_ampsort_lineage_B.bam
 
         script:
         """
-        java -jar ${jvarkit_jar} samjdk -f ${sort_omicron_reads} ${bam} \
-        -o ${bam.SimpleName}_sorted_omicron_reads.bam
+        samjdk -DmutationFilePath=${pos_mut_lineage_A} \
+        -f ${sort_reads} \
+        ${params.in_dir}/${sample}.bam \
+        -o ${sample}_lineage_A.bam
+
+        samjdk -DmutationFilePath=${pos_mut_lineage_B} \
+        -f ${sort_reads} \
+        ${params.in_dir}/${sample}.bam \
+        -o ${sample}_lineage_B.bam
         """
 }
 
-process ampliconsorting_samtools {
-//    errorStrategy = 'ignore'
-        tag "Creating vcf from Delta and Omicron sorted reads"
-        container 'pegi3s/samtools_bcftools:latest'
+process ampliconsorting_consensus {
+        tag "Creating consensus fasta from the sorted reads"
+        conda 'Katmon/envs/consensus.yml'
+//        container 'pegi3s/samtools_bcftools:latest'
+//        container 'bushlab/rbiotools:v1.0'
 
         publishDir (
         path: "${params.out_dir}/07-AmpliconSorting",
@@ -64,123 +71,124 @@ process ampliconsorting_samtools {
         )
 
         input:
-        tuple val(sample), path (delta_bam)
-        tuple val(sample), path (omicron_bam)
+        tuple val(sample), path (lineage_A_bam), path (lineage_B_bam)
         path (reference)
 
         output:
-        path("*.bai")
-        tuple val(sample), path("*delta.vcf"), path("*omicron.vcf"), emit: vcf
+        path ("*.bai")
+        tuple val(sample), path ("*lineage_A.consensus.fasta"), emit: consensus_lineage_A
+        tuple val(sample), path ("*lineage_B.consensus.fasta"), emit: consensus_lineage_B
 
         script:
         """
-        samtools index ${delta_bam}
-        bcftools mpileup -f ${reference} ${delta_bam} > ${sample}_delta.mpileup
-        bcftools call -mv -O b -o ${sample}_delta.bcf ${sample}_delta.mpileup
-        bcftools view -O v -o ${sample}_delta.vcf ${sample}_delta.bcf
+        samtools index ${lineage_A_bam}
+        bcftools mpileup -f ${reference} ${lineage_A_bam} > ${sample}_lineage_A.mpileup
+        bcftools call -mv -O b -o ${sample}_lineage_A.bcf ${sample}_lineage_A.mpileup
+        bcftools view -O v -o ${sample}_lineage_A.vcf ${sample}_lineage_A.bcf
 
-        samtools index ${omicron_bam}
-        bcftools mpileup -f ${reference} ${omicron_bam} > ${sample}_omicron.mpileup
-        bcftools call -mv -O b -o ${sample}_omicron.bcf ${sample}_omicron.mpileup
-        bcftools view -O v -o ${sample}_omicron.vcf ${sample}_omicron.bcf
+        samtools index ${lineage_B_bam}
+        bcftools mpileup -f ${reference} ${lineage_B_bam} > ${sample}_lineage_B.mpileup
+        bcftools call -mv -O b -o ${sample}_lineage_B.bcf ${sample}_lineage_B.mpileup
+        bcftools view -O v -o ${sample}_lineage_B.vcf ${sample}_lineage_B.bcf
+
+        bgzip ${sample}_lineage_A.vcf
+        bgzip ${sample}_lineage_B.vcf
+
+        tabix -p vcf ${sample}_lineage_A.vcf.gz
+        tabix -p vcf ${sample}_lineage_B.vcf.gz
+
+        bcftools consensus -f ${reference} ${sample}_lineage_A.vcf.gz > ${sample}_lineage_A.consensus.fasta
+        bcftools consensus -f ${reference} ${sample}_lineage_B.vcf.gz > ${sample}_lineage_B.consensus.fasta
         """
 }
 
-process ampliconsorting_bgzip {
-//    errorStrategy = 'ignore'
-        container 'vandhanak/bcftools:1.3.1'
-        publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
-        mode: 'copy',
-        overwrite: 'true'
-        )
+process ampliconsorting_renamefasta {
+	container 'nanozoo/seqkit:latest'
+	tag "Renaming consensus fasta sequence from amplicon sorting"
 
-        input:
-        tuple val(sample), path(delta_vcf), path(omicron_vcf)
+	publishDir (
+	path: "${params.out_dir}/07-AmpliconSorting",
+	mode: 'copy',
+	overwrite: 'true',
+	)
 
-        output:
-        tuple val(sample), path("*delta.vcf.gz"), path("*omicron.vcf.gz"), path("*.vcf.gz.tbi"), emit: vcfgz
+	input:
+	tuple val(sample), path(fasta_lineage_A), path(fasta_lineage_B)
 
-        script:
-        """
-        bgzip ${delta_vcf}
-        bgzip ${omicron_vcf}
+	output:
+	tuple val (sample), path ("*ampsort.consensus.fasta"), emit: ampsort_consensus_final
 
-        tabix -p vcf ${delta_vcf}.gz
-        tabix -p vcf ${omicron_vcf}.gz
-        """
+	script:
+	"""
+	seqkit replace -p 'MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome' -r ${sample}_lineage_A ${fasta_lineage_A} > ${sample}_lineage_A_consensus_renamed.fasta
+        seqkit replace -p 'MN908947.3 Severe acute respiratory syndrome coronavirus 2 isolate Wuhan-Hu-1, complete genome' -r ${sample}_lineage_B ${fasta_lineage_B} > ${sample}_lineage_B_consensus_renamed.fasta
+        cat ${sample}_lineage_A_consensus_renamed.fasta ${sample}_lineage_B_consensus_renamed.fasta > ${sample}.ampsort.consensus.fasta
+	"""
 }
 
-process ampliconsorting_fasta {
-//    errorStrategy = 'ignore'
-        tag "Creating consensus from sorted reads"
-        container 'pegi3s/samtools_bcftools:latest'
-
-        publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
-        mode: 'copy',
-        overwrite: 'true'
-        )
-
-        input:
-        tuple val(sample), path(delta_vcfgz), path(omicron_vcfgz), path (vcfgz_tbi)
-        path (reference)
-
-        output:
-        tuple val(sample), path("*delta_consensus.fasta"), path("*omicron_consensus.fasta"), emit: fasta
-
-        script:
-        """
-        bcftools consensus -f ${reference} ${delta_vcfgz} > ${sample}_delta_consensus.fasta
-        bcftools consensus -f ${reference} ${omicron_vcfgz} > ${sample}_omicron_consensus.fasta
-        """
-}
-
-process ampliconsorting_lineageAssignment_Pangolin {
-//    errorStrategy = 'ignore'
+process ampliconsorting_pangolin {
         tag "Lineage assignment of sorted reads using Pangolin tool"
         container 'staphb/pangolin:latest'
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
+        path: "${params.out_dir}/07-AmpliconSorting/Lineage_Assignment",
         mode: 'copy',
         overwrite: 'true'
         )
 
         input:
-        tuple val(sample), path(delta), path(omicron)
+        tuple val (sample), path (fasta) // ampsort_consensus_final
 
         output:
-        path ("*.csv"), emit: pangolineageAssign
+        tuple val (fasta.SimpleName), path ('*.csv'), emit: ampsort_pangolin_csv
 
         script:
         """
-        pangolin ${delta} > ${sample}_delta_ampliconsorted_lineage_assignment.csv
-        pangolin ${omicron} > ${sample}_omicron_ampliconsorted_lineage_assignment.csv
+        pangolin ${fasta} --outfile ${fasta.SimpleName}.pangolin.csv
         """
 }
 
-process ampliconsorting_lineageAssignment_Nextclade {
-//    errorStrategy = 'ignore'
+process ampliconsorting_nextclade {
         tag "Lineage assignment of sorted reads using Nextclade"
         container 'nextstrain/nextclade:latest'
     
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
+        path: "${params.out_dir}/07-AmpliconSorting/Lineage_assignment",
         mode: 'copy',
         overwrite: 'true'
         )
 
         input:
-        tuple val(sample), path(delta), path(omicron)
-        path (SC2_dataset)
+        tuple val (sample), path (fasta) // ampsort_consensus_final
+        path SC2_dataset
 
         output:
-        path ("*.tsv"), emit: nextcladeAssign
+        tuple val (fasta.SimpleName), path ('*.tsv'), emit: ampsort_nextclade_tsv
 
         script:
         """
-        nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_delta_ampliconsorted_nextclade.tsv ${delta}
-        nextclade run --input-dataset ${SC2_dataset} --output-tsv=${sample}_omicron_ampliconsorted_nextclade.tsv ${omicron}
+        nextclade run --input-dataset ${SC2_dataset} --output-tsv=${fasta.SimpleName}.nextclade.tsv ${fasta}
+        """
+}
+
+process ampliconsorting_table {
+        tag "Creating summary table for lineage assignment of sorted reads for ${sample}"
+        container 'ufuomababatunde/bammix:v1.1.0' // to fix
+
+        publishDir (
+        path: "${params.out_dir}/07-AmpliconSorting/Lineage_assignment",
+        mode: 'copy',
+        overwrite: 'true',
+        )
+
+        input:
+        tuple val (sample), path (ampsort_pangolin_csv), path (ampsort_nextclade_tsv)
+
+        output:
+        path ('*.tsv'), emit: ampsort_table
+
+        script:
+        """
+        lineageAssign_table.py ${ampsort_pangolin_csv} ${ampsort_nextclade_tsv} ${sample}
         """
 }

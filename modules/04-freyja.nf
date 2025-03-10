@@ -148,6 +148,12 @@ process freyja_get_lineage_def {
         tag "Getting lineage defining mutations of variants detected by Freyja"
         container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
 
+        publishDir (
+        path: "${params.out_dir}/04-Freyja/Mutations/${sample}",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
         input:
         tuple val (sample), path (lineage_list)
         path annot
@@ -180,6 +186,6 @@ process mutations {
 
         script:
         """
-        process-mutations.py ${lin_mut_tsv} ${sample}
+        process-mutations.py ${params.out_dir}/04-Freyja/Mutations/${sample} ${sample}
         """
 }
