@@ -9,7 +9,7 @@ i=2
 
 while [ ${i} -lt 4 ]; do
         # Get the lineage from line 2 of lineage list
-        lineage=$(sed -n "${i}p" "${list_of_lineage}")
+        lineage=$(sed -n "${i}p" "${list_of_lineage}" | sed 's/-like//')
         echo "${lineage}"
 
         # Ensure that lineage is not empty
