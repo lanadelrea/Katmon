@@ -8,22 +8,21 @@ import pandas as pd
 import subprocess as sp
 import glob
 
-# Set thresholds.
-mix_thresh = 0.8
-depth_thresh = 20
-pos_thresh = 4
-
-# Read input anlyasis csv, set path to artic analysis folder.
+# Read input analysis csv, set path to artic analysis folder.
 #meta_folder = sys.argv[1]
 nextclade_tsv = sys.argv[1]
 analysis_folder = sys.argv[2]
 
-#analysis_folder = '/mnt/c/COINFECTION_PAPER/Samples/Batch28'
-#meta_analysis_csv = pd.read_csv(f'{meta_folder}/nextclade.tsv', sep='\t')
-#meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t')
+# Set threshold
+# make this dynamic! make the user specify the threshold
+#mix_thresh = 0.8 // This is th proportion of the major allele
+mix_thresh = sys.argv[3]
+depth_thresh = 20 # read depth
+pos_thresh = 4 # minimum number of positions with mixtures to flag by bammix
+
 meta_analysis_csv = pd.read_csv(nextclade_tsv, sep='\t', usecols=lambda column: column != 'index')
 
-# Get mutations & N's from 15th & 16th element of each split.
+# Get mutations & N's from the meta analysis csv
 #nextclade_snps = meta_analysis_csv.str[15]  # mutations
 #nextclade_Ns = meta_analysis_csv.str[29]  # N's
 nextclade_snps = meta_analysis_csv["substitutions"]  # mutations

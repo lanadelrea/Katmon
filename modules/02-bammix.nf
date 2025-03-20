@@ -14,8 +14,6 @@ process bammix {
 
         input:
         path (nextclade_tsv)
-        path (bam)
-        path (bam_index)
 
         output:
         path '*.csv'
@@ -24,7 +22,7 @@ process bammix {
 
         script:
         """
-        bammix.py ${nextclade_tsv} ${params.in_dir}
+        bammix.py ${nextclade_tsv} ${params.in_dir} ${params.bammix_threshold}
         """
 }
 
