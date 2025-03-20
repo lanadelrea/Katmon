@@ -88,7 +88,7 @@ workflow {
            mutations(freyja_get_lineage_def.out.lin_mut_tsv)
 
         // Detecting of nucleotide mixtures from all samples
-           bammix( nextclade.out.nextclade_tsv, ch_bam_file, ch_bam_index )
+           bammix( nextclade.out.nextclade_tsv )
            bam_filter( bammix.out.bammixflagged_csv )
            // Count number of samples flagged for nucleotide mixtures
            ch_count = bam_filter.out.flatMap { it.split("\n") }.count() 
@@ -167,6 +167,29 @@ workflow {
                  ampliconsorting_table.out.ampsort_table,
                  params.report_rmd )
 }
+
+if (params.help) {
+         help = """The Katmon pipeline is designed to look for potential Omicron and Delta Co-infection from an NGS run.
+                 
+                  To run the pipeline, do:
+                        nextflow run Katmon --in_dir <input dir> --out_dir <out dir> -profile <docker or conda>
+                   
+                  Required arguments:
+                 
+                       --in_dir             Input directory containing FASTA, FASTQ, BAM, and BAM index files
+                       --out_dir            Output directory for results
+                  
+                  Optional arguments:
+                       --bammix_thresh      Set the bammix threshold for the proportion of the majaor allele
+                                            Default: 0.8
+                       -profile             Can be docker or conda
+                       -resume              To resume the pipeline
+                       -w                   The NextFlow work directory. Delete this directory once the process is finished
+                                            Default: ${workDir} 
+                       --help               To view this help message
+                 """.stripMargin()
+         println(help)
+         exit(0)
 
 // TO-DO:
    // Add branch for when there are no samples flagged by bammix for nucleotide mixtures/clean batch of samples.
