@@ -30,7 +30,7 @@ The currently available parameters are as follows:
         --out_dir            Output directory for results
                   
     Optional arguments:
-        --bammix_thresh      Set the bammix threshold for the proportion of the majaor allele
+        --bammix_thresh      Set the bammix threshold for the proportion of the major allele
                                 Default: 0.8
         -profile             Can be docker or conda
         -resume              To resume the pipeline
@@ -40,4 +40,4 @@ The currently available parameters are as follows:
 ```
 
 ## Results
-Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variant coinfection. The summary report is in the final folder named `08-Report` with the file name as `summary-report.html`. You can view sample analysis and reports [here](https://github.com/lanadelrea/simKatmon/katmon-results).
+Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variants coinfection. The summary report is in the final folder named `08-Report` with file name as `summary-report.html`. You can view sample results [here](https://github.com/lanadelrea/simKatmon/katmon-results).
