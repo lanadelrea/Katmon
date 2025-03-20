@@ -1,4 +1,4 @@
-This pipeline was initially designed to investigate possible Delta and Omicron co-infections after we encountered anoumalous sequences during routine genomic surveillance. More recent developments have expanded its capability in detecting potential co-infections of any SARS-CoV-2 variants – including co-infections of newer variants, and cases involving two lineages under the same clade.
+This pipeline was initially designed to investigate possible Delta and Omicron co-infections after we encountered anomalous sequences during routine genomic surveillance. More recent developments have expanded its capability in detecting potential co-infections of any SARS-CoV-2 variants – including co-infections of newer variants, and cases involving two lineages under the same clade.
 
 ## Prerequisites
 1) This pipeline is written in [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation).
