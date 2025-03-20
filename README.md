@@ -1,8 +1,7 @@
 This pipeline was initially designed to investigate possible Delta and Omicron co-infections after we encountered anomalous sequences during routine genomic surveillance. More recent developments have expanded its capability in detecting potential co-infections of any SARS-CoV-2 variants – including co-infections of newer variants, and cases involving two lineages under the same clade.
 
 ## Prerequisites
-1) [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation).
-2) [Docker](https://docs.docker.com/engine/install/ubuntu/).
+[Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) and [Docker](https://docs.docker.com/engine/install/ubuntu/)
 
 ## How to use Katmon
 1) Download this github repository using `git clone`.
@@ -33,7 +32,8 @@ The currently available parameters are as follows:
                                 Default: 0.8
         -profile             Can be docker or conda
         -resume              To resume the pipeline
-        -w                   The NextFlow work directory. Delete this directory once the process is finished
+        -w                   The NextFlow work directory 
+                             Delete this directory once the process is finished
                                 Default: ${workDir} 
         --help               To view this help message
 ```
