@@ -1,9 +1,8 @@
 This pipeline was initially designed to investigate possible Delta and Omicron co-infections after we encountered anomalous sequences during routine genomic surveillance. More recent developments have expanded its capability in detecting potential co-infections of any SARS-CoV-2 variants – including co-infections of newer variants, and cases involving two lineages under the same clade.
 
 ## Prerequisites
-1) This pipeline is written in [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation).
-
-2) If you want to run through Docker, follow the [Docker installation guide for Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
+1) [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation).
+2) [Docker](https://docs.docker.com/engine/install/ubuntu/).
 
 ## How to use Katmon
 1) Download this github repository using `git clone`.
