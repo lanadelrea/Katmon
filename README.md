@@ -20,7 +20,7 @@ For example:
 nextflow run Katmon --in_dir /Samples --out_dir /Results
 ```
 
-The currently available parameters are as follows:
+Currently available parameters are as follows:
 ```
     Required arguments:
                  
@@ -29,14 +29,14 @@ The currently available parameters are as follows:
                   
     Optional arguments:
         --bammix_thresh      Set the bammix threshold for the proportion of the major allele
-                                Default: 0.8
+                                        Default: 0.8
         -profile             Can be docker or conda
         -resume              To resume the pipeline
         -w                   The NextFlow work directory 
                              Delete this directory once the process is finished
-                                Default: ${workDir} 
+                                        Default: ${workDir} 
         --help               To view this help message
 ```
 
 ## Results
-Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variants coinfection. The summary report is in the final folder named `08-Report` with file name as `summary-report.html`. You can view sample results [here](https://github.com/lanadelrea/simKatmon/katmon-results).
+Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variants co-infection. The summary report is in the final folder named `08-Report` with file name as `summary-report.html`. You can view sample results [here](https://github.com/lanadelrea/simKatmon/katmon-results).
