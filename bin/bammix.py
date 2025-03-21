@@ -14,9 +14,8 @@ nextclade_tsv = sys.argv[1]
 analysis_folder = sys.argv[2]
 
 # Set threshold
-# make this dynamic! make the user specify the threshold
-#mix_thresh = 0.8 // This is th proportion of the major allele
-mix_thresh = sys.argv[3]
+#mix_thresh = 0.8
+mix_thresh = sys.argv[3] # This is the proportion of the major allele
 depth_thresh = 20 # read depth
 pos_thresh = 4 # minimum number of positions with mixtures to flag by bammix
 
@@ -160,7 +159,6 @@ for nam, df in zip(bammix_csv_files, bammix_csv):
     second_max_value = df_prop_below80max_20xdepth.apply(lambda row: row.nlargest(2).iloc[-1], axis=1)
     # Flag only if depth is >20 reads, rows have <0.80 value in df_prop_max, and second max value > 0.20.
     df_flagged = df_prop_below80max_20xdepth[(df_prop_max_bool) & df_depth_20x & (second_max_value > 0.20)]
-    #df_flagged = df_pos # Edited by ALR 1/23/2025 to flag all positions with mixtures, no 20:80 minor:major variant treshold
     if df_flagged.empty:
         pass
     elif df_flagged.shape[0] > pos_thresh:
