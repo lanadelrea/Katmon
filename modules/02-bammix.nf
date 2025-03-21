@@ -22,7 +22,7 @@ process bammix {
 
         script:
         """
-        bammix.py ${nextclade_tsv} ${params.in_dir} ${params.bammix_threshold}
+        bammix.py ${nextclade_tsv} ${params.in_dir} ${params.bammix_thresh}
         """
 }
 
