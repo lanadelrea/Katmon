@@ -43,7 +43,8 @@ Currently available parameters are as follows:
         -w                   The NextFlow work directory 
                              Delete this directory once the process is finished
                                         Default: ${workDir} 
-
+```
+```
     Use `nextflow run Katmon --help` to view the help message
 ```
 
