@@ -17,7 +17,7 @@ nextflow run Katmon --in_dir <input dir> --out_dir <output dir>
 
 For example:
 ```
-nextflow run Katmon --in_dir /Samples --out_dir /Results
+nextflow run Katmon --in_dir /mnt/d/Samples --out_dir /mnt/d/Results
 ```
 
 Currently available parameters are as follows:
