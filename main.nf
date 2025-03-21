@@ -195,7 +195,6 @@ if (params.help) {
    // Add branch for when there are no samples flagged by bammix for nucleotide mixtures/clean batch of samples.
    // Create one env/docker image for the main processes
 
-// written by Adeliza Realingo
 // I know this is a very loooong main.nf
 // I'm doing my best hahahu (╥ᆺ╥；)
 // Will write this in a better way, I promise!
