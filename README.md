@@ -1,5 +1,7 @@
 This pipeline was initially designed to investigate potential Delta and Omicron co-infections after anomalous sequences were detected during routine genomic surveillance. More recent developments have expanded its capability to identify potential co-infections involving any SARS-CoV-2 variants—including newer variants and cases involving two lineages within the same clade.
-
+<p align="center">
+  <img src="https://github.com/lanadelrea/Katmon/blob/main/assets/Katmon.jpg" alt="Katmon" style="width:50%; height:auto; align:center;">
+</p>
 ## Prerequisites
 [Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) and [Docker](https://docs.docker.com/engine/install/ubuntu/)
 
@@ -40,6 +42,3 @@ Currently available parameters are as follows:
 
 ## Results
 Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variants co-infection. The summary report is in the final folder named `08-Report` with file name as `summary-report.html`. You can view sample results [here](https://github.com/lanadelrea/simKatmon/tree/main/katmon-results).
-
-## Flow of the pipeline
-<img src="https://github.com/lanadelrea/Katmon/blob/main/assets/Katmon.jpg" alt="Katmon" style="width:50%; height:auto; align:center;">
