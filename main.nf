@@ -169,10 +169,10 @@ workflow {
 }
 
 if (params.help) {
-         help = """The Katmon pipeline is designed to look for potential Omicron and Delta Co-infection from an NGS run.
+         help = """The Katmon pipeline is designed to look for potential SARS-CoV-2 Co-infection from an NGS run.
                  
                   To run the pipeline, do:
-                        nextflow run Katmon --in_dir <input dir> --out_dir <out dir> -profile <docker or conda>
+                        nextflow run Katmon --in_dir <input dir> --out_dir <out dir>
                    
                   Required arguments:
                  
@@ -180,16 +180,17 @@ if (params.help) {
                        --out_dir            Output directory for results
                   
                   Optional arguments:
-                       --bammix_thresh      Set the bammix threshold for the proportion of the majaor allele
-                                            Default: 0.8
+                       --bammix_thresh      Set the bammix threshold for the proportion of the major allele
+                                                    Default: 0.8
                        -profile             Can be docker or conda
                        -resume              To resume the pipeline
                        -w                   The NextFlow work directory. Delete this directory once the process is finished
-                                            Default: ${workDir} 
+                                                    Default: ${workDir} 
                        --help               To view this help message
                  """.stripMargin()
          println(help)
          exit(0)
+}
 
 // TO-DO:
    // Add branch for when there are no samples flagged by bammix for nucleotide mixtures/clean batch of samples.
