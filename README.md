@@ -2,7 +2,9 @@ This pipeline was initially designed to investigate potential Delta and Omicron 
 
 <br />
 <br />
+
 ![Katmon](https://github.com/lanadelrea/Katmon/blob/main/assets/Katmon.jpg)
+
 <br />
 <br />
 
