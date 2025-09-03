@@ -6,6 +6,9 @@ include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 
+include { virstrain } from './modules/03-virstrain.nf'
+include { virstrain_summary } from './modules/03-virstrain.nf'
+
 include { bammix_01_edited } from './modules/02-bammix.nf'
 include { bammix_02_edited } from './modules/02-bammix.nf'
 include { bammix_03_edited } from './modules/02-bammix.nf'
@@ -13,9 +16,6 @@ include { bammix_03_edited } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { makevcf } from './modules/02-bammix.nf'
 include { bcftools } from './modules/02-bammix.nf'
-
-include { virstrain } from './modules/03-virstrain.nf'
-include { virstrain_summary } from './modules/03-virstrain.nf'
 
 include { freyja } from './modules/04-freyja.nf'
 include { freyja_demix } from './modules/04-freyja.nf'
@@ -80,17 +80,6 @@ workflow {
            virstrain(params.virstrain_database, ch_fastq)
            virstrain_summary(params.virstrain_txt_dir, virstrain.out.txt)
 
-        // Lineage abundance estimation per sample through Freyja using BAM files
-           freyja(params.reference, ch_bam_file)
-           freyja_demix(freyja.out.freyja_variants)
-           freyja_aggregate(freyja_demix.out.tsv_demix.collect())
-           freyja_plot_summarized(freyja_aggregate.out.freyja_aggregated_file)
-           freyja_plot_lineage(freyja_plot_summarized.out.aggregated_tsv)
-           freyja_list_lineages(freyja_demix.out.tsv_demix)
-           freyja_get_lineage_def(freyja_list_lineages.out.freyja_list_lin, params.annot, params.ref)
-
-           mutations(freyja_get_lineage_def.out.lin_mut_tsv)
-
         // Detecting of nucleotide mixtures from all samples
 //           bammix( nextclade.out.nextclade_tsv)
            bammix_01_edited( nextclade.out.nextclade_tsv )
@@ -115,13 +104,40 @@ workflow {
            ch_flagged_bams = ch_samples_bammix_flagged_keyed
                .join(ch_bam_bammix_flagged)
                .map { sample, bam -> tuple(sample, bam) }
-               .view()
 
            makevcf( ch_flagged_bams, params.reference )
            bcftools(makevcf.out.mpileup)
+
+        // Lineage abundance estimation per sample through Freyja using BAM files
+           freyja(params.reference, ch_bam_file)
+           freyja_demix(freyja.out.freyja_variants)
+           freyja_aggregate(freyja_demix.out.tsv_demix.collect())
+           freyja_plot_summarized(freyja_aggregate.out.freyja_aggregated_file)
+           freyja_plot_lineage(freyja_plot_summarized.out.aggregated_tsv)
+
+           // Only for samples flagged by bammix
+           ch_freyja_tsv = freyja_demix.out.tsv_demix.collect()
+           ch_freyja_samples = ch_freyja_tsv.flatten()
+               .map { tsv ->
+                   def sample_name = tsv.baseName
+                   tuple(sample_name, tsv)
+               }
+
+
+           ch_freyja_flagged_tsv = ch_samples_bammix_flagged_keyed
+               .join (ch_freyja_samples)
+               .map { sample, tsv -> tuple (sample, tsv) }
+           
+//           freyja_list_lineages(freyja_demix.out.tsv_demix)
+           freyja_list_lineages(ch_freyja_flagged_tsv)
+           freyja_get_lineage_def(freyja_list_lineages.out.freyja_list_lin, params.annot, params.ref)
+
+           freyja_result = freyja_get_lineage_def.out.lin_mut_tsv
+
+           mutations(freyja_result)
         
            // Alternative Allele Fraction (AAF) plotting
-           bammixplot(bcftools.out.filtered_vcf)
+           bammixplot(bammix_02_edited.out.bammix_csv)
            //Combine the input for aafplots
            mutations.out.processed_mut_tsv
                .join(bcftools.out.filtered_vcf)

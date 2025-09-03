@@ -19,7 +19,7 @@ process get_pos_mut {
 
         script:
         """
-        get_pos_mut.py ${params.out_dir}/04-Freyja/Mutations/${sample} ${sample}
+        get_pos_mut.py ${sample} ${lin_mut_tsv}
         """
 }
 

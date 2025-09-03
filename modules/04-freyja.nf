@@ -133,14 +133,14 @@ process freyja_list_lineages {
         )
 
         input:
-        path (tsv_demix)
+        tuple val(sample), path (tsv_demix) // input tsv file of bammix flagged samples only
 
         output:
-        tuple val(tsv_demix.baseName), path ("*.tsv"), emit: freyja_list_lin
+        tuple val(sample), path ("*.tsv"), emit: freyja_list_lin
 
         script:
         """
-        freyja-list-lineages.py ${tsv_demix.baseName}_lineages.tsv ${tsv_demix}
+        freyja-list-lineages.py ${sample}_lineages.tsv ${tsv_demix}
         """
 }
 
@@ -170,7 +170,7 @@ process freyja_get_lineage_def {
 
 process mutations {
         tag "Creating mutations tsv file"
-        container 'ufuomababatunde/bammix:v1.1.0' // to fix
+        container 'ufuomababatunde/bammix:v1.1.0' // fix how to get the two input tsv files without using the absolute path
 
         publishDir (
         path: "${params.out_dir}/04-Freyja/Mutations",
@@ -186,6 +186,6 @@ process mutations {
 
         script:
         """
-        process-mutations.py ${params.out_dir}/04-Freyja/Mutations/${sample} ${sample}
+        process-mutations.py ${sample} ${lin_mut_tsv}
         """
 }

@@ -10,19 +10,12 @@ import sys
 
 # Input mutations tsv from process freyja_get_lineage_def
 # Input: Folder path containing two files
-folder_path = sys.argv[1]
-
-# List all files in the folder
-files = os.listdir(folder_path)
-
-# Ensure there are exactly two files in the folder
-if len(files) != 2:
-    raise ValueError("The folder must contain exactly two files.")
+sample = sys.argv[1]
 
 # Assign each file to A_lineage_mutations_path and B_lineage_mutations_path
-A_lineage_mutations_path = os.path.join(folder_path, files[0])
-B_lineage_mutations_path = os.path.join(folder_path, files[1])
-sample = sys.argv[2]
+A_lineage_mutations_path = sys.argv[2]
+B_lineage_mutations_path = sys.argv[3]
+
 
 # Get value for first (A) and second (B) lineage, then use the value as column name
 A_lineage = (os.path.basename(A_lineage_mutations_path).split('_')[-1]).rsplit('.', 1)[0]

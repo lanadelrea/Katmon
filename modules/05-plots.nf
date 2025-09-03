@@ -12,14 +12,14 @@ process bammixplot {
     )
 
     input:
-    tuple val(sample), path(vcf)
+    tuple val(sample), path(csv)
 
     output:
     path ("*.png"), emit: bammix_plot
 
     script:
     """
-    bammix_plot.py ${params.out_dir}/02-Bammix/${sample}_position_base_counts.csv \
+    bammix_plot.py ${csv} \
     ${sample}_bammix_plot.png \
     ${sample}
     """
