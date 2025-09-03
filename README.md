@@ -1,4 +1,4 @@
-This pipeline was initially designed to investigate potential Delta and Omicron co-infections after anomalous sequences were detected during routine genomic surveillance. More recent developments have expanded its capability to identify potential co-infections involving any SARS-CoV-2 variants—including newer variants and cases involving two lineages within the same clade.
+This pipeline was initially designed to investigate potential Delta and Omicron co-infections after anomalous sequences were detected during routine genomic surveillance. More recent developments have expanded its capability to identify potential co-infections involving any SARS-CoV-2 variants including newer variants and cases involving two lineages within the same clade.
 
 <br />
 <br />
