@@ -6,7 +6,10 @@ include { pangolin } from './modules/01-lineageAssignment.nf'
 include { nextclade } from './modules/01-lineageAssignment.nf'
 include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 
-include { bammix } from './modules/02-bammix.nf'
+include { bammix_01_edited } from './modules/02-bammix.nf'
+include { bammix_02_edited } from './modules/02-bammix.nf'
+include { bammix_03_edited } from './modules/02-bammix.nf'
+//include { bammix } from './modules/02-bammix.nf'
 include { bam_filter } from './modules/02-bammix.nf'
 include { makevcf } from './modules/02-bammix.nf'
 include { bcftools } from './modules/02-bammix.nf'
@@ -64,6 +67,7 @@ workflow {
 
         // Input bam, fastq, and fasta files
         ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
+        ch_bam_index.map { baifilePath -> tuple(baifilePath)}
         ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
         ch_fastq.map { fastqPath -> tuple(fastqPath) }
 
@@ -88,15 +92,32 @@ workflow {
            mutations(freyja_get_lineage_def.out.lin_mut_tsv)
 
         // Detecting of nucleotide mixtures from all samples
-           bammix( nextclade.out.nextclade_tsv )
-           bam_filter( bammix.out.bammixflagged_csv )
-           // Count number of samples flagged for nucleotide mixtures
-           ch_count = bam_filter.out.flatMap { it.split("\n") }.count() 
+//           bammix( nextclade.out.nextclade_tsv)
+           bammix_01_edited( nextclade.out.nextclade_tsv )
+           snps = (bammix_01_edited.out).toList()
+           bammix_02_edited( ch_bam_file, ch_bam_index, snps)
+           bammix_03_edited( bammix_02_edited.out.bammix_csv )
+           bam_filter( bammix_03_edited.out.bammix_flags_csv.collect() )
 
-        // IF ch_count > 0 ; There are samples flagged by bammix
-          // Filter high quality reads from samples with nucleotide mixture and make VCF
-           ch_bammix_flagged = bam_filter.out.flatMap{ it.split("\n") }
-           makevcf( ch_bammix_flagged, params.reference )
+        // Filter high quality reads from samples with nucleotide mixture and make VCF
+           ch_samples_bammix_flagged = bam_filter.out.samples_txt
+               .splitText()
+               .map { it.trim() }
+
+           ch_bam_bammix_flagged = ch_bam_file
+               .map { bam -> 
+                   def sample_name = bam.baseName 
+                   tuple(sample_name, bam)
+                }
+
+           ch_samples_bammix_flagged_keyed = ch_samples_bammix_flagged.map { s -> tuple(s) }
+
+           ch_flagged_bams = ch_samples_bammix_flagged_keyed
+               .join(ch_bam_bammix_flagged)
+               .map { sample, bam -> tuple(sample, bam) }
+               .view()
+
+           makevcf( ch_flagged_bams, params.reference )
            bcftools(makevcf.out.mpileup)
         
            // Alternative Allele Fraction (AAF) plotting
@@ -106,7 +127,6 @@ workflow {
                .join(bcftools.out.filtered_vcf)
                .set { aafplot_inputs }
            aafplots(params.primer_scheme, aafplot_inputs)
-//           aafplot_amplicons(params.primer_scheme, aafplot_mutations.out.aafplot_mut_tsv, mutations.out.processed_mut_tsv)
 
            // Amplicon sorting
            bcftools.out.filtered_vcf
@@ -128,7 +148,6 @@ workflow {
                .join(ampliconsorting_consensus.out.consensus_lineage_B)
                .set { ampsort_consensus }
            ampliconsorting_renamefasta(ampsort_consensus)
-
            ampliconsorting_renamefasta.out.ampsort_consensus_final
                .collectFile(name: 'all_sequences_ampsort.fasta', newLine: true )
                .set { ch_ampsort_cat }
@@ -168,7 +187,7 @@ workflow {
                  params.report_rmd )
 }
 
-if (params.help) {
+if ( params.help ) {
          help = """The Katmon pipeline is designed to look for potential SARS-CoV-2 Co-infection from an NGS run.
                  
                   To run the pipeline, do:
