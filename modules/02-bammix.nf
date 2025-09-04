@@ -1,10 +1,8 @@
 #!/usr/bin nextflow
 
 process bammix {
-        tag "Looking for positions with nucleotide mixtures"
+        tag "This is the original bammix process, but has been split into 3 processes for better flow"
         container 'ufuomababatunde/bammix:v1.1.0'
-//        conda '/home/bdmu/miniforge3/envs/bammix'
-
         cpus 1
 
         containerOptions = "-v ${params.in_dir}:/data"
@@ -29,10 +27,9 @@ process bammix {
         """
 }
 
-process bammix_01_edited {
-        tag "Looking for positions with nucleotide mixtures"
+process bammix_positions {
+        tag "Getting relevant positions"
         container 'ufuomababatunde/bammix:v1.1.0'
-//        conda '/home/bdmu/miniforge3/envs/bammix'
         cpus 1
 
         publishDir (
@@ -54,7 +51,8 @@ process bammix_01_edited {
         """
 }
 
-process bammix_02_edited {
+process bammix_process {
+        tag "Looking for positions with nucleotide mixtures"
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
@@ -80,7 +78,8 @@ process bammix_02_edited {
         """
 }
 
-process bammix_03_edited {
+process bammix_flagged_positions {
+        tag "Getting flagged positions with nucleotide mixtures per sample"
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
@@ -101,7 +100,7 @@ process bammix_03_edited {
         """
 }
 
-process bam_filter {
+process bammix_flagged_samples {
         tag "Determining samples flagged for having nucleotide mixtures"
 
         publishDir (

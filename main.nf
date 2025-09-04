@@ -9,11 +9,11 @@ include { lineage_assignment } from './modules/01-lineageAssignment.nf'
 include { virstrain } from './modules/03-virstrain.nf'
 include { virstrain_summary } from './modules/03-virstrain.nf'
 
-include { bammix_01_edited } from './modules/02-bammix.nf'
-include { bammix_02_edited } from './modules/02-bammix.nf'
-include { bammix_03_edited } from './modules/02-bammix.nf'
 //include { bammix } from './modules/02-bammix.nf'
-include { bam_filter } from './modules/02-bammix.nf'
+include { bammix_positions } from './modules/02-bammix.nf'
+include { bammix_process } from './modules/02-bammix.nf'
+include { bammix_flagged_positions } from './modules/02-bammix.nf'
+include { bammix_flagged_samples } from './modules/02-bammix.nf'
 include { makevcf } from './modules/02-bammix.nf'
 include { bcftools } from './modules/02-bammix.nf'
 
@@ -82,14 +82,14 @@ workflow {
 
         // Detecting of nucleotide mixtures from all samples
 //           bammix( nextclade.out.nextclade_tsv)
-           bammix_01_edited( nextclade.out.nextclade_tsv )
-           snps = (bammix_01_edited.out).toList()
-           bammix_02_edited( ch_bam_file, ch_bam_index, snps)
-           bammix_03_edited( bammix_02_edited.out.bammix_csv )
-           bam_filter( bammix_03_edited.out.bammix_flags_csv.collect() )
+           bammix_positions( nextclade.out.nextclade_tsv )
+           snps = (bammix_positions.out).toList()
+           bammix_process( ch_bam_file, ch_bam_index, snps)
+           bammix_flagged_positions( bammix_process.out.bammix_csv )
+           bammix_flagged_samples( bammix_flagged_positions.out.bammix_flags_csv.collect() )
 
         // Filter high quality reads from samples with nucleotide mixture and make VCF
-           ch_samples_bammix_flagged = bam_filter.out.samples_txt
+           ch_samples_bammix_flagged = bammix_flagged_samples.out.samples_txt
                .splitText()
                .map { it.trim() }
 
@@ -137,7 +137,7 @@ workflow {
            mutations(freyja_result)
         
            // Alternative Allele Fraction (AAF) plotting
-           bammixplot(bammix_02_edited.out.bammix_csv)
+           bammixplot(bammix_process.out.bammix_csv)
            //Combine the input for aafplots
            mutations.out.processed_mut_tsv
                .join(bcftools.out.filtered_vcf)
