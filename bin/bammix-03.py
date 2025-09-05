@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # by ALR/lanadelrea/03September2025
+# Get the samples with bammix flags
 
 import sys
 import csv

@@ -47,7 +47,7 @@ process bammix_positions {
 
         script:
         """
-        bammix-01-edited.py ${nextclade_tsv}
+        bammix-01.py ${nextclade_tsv}
         """
 }
 
@@ -96,7 +96,7 @@ process bammix_flagged_positions {
 
         script:
         """
-        bammix-02-edited.py ${sample} ${bammix_csv} ${params.bammix_thresh}
+        bammix-02.py ${sample} ${bammix_csv} ${params.bammix_thresh}
         """
 }
 
@@ -117,7 +117,7 @@ process bammix_flagged_samples {
 
         script:
         """
-        get-bammix-flagged-samples.py ${bammixflagged_csv}
+        bammix-03.py ${bammixflagged_csv}
         """
 }
 
