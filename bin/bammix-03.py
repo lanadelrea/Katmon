@@ -24,8 +24,11 @@ for csv_file in csv_files:
 
         sample_name = (os.path.basename(csv_file)).split("_")[0]
 
-        # Check in 'positions' column has values, then add to list
-        if df['positions'].notnull().any():
+        # Keep only non-null value in df['positions']
+        df_positions = df["positions"].dropna()
+
+        # Check if there are more than 4 rows/positions flagged with mixture
+        if len(df_positions) > 4:
             sample_names.append(sample_name)
     except Exception as e:
         print(f"Error processing {csv_file}: {e}")

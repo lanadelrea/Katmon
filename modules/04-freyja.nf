@@ -170,7 +170,7 @@ process freyja_get_lineage_def {
 
 process mutations {
         tag "Creating mutations tsv file"
-        container 'ufuomababatunde/bammix:v1.1.0' // fix how to get the two input tsv files without using the absolute path
+        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.out_dir}/04-Freyja/Mutations",

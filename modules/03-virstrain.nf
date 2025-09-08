@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 process virstrain {
-        tag "Identifying lineage assignment for ${fastqPath.BaseName} using VirStrain"
+        tag "Identifying lineage assignment for ${sample} using VirStrain"
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
@@ -12,7 +12,7 @@ process virstrain {
 
         input:
         path(virstrain_database)
-        path(fastqPath)
+        tuple val(sample), path(fastq)
 
         output:
         path('*.txt'), emit: txt
@@ -20,10 +20,10 @@ process virstrain {
         script:
         """
         virstrain \
-        -i ${fastqPath} \
+        -i ${fastq} \
         -d ${virstrain_database}
 
-        mv ./VirStrain_Out/VirStrain_report.txt ${fastqPath.BaseName}.txt
+        mv ./VirStrain_Out/VirStrain_report.txt ${sample}.txt
         """
 }
 
