@@ -58,7 +58,7 @@ process ampliconsorting {
         """
 }
 
-process ampliconsorting_consensus {
+process consensus {
         tag "Creating consensus fasta from the sorted reads"
         conda 'Katmon/envs/consensus.yml'
 //        container 'pegi3s/samtools_bcftools:latest'
@@ -102,7 +102,7 @@ process ampliconsorting_consensus {
         """
 }
 
-process ampliconsorting_renamefasta {
+process renamefasta {
 	container 'nanozoo/seqkit:latest'
 	tag "Renaming consensus fasta sequence from amplicon sorting"
 
@@ -116,7 +116,7 @@ process ampliconsorting_renamefasta {
 	tuple val(sample), path(fasta_lineage_A), path(fasta_lineage_B)
 
 	output:
-	path ("*ampsort.consensus.fasta"), emit: ampsort_consensus_final
+	path ("*ampsort.consensus.fasta"), emit: fasta
 
 	script:
 	"""
@@ -126,7 +126,7 @@ process ampliconsorting_renamefasta {
 	"""
 }
 
-process ampliconsorting_pangolin {
+process pangolin {
         tag "Lineage assignment of sorted reads using Pangolin tool"
         container 'staphb/pangolin:latest'
 
@@ -140,7 +140,7 @@ process ampliconsorting_pangolin {
         path (fasta) // ampsort_consensus_final
 
         output:
-        path ('*.csv'), emit: ampsort_pangolin_csv
+        path ('*.csv'), emit: csv
 
         script:
         """
@@ -148,7 +148,7 @@ process ampliconsorting_pangolin {
         """
 }
 
-process ampliconsorting_nextclade {
+process nextclade {
         tag "Lineage assignment of sorted reads using Nextclade"
         container 'nextstrain/nextclade:latest'
     
@@ -163,7 +163,7 @@ process ampliconsorting_nextclade {
         path SC2_dataset
 
         output:
-        path ('*.tsv'), emit: ampsort_nextclade_tsv
+        path ('*.tsv'), emit: tsv
 
         script:
         """
@@ -171,7 +171,7 @@ process ampliconsorting_nextclade {
         """
 }
 
-process ampliconsorting_table {
+process summary {
         tag "Creating summary table for lineage assignment of sorted reads for ${sample}"
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
@@ -186,7 +186,7 @@ process ampliconsorting_table {
         path (ampsort_nextclade_tsv)
 
         output:
-        path ('*.tsv'), emit: ampsort_table
+        path ('*.tsv'), emit: table
 
         script:
         """

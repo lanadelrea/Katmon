@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-process report {
+process generation {
 //    errorStrategy = 'ignore'
     tag "Generating Summary Report"
     container 'ufuomababatunde/rmarkdown:1.1.0'

@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 
-process virstrain {
+process virstrain_process {
         tag "Identifying lineage assignment for ${sample} using VirStrain"
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain/VirStrain_txt",
+        path: "${params.out_dir}/03-VirStrain/${sample}",
         mode: 'copy',
         overwrite: 'true'
         )    
@@ -15,20 +15,42 @@ process virstrain {
         tuple val(sample), path(fastq)
 
         output:
-        path('*.txt'), emit: txt
+        tuple val(sample), path ("VirStrain_Out/*.txt"), emit: txt
+        path ("VirStrain_Out/*.html")
+        path ("VirStrain_Out/*.csv")
 
         script:
         """
         virstrain \
         -i ${fastq} \
         -d ${virstrain_database}
-
-        mv ./VirStrain_Out/VirStrain_report.txt ${sample}.txt
         """
 }
 
-process virstrain_summary {
-        tag "Summarizing VirStrain results"
+process wrangling {
+        tag "Data wrangling of information from VirStrain output text"
+        container 'ufuomababatunde/bammix:v1.1.0'
+
+        publishDir (
+        path: "${params.out_dir}/03-VirStrain/${sample}",
+        mode: 'copy',
+        overwrite: 'true'
+        )
+
+        input:
+        tuple val(sample), path(virstrain_txt)
+
+        output:
+        path ('*.tsv'), emit: tsv
+
+        script:
+        """
+        virstrain-wrangling-01.py ${sample} ${virstrain_txt}
+        """
+}
+
+process summary {
+        tag "Creating a summary table of VirStrain results"
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
@@ -38,14 +60,13 @@ process virstrain_summary {
         )
 
         input:
-        path (virstrain_txt_dir)
-        path (txt_files)
-
+        path (tsv)
+        
         output:
-        path ('virstrainSummary.tsv'), emit: tsv
+        path ('*.tsv'), emit: tsv
 
         script:
         """
-        virstrain_table.py ${virstrain_txt_dir}
+        virstrain-summary-02.py ${tsv}
         """
 }

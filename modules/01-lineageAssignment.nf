@@ -47,7 +47,7 @@ process nextclade {
         """
 }
 
-process lineage_assignment {
+process summary {
         tag "Creating summary table for lineage assignment"
         container 'ufuomababatunde/bammix:v1.1.0'
 
@@ -62,7 +62,7 @@ process lineage_assignment {
         path nextclade_tsv
 
         output:
-        path ('*.tsv'), emit: lineageAssign_tsv
+        path ('*.tsv'), emit: tsv
 
         script:
         """

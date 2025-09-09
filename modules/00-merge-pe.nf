@@ -8,7 +8,7 @@ process merge{
     tuple val(sample), path(forward), path(reverse)
 
     output:
-    tuple val(sample), path("${sample}.merged.fastq.gz"), emit: merged_fastq
+    tuple val(sample), path("${sample}.merged.fastq.gz"), emit: fastq
 
     script:
     """

@@ -27,7 +27,7 @@ process bammix {
         """
 }
 
-process bammix_positions {
+process positions {
         tag "Getting relevant positions"
         container 'ufuomababatunde/bammix:v1.1.0'
         cpus 1
@@ -78,7 +78,7 @@ process bammix_process {
         """
 }
 
-process bammix_flagged_positions {
+process flagged_positions {
         tag "Getting flagged positions with nucleotide mixtures per sample"
         container 'ufuomababatunde/bammix:v1.1.0'
 
@@ -100,7 +100,7 @@ process bammix_flagged_positions {
         """
 }
 
-process bammix_flagged_samples {
+process flagged_samples {
         tag "Determining samples flagged for having nucleotide mixtures"
 
         publishDir (

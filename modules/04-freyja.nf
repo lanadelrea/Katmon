@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-process freyja {
+process variants {
         tag "Identifying relative lineage abundances of samples to see potential coinfection"
         container 'staphb/freyja:latest'
 
@@ -26,8 +26,8 @@ process freyja {
         """
 }
 
-process freyja_demix {
-        tag "Identifying relative lineage abundances of sample ${sample} from potential mixed SARS-CoV-2 samples"
+process demix {
+        tag "Identifying relative lineage abundances of sample ${sample}"
         container 'staphb/freyja:latest'
 
         publishDir (
@@ -49,7 +49,7 @@ process freyja_demix {
         """
 }
 
-process freyja_aggregate {
+process aggregate {
         tag "Aggregating Freyja demix results"
         container 'staphb/freyja:latest'
 
@@ -73,7 +73,7 @@ process freyja_aggregate {
         """
 }
 
-process freyja_plot_summarized {
+process plot_summarized {
         tag "Plotting relative lineage abundances of samples"
         container 'staphb/freyja:latest'
 
@@ -88,7 +88,7 @@ process freyja_plot_summarized {
 
         output:
         path ("*.tsv"), emit: aggregated_tsv
-        path ("*.png"), emit: freyja_plot_sum
+        path ("*.png"), emit: png
 
         script:
         """
@@ -99,7 +99,7 @@ process freyja_plot_summarized {
 
 }
 
-process freyja_plot_lineage {
+process plot_lineage {
         tag "Plotting specific lineage abundances of samples"
         container 'staphb/freyja:latest'
 
@@ -113,7 +113,7 @@ process freyja_plot_lineage {
         path aggregated_tsv
 
         output:
-        path ("*.png"), emit: freyja_plot_lin
+        path ("*.png"), emit: png
 
         script:
         """
@@ -122,7 +122,7 @@ process freyja_plot_lineage {
 
 }
 
-process freyja_list_lineages {
+process list_lineages {
         tag "Getting lineage defining mutations of variants detected by Freyja"
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
@@ -144,9 +144,10 @@ process freyja_list_lineages {
         """
 }
 
-process freyja_get_lineage_def {
+process get_lineage_def {
         tag "Getting lineage defining mutations of variants detected by Freyja"
-        container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
+//        container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
+        container 'staphb/freyja:latest'
 
         publishDir (
         path: "${params.out_dir}/04-Freyja/Mutations/${sample}",

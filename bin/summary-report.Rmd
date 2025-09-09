@@ -66,8 +66,8 @@ library(htmltools)
 
 ### VirStrain
  
- Suspected coinfection samples were analyzed using the VirStrain tool against a database of representative SARS-CoV-2 sequences. The results are summarized in the table below, where the ‘Most Possible Strain’ represents the lineage with the highest Vscore in the initial iteration. 
- Meanwhile, the ‘Other Possible Strain’ is identified by the highest Vscore in subsequent iterations and is considered highly supported if the ‘Valid Map Rate’ is 10 or more mutations, as outlined by Liao et al. (2022).
+ Samples were analyzed using the VirStrain tool against a database of representative SARS-CoV-2 sequences. The results are summarized in the table below, where the ‘Most Possible Strain’ represents the lineage with the highest Vscore in the initial iteration. 
+ Meanwhile, the ‘Other Possible Strain’ is identified by the highest Vscore in subsequent iterations.
   ```{r, echo=FALSE}
   colnames(params$virstrain) <- params$virstrain[1, ]
   params$virstrain <- params$virstrain[-1, ]
@@ -76,7 +76,7 @@ library(htmltools)
 
 
 ## <b> Nucleotide mixture per position </b>
- The figure below shows the Bammix plot for nucleotide mixtures of the sample/s with potential SARS-CoV-2 variants coinfection. Multiple sites containing heterogenous bases crossing the threshold of >20% mixture will be apparent. 
+ The figure below shows the bammix plot for nucleotide mixtures of the sample/s with potential SARS-CoV-2 variants coinfection. Multiple sites containing heterogenous bases crossing the set threshold (default >20% minor alelle) mixture will be apparent. 
  ```{r, echo=FALSE, results='asis'}
         if (length(params$bammix_plots) > 0) {
 
@@ -111,7 +111,7 @@ library(htmltools)
 ## <b> Alternative allele fraction </b>
 
 ### For each lineage-defining mutations
- The alternative allele fraction (AAF) determines the number of reads supporting each variant detected in the sample/s. The AAF per mutation of sample/s flagged for SARS-CoV-2 coinfection are shown in the figure. Delta, Omicron, and shared mutations are represented by blue, pink, and purple, respectively. 
+ The alternative allele fraction (AAF) determines the number of reads supporting each variant detected in the sample/s. The AAF per mutation of sample/s flagged for SARS-CoV-2 coinfection are shown in the figure. 
  ```{r, echo=FALSE, results='asis'}
         if (length(params$aafplots_mut) > 0) {
 
@@ -143,7 +143,7 @@ library(htmltools)
  ```
 
 ### For each amplicon
-  The AAF for each amplicon is plotted by getting the average allele fraction for Delta and Omicron defining mutation within the range of that amplicon.
+  The AAF for each amplicon is plotted by getting the average allele fraction for each lineage within the range of that amplicon.
  ```{r, echo=FALSE, results='asis'}
         if (length(params$aafplots_amp) > 0) {
 

@@ -8,7 +8,11 @@ import sys
 from pathlib import Path
 
 # Directory containing the text files
-directory_path = sys.argv[1]
+#directory_path = sys.argv[1]
+
+# Input sample name and txt files
+sample_name = sys.argv[1]
+virstrain_txt = sys.argv[2]
 
 # Regular expression pattern to match the first two strings separated by "_"
 pattern = r'>([^_]+)_([^_]+)'
@@ -105,18 +109,20 @@ def process_file(file_path):
     other_possible_strains_combined = "; ".join(other_possible_strains_extracted)
 
     # Add the data to the list
-    file_name = os.path.basename(file_path)
-    #sample_name = file_name.split('_')[0]
-    sample_name = Path(file_name).stem
+#    file_name = os.path.basename(file_path)
+#    #sample_name = file_name.split('_')[0]
+#    sample_name = Path(file_name).stem
     data.append([sample_name, most_possible_strains_combined, other_possible_strains_combined, valid_map_rate])
 
 # Process each file in the directory
-for filename in os.listdir(directory_path):
-    if filename.endswith(".txt"):  # Assuming the files are .txt files
-        file_path = os.path.join(directory_path, filename)
-        process_file(file_path)
+#for filename in os.listdir(directory_path):
+#    if filename.endswith(".txt"):
+#        file_path = os.path.join(directory_path, filename)
+#        process_file(file_path)
+
+process_file(virstrain_txt)
 
 # Create a DataFrame from the data
 df = pd.DataFrame(data, columns=["Sample", "Most Possible Strain", "Other Possible Strain", "Valid Map Rate"])
 
-df.to_csv("virstrainSummary.tsv", sep='\t', index=False)
+df.to_csv(f"{sample_name}_virstrain.tsv", sep='\t', index=False)
