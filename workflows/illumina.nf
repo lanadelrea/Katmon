@@ -42,7 +42,7 @@ workflow illumina {
             ch_bam_file, ch_bam_index )
         virstrain ( merge.out.fastq )
         freyja ( 
-            ch_bam_file, 
+            ch_bam_file,
             bammix.out.flagged )
         amplicon_sorting ( 
             bammix.out.filtered_vcf, 

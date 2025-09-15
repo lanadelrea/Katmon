@@ -25,9 +25,7 @@ process get_pos_mut {
 
 process ampliconsorting {
         tag "Sorting reads of ${sample} suspect for co-infection"
-        conda 'Katmon/envs/jvarkit.yml'
-//        container 'lindenb/jvarkit:1b2aedf24'
-//        container 'kboltonlab/jvarkit:latest'
+        container 'maelanade/jvarkit:1.0'
 
         publishDir (
         path: "${params.out_dir}/07-AmpliconSorting",
@@ -60,9 +58,7 @@ process ampliconsorting {
 
 process consensus {
         tag "Creating consensus fasta from the sorted reads"
-        conda 'Katmon/envs/consensus.yml'
-//        container 'pegi3s/samtools_bcftools:latest'
-//        container 'bushlab/rbiotools:v1.0'
+        container 'maelanade/consensus:1.0'
 
         publishDir (
         path: "${params.out_dir}/07-AmpliconSorting",

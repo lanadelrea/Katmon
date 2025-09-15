@@ -15,7 +15,6 @@ workflow amplicon_sorting {
        filtered_vcf
        freyja_result
 
-
    main:
        // Amplicon sorting
        filtered_vcf
