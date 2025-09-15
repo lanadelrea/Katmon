@@ -146,7 +146,6 @@ process list_lineages {
 
 process get_lineage_def {
         tag "Getting lineage defining mutations of variants detected by Freyja"
-//        container 'staphb/freyja:1.5.2-03_02_2025-02-03-2025-03-03'
         container 'staphb/freyja:latest'
 
         publishDir (

@@ -102,6 +102,7 @@ process flagged_positions {
 
 process flagged_samples {
         tag "Determining samples flagged for having nucleotide mixtures"
+        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.out_dir}/02-Bammix",

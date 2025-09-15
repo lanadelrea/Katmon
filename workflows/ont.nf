@@ -47,7 +47,8 @@ workflow ont {
             ch_bam_file, 
             bammix.out.flagged )
         amplicon_sorting ( 
-            bammix.out.filtered_vcf, 
+            bammix.out.filtered_vcf,
+            bammix.out.flagged_bams,
             freyja.out.freyja_result )
         plots ( 
             bammix.out.bammix_csv, 

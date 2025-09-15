@@ -40,9 +40,8 @@ process generation {
     """
 }
 
-process report_no_flag {
-//    errorStrategy = 'ignore'
-    tag "Generating Summary Report"
+process report_no_flag { // In progress
+    tag "Generating Summary Report" 
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(

@@ -51,4 +51,3 @@ dependencies:
   - tk=8.6.13=noxft_h4845f30_101
   - tzdata=2025a=h78e105d_0
   - zstd=1.5.7=hb8e6e7a_1
-prefix: /home/bdmu/miniforge3/envs/consensus
