@@ -46,7 +46,7 @@ workflow illumina {
             bammix.out.flagged )
         amplicon_sorting ( 
             bammix.out.filtered_vcf,
-            bammix.out.flagged.view(), 
+            bammix.out.flagged_bams.view(),
             freyja.out.freyja_result )
         plots ( 
             bammix.out.bammix_csv, 
