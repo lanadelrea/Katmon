@@ -47,4 +47,5 @@ workflow bammix {
         flagged = ch_samples_bammix_flagged_keyed
         bammix_csv = bammix_process.out.bammix_csv
         filtered_vcf = bcftools.out.filtered_vcf
+        flagged_bams = ch_flagged_bams
 }

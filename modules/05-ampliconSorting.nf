@@ -35,6 +35,7 @@ process ampliconsorting {
 
         input:
         tuple val (sample), path (pos_mut_lineage_A), path (pos_mut_lineage_B)
+        tuple val (sample), path (bam)
         path (jvarkit_jar)
         path (sort_reads)
 
@@ -46,12 +47,12 @@ process ampliconsorting {
         """
         samjdk -DmutationFilePath=${pos_mut_lineage_A} \
         -f ${sort_reads} \
-        ${params.in_dir}/${sample}.bam \
+        ${bam} \
         -o ${sample}_lineage_A.bam
 
         samjdk -DmutationFilePath=${pos_mut_lineage_B} \
         -f ${sort_reads} \
-        ${params.in_dir}/${sample}.bam \
+        ${bam} \
         -o ${sample}_lineage_B.bam
         """
 }

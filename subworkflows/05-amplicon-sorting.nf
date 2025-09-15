@@ -13,7 +13,9 @@ include { summary } from '../modules/05-ampliconSorting.nf'
 workflow amplicon_sorting {
    take:
        filtered_vcf
+       flagged_bams
        freyja_result
+
 
    main:
        // Amplicon sorting
@@ -25,7 +27,7 @@ workflow amplicon_sorting {
        get_pos_mut.out.pos_mut_lineage_A
           .join(get_pos_mut.out.pos_mut_lineage_B)
           .set { pos_mut }
-       ampliconsorting(pos_mut, params.jvarkit_jar, params.sort_reads)
+       ampliconsorting(pos_mut, flagged_bams, params.jvarkit_jar, params.sort_reads)
 
        ampliconsorting.out.sorted_bam_lineage_A
           .join(ampliconsorting.out.sorted_bam_lineage_B)
