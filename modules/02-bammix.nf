@@ -92,7 +92,7 @@ process flagged_positions {
         tuple val (sample), path (bammix_csv)
 
         output:
-        path ('*_bammix_flags.csv'), emit: bammix_flags_csv
+        path ('*.csv'), emit: bammix_flags_csv
 
         script:
         """

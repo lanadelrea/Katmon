@@ -42,4 +42,4 @@ bammix_bad_mixtures_csv = pd.DataFrame()
 bammix_bad_mixtures_csv['barcode'] = sample_name
 bammix_bad_mixtures_csv['positions'] = bad_mixtures_positions
 bammix_bad_mixtures_csv['base_prop'] = bad_mixtures_base_prop
-bammix_bad_mixtures_csv.to_csv(f'{sample_name}_bammix_flags.csv', index=False)
+bammix_bad_mixtures_csv.to_csv(f'{sample_name}.csv', index=False)

@@ -22,7 +22,8 @@ for csv_file in csv_files:
             print(f"Skipping {csv_files} (no 'positions' column)")
             continue
 
-        sample_name = (os.path.basename(csv_file)).split("_")[0]
+        #sample_name = (os.path.basename(csv_file)).split("_")[0]
+        sample_name = os.path.splitext(os.path.basename(csv_file))[0]
 
         # Keep only non-null value in df['positions']
         df_positions = df["positions"].dropna()
