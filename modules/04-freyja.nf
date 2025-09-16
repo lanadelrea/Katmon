@@ -164,7 +164,7 @@ process get_lineage_def {
 
         script:
         """
-        freyja-get-mutations.sh ${lineage_list} ${sample} ${annot} ${ref}
+        freyja-get-mutations-ver2.sh ${lineage_list} ${sample} ${annot} ${ref}
         """
 }
 
