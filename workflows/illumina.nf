@@ -39,7 +39,8 @@ workflow illumina {
         lineage_assignment ( ch_cat_fasta )
         bammix ( 
             lineage_assignment.out.nextclade_tsv, 
-            ch_bam_file, ch_bam_index )
+            ch_bam_file, 
+            ch_bam_index )
         virstrain ( merge.out.fastq )
         freyja ( 
             ch_bam_file,
