@@ -5,10 +5,10 @@ process bammix {
         container 'ufuomababatunde/bammix:v1.1.0'
         cpus 1
 
-        containerOptions = "-v ${params.in_dir}:/data"
+        containerOptions = "-v ${params.indir}:/data"
 
         publishDir (
-        path: "${params.out_dir}/02-Bammix",
+        path: "${params.outdir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -23,7 +23,7 @@ process bammix {
 
         script:
         """
-        bammix.py ${nextclade_tsv} ${params.in_dir} ${params.bammix_thresh}
+        bammix.py ${nextclade_tsv} ${params.indir} ${params.bammix_thresh}
         """
 }
 
@@ -33,7 +33,7 @@ process positions {
         cpus 1
 
         publishDir (
-        path: "${params.out_dir}/02-Bammix",
+        path: "${params.outdir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -56,7 +56,7 @@ process bammix_process {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/02-Bammix",
+        path: "${params.outdir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -83,7 +83,7 @@ process flagged_positions {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/02-Bammix",
+        path: "${params.outdir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -105,7 +105,7 @@ process flagged_samples {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/02-Bammix",
+        path: "${params.outdir}/02-Bammix",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -127,7 +127,7 @@ process makevcf {
         container 'staphb/bcftools:latest'
 
         publishDir(
-        path: "${params.out_dir}/05-makeVCF",
+        path: "${params.outdir}/05-makeVCF",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -153,7 +153,7 @@ process bcftools {
         container 'staphb/bcftools:latest'
 
         publishDir(
-        path: "${params.out_dir}/05-makeVCF",
+        path: "${params.outdir}/05-makeVCF",
         mode: 'copy',
         overwrite: 'true'
         )

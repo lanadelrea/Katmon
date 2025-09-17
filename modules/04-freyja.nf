@@ -5,7 +5,7 @@ process variants {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja/VariantsDepth_results",
+        path: "${params.outdir}/04-Freyja/VariantsDepth_results",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -31,7 +31,7 @@ process demix {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja/Demix_results",
+        path: "${params.outdir}/04-Freyja/Demix_results",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -54,7 +54,7 @@ process aggregate {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja",
+        path: "${params.outdir}/04-Freyja",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -78,7 +78,7 @@ process plot_summarized {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja",
+        path: "${params.outdir}/04-Freyja",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -104,7 +104,7 @@ process plot_lineage {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja",
+        path: "${params.outdir}/04-Freyja",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -127,7 +127,7 @@ process list_lineages {
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja/Lineages",
+        path: "${params.outdir}/04-Freyja/Lineages",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -149,7 +149,7 @@ process get_lineage_def {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja/Mutations/${sample}",
+        path: "${params.outdir}/04-Freyja/Mutations/${sample}",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -173,7 +173,7 @@ process mutations {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/04-Freyja/Mutations",
+        path: "${params.outdir}/04-Freyja/Mutations",
         mode: 'copy',
         overwrite: 'true'
         )

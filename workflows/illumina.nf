@@ -15,17 +15,17 @@ include { report             } from '../subworkflows/07-report.nf'
 workflow illumina {
 
     ch_bam_file = Channel
-                    .fromPath("${params.in_dir}/**.bam", type: 'file')
-                    .ifEmpty { error "Cannot find any BAM files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.bam", type: 'file')
+                    .ifEmpty { error "Cannot find any BAM files on ${params.indir}"}
     ch_bam_index = Channel
-                    .fromPath("${params.in_dir}/**.bai", type: 'file')
-                    .ifEmpty { error "Cannot find any BAM index files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.bai", type: 'file')
+                    .ifEmpty { error "Cannot find any BAM index files on ${params.indir}"}
     ch_fastq = Channel
-                    .fromFilePairs("${params.in_dir}/*_{R1,R2,1,2}{,_001}.{fastq,fq}{,.gz}", flat: true)
-                    .ifEmpty { error "Cannot find any fastq files on ${params.in_dir}"}
+                    .fromFilePairs("${params.indir}/*_{R1,R2,1,2}{,_001}.{fastq,fq}{,.gz}", flat: true)
+                    .ifEmpty { error "Cannot find any fastq files on ${params.indir}"}
     ch_fasta = Channel
-                    .fromPath("${params.in_dir}/**.fasta", type: 'file')
-                    .ifEmpty { error "Cannot find any fasta files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.fasta", type: 'file')
+                    .ifEmpty { error "Cannot find any fasta files on ${params.indir}"}
 
     main:
 

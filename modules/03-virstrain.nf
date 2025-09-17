@@ -5,7 +5,7 @@ process virstrain_process {
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain/${sample}",
+        path: "${params.outdir}/03-VirStrain/${sample}",
         mode: 'copy',
         overwrite: 'true'
         )    
@@ -32,7 +32,7 @@ process wrangling {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain/${sample}",
+        path: "${params.outdir}/03-VirStrain/${sample}",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -54,7 +54,7 @@ process summary {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/03-VirStrain",
+        path: "${params.outdir}/03-VirStrain",
         mode: 'copy',
         overwrite: 'true'
         )

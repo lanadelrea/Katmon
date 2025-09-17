@@ -6,7 +6,7 @@ process pangolin {
         tag "Lineage assignment using pangolin tool"
 
         publishDir (
-        path: "${params.out_dir}/01-LineageAssignment",
+        path: "${params.outdir}/01-LineageAssignment",
         mode: 'copy',
         overwrite: 'true',
         )
@@ -29,7 +29,7 @@ process nextclade {
         tag "Lineage assignment using nextclade"
 
         publishDir (
-        path: "${params.out_dir}/01-LineageAssignment",
+        path: "${params.outdir}/01-LineageAssignment",
         mode: 'copy',
         overwrite: 'true',
         )
@@ -52,7 +52,7 @@ process summary {
         container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
-        path: "${params.out_dir}/01-LineageAssignment",
+        path: "${params.outdir}/01-LineageAssignment",
         mode: 'copy',
         overwrite: 'true',
         )

@@ -20,26 +20,26 @@ git clone https://github.com/lanadelrea/Katmon
 2) Navigate to the directory where `Katmon` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain FASTA, FASTQ, BAM, and BAM index files.
 
 ```
-nextflow run Katmon --in_dir <input dir> --out_dir <output dir> --sequence <pe or se>
+nextflow run Katmon --indir <input dir> --outdir <output dir> --sequence <illumina OR ont> -profile <docker OR conda>
 ```
 
 For example:
 ```
-nextflow run Katmon --in_dir /mnt/d/Samples --out_dir /mnt/d/Results --sequence se
+nextflow run Katmon --indir /mnt/d/Samples --outdir /mnt/d/Results --sequence illumina -profile docker
 ```
 
 Currently available parameters are as follows:
 ```
     Required arguments:
                  
-        --in_dir             Input directory containing FASTA, FASTQ, BAM, and BAM index files
-        --out_dir            Output directory for results
-        --sequence           Choose between pe (paired-end) or se (single-end)
-                  
+        --indir              Input directory containing FASTA, FASTQ, BAM, and BAM index files
+        --outdir             Output directory for results
+        --sequence           Can be 'illumina' or 'ont'
+
     Optional arguments:
         --bammix_thresh      Set the bammix threshold for the proportion of the major allele
                                         Default: 0.8
-        -profile             Can be docker or conda
+        -profile             Can be 'docker' or 'conda'
         -resume              To resume the pipeline
         -w                   The NextFlow work directory 
                              Delete this directory once the process is finished

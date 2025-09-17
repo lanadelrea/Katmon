@@ -13,17 +13,17 @@ include { report             } from '../subworkflows/07-report.nf'
 workflow ont {
 
     ch_bam_file = Channel
-                    .fromPath("${params.in_dir}/**.bam", type: 'file')
-                    .ifEmpty { error "Cannot find any BAM files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.bam", type: 'file')
+                    .ifEmpty { error "Cannot find any BAM files on ${params.indir}"}
     ch_bam_index = Channel
-                    .fromPath("${params.in_dir}/**.bai", type: 'file')
-                    .ifEmpty { error "Cannot find any BAM index files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.bai", type: 'file')
+                    .ifEmpty { error "Cannot find any BAM index files on ${params.indir}"}
     ch_fastq = Channel
-                    .fromPath("${params.in_dir}/**.{fastq,fq}{,.gz}", type: 'file')
-                    .ifEmpty { error "Cannot find any fastq files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.{fastq,fq}{,.gz}", type: 'file')
+                    .ifEmpty { error "Cannot find any fastq files on ${params.indir}"}
     ch_fasta = Channel
-                    .fromPath("${params.in_dir}/**.fasta", type: 'file')
-                    .ifEmpty { error "Cannot find any fasta files on ${params.in_dir}"}
+                    .fromPath("${params.indir}/**.fasta", type: 'file')
+                    .ifEmpty { error "Cannot find any fasta files on ${params.indir}"}
 
     main:
 

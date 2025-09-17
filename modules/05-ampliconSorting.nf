@@ -5,7 +5,7 @@ process get_pos_mut {
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting/PosMut_txt",
+        path: "${params.outdir}/07-AmpliconSorting/PosMut_txt",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -28,7 +28,7 @@ process ampliconsorting {
         container 'maelanade/jvarkit:1.0'
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
+        path: "${params.outdir}/07-AmpliconSorting",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -62,7 +62,7 @@ process consensus {
         container 'maelanade/consensus:1.0'
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting",
+        path: "${params.outdir}/07-AmpliconSorting",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -104,7 +104,7 @@ process renamefasta {
 	tag "Renaming consensus fasta sequence from amplicon sorting"
 
 	publishDir (
-	path: "${params.out_dir}/07-AmpliconSorting",
+	path: "${params.outdir}/07-AmpliconSorting",
 	mode: 'copy',
 	overwrite: 'true',
 	)
@@ -128,7 +128,7 @@ process pangolin {
         container 'staphb/pangolin:latest'
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting/Lineage_Assignment",
+        path: "${params.outdir}/07-AmpliconSorting/Lineage_Assignment",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -150,7 +150,7 @@ process nextclade {
         container 'nextstrain/nextclade:latest'
     
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting/Lineage_assignment",
+        path: "${params.outdir}/07-AmpliconSorting/Lineage_assignment",
         mode: 'copy',
         overwrite: 'true'
         )
@@ -173,7 +173,7 @@ process summary {
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
-        path: "${params.out_dir}/07-AmpliconSorting/Lineage_assignment",
+        path: "${params.outdir}/07-AmpliconSorting/Lineage_assignment",
         mode: 'copy',
         overwrite: 'true',
         )

@@ -5,7 +5,7 @@ process generation {
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(
-    path: "${params.out_dir}/08-Report",
+    path: "${params.outdir}/08-Report",
     mode: 'copy',
     overwrite: 'true'
     )
@@ -45,7 +45,7 @@ process report_no_flag { // In progress
     container 'ufuomababatunde/rmarkdown:1.1.0'
 
     publishDir(
-    path: "${params.out_dir}/07-Report",
+    path: "${params.outdir}/07-Report",
     mode: 'copy',
     overwrite: 'true'
     )

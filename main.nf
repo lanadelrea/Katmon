@@ -3,21 +3,21 @@ nextflow.enable.dsl=2
 
 // Help message
 def helpMessage = """
-The Katmon pipeline is designed to look for potential SARS-CoV-2 variants co-infection.
-                 
+This pipeline is designed to look for potential SARS-CoV-2 variants co-infection.
+
     To run the pipeline, do:
-    nextflow run Katmon --in_dir <input directory> --out_dir <output directory> --sequence <pe OR se>
+    nextflow run Katmon --indir <input directory> --outdir <output directory> --sequence <illumina OR ont> -profile <docker OR conda>
                    
     Required arguments:
                  
-        --in_dir             Input directory containing FASTA, FASTQ, BAM, and BAM index files
-        --out_dir            Output directory for results
-        --sequence          Choose from 'pe' (for paired-end) OR 'se' (for single-end)
+        --indir              Input directory containing FASTA, FASTQ, BAM, and BAM index files
+        --outdir             Output directory for results
+        --sequence           Can be 'illumina' OR 'ont'
 
     Optional arguments:
         --bammix_thresh      Set the bammix threshold for the proportion of the major allele
                                                     Default: 0.8
-        -profile             Can be docker or conda
+        -profile             Can be 'docker' or 'conda'
         -resume              To resume the pipeline
         -w                   The NextFlow work directory. Delete this directory once the process is finished
                                 Default: ${workDir} 
@@ -32,14 +32,14 @@ if (params.help) {
 
 // Import subworkflows
 include { illumina } from './workflows/illumina.nf'
-include { ont } from './workflows/ont.nf'
+include { ont      } from './workflows/ont.nf'
 
 workflow {
     main:
-        if (params.sequence == 'pe') {
+        if (params.sequence == 'illumina') {
             illumina()
         }
-        else if (params.sequence == 'se'){
+        else if (params.sequence == 'ont'){
             ont()
         }
         else {
