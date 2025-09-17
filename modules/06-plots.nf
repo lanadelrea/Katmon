@@ -5,7 +5,7 @@ process bammixplot {
     container 'ufuomababatunde/bammix:v1.1.0'
 
     publishDir(
-    path: "${params.out_dir}/06-Plots",
+    path: "${params.outdir}/06-Plots",
     mode: 'copy',
     overwrite: 'true'
     )
@@ -30,14 +30,14 @@ process aafplots {
     container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
     publishDir(
-    path: "${params.out_dir}/06-Plots",
+    path: "${params.outdir}/06-Plots",
     mode: 'copy',
     overwrite: 'true'
     )
 
     input:
     path (primer_scheme)
-    tuple val(sample), path (processed_mut_tsv), path(vcf)
+    tuple val(sample), path (processed_mut_tsv), path(vcf), path (bam)
 
     output:
     tuple val (sample), path ("*.tsv"), emit: aafplot_mut_tsv
@@ -48,7 +48,7 @@ process aafplots {
     """
     aafplot_mutation.py ${vcf} \
     ${processed_mut_tsv} \
-    ${params.in_dir}/${sample}.bam \
+    ${bam} \
     ${sample} \
     ${sample}_read_depth.tsv \
     ${sample}_AAFplot_mutations.png

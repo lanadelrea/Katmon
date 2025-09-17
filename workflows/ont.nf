@@ -53,7 +53,8 @@ workflow ont {
             freyja.out.freyja_result )
         plots ( 
             bammix.out.bammix_csv, 
-            bammix.out.filtered_vcf, 
+            bammix.out.filtered_vcf,
+            bammix.out.flagged_bams, 
             freyja.out.mutations_tsv )
         report (
             plots.out.plot_bammix,
