@@ -57,7 +57,7 @@ workflow ont {
         virstrain ( ch_fastq_files )
         freyja ( 
             ch_bam_file, 
-            bammix.out..view() )
+            bammix.out.flagged )
         amplicon_sorting ( 
             bammix.out.filtered_vcf,
             bammix.out.flagged_bams,
