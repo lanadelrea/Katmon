@@ -36,7 +36,7 @@ workflow ont {
 
         ch_bam_index = ch_bai
                  .map { bai ->
-                   def sample_name = bai.baseName
+                   def sample_name = bai.simpleName
                    tuple(sample_name, bai)
                 }
 
@@ -57,7 +57,7 @@ workflow ont {
         virstrain ( ch_fastq_files )
         freyja ( 
             ch_bam_file, 
-            bammix.out.flagged )
+            bammix.out..view() )
         amplicon_sorting ( 
             bammix.out.filtered_vcf,
             bammix.out.flagged_bams,

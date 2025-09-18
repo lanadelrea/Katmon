@@ -14,10 +14,10 @@ include { report             } from '../subworkflows/07-report.nf'
 
 workflow illumina {
 
-    ch_bam_file = Channel
+    ch_bam = Channel
                     .fromPath("${params.indir}/**.bam", type: 'file')
                     .ifEmpty { error "Cannot find any BAM files on ${params.indir}"}
-    ch_bam_index = Channel
+    ch_bai = Channel
                     .fromPath("${params.indir}/**.bai", type: 'file')
                     .ifEmpty { error "Cannot find any BAM index files on ${params.indir}"}
     ch_fastq = Channel
@@ -38,7 +38,7 @@ workflow illumina {
 
         ch_bam_index = ch_bai
                  .map { bai ->
-                   def sample_name = bai.baseName
+                   def sample_name = bai.simpleName
                    tuple(sample_name, bai)
                 }
 
@@ -55,7 +55,7 @@ workflow illumina {
         virstrain ( merge.out.fastq )
         freyja ( 
             ch_bam_file,
-            bammix.out.flagged )
+            bammix.out.flagged.view() )
         amplicon_sorting ( 
             bammix.out.filtered_vcf,
             bammix.out.flagged_bams,

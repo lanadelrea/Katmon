@@ -33,13 +33,7 @@ workflow bammix {
 
         ch_samples_bammix_flagged_keyed = ch_samples_bammix_flagged.map { s -> tuple(s) }
 
-        ch_samples_bammix_flagged_keyed.view()
-
         ch_flagged_bams = ch_samples_bammix_flagged_keyed.join(ch_bam_file)
-
-//        ch_flagged_bams = ch_samples_bammix_flagged_keyed
-//             .join(ch_bam_file)
-//             .map { sample, bam -> tuple(sample, bam) }
 
         makevcf( ch_flagged_bams, params.reference )
         bcftools(makevcf.out.mpileup)
