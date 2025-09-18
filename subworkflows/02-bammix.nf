@@ -20,7 +20,7 @@ workflow bammix {
         positions( nextclade_tsv )
             snps = (positions.out).toList()
 
-        ch_bam_bai = ch_bam_file.join(ch_bam_index)
+        ch_bam_bai = ch_bam_file.join(ch_bam_index) // Join bam and bai channel by sample name
 
         bammix_process( ch_bam_bai, snps)
         flagged_positions( bammix_process.out.bammix_csv )
@@ -31,16 +31,10 @@ workflow bammix {
             .splitText()
             .map { it.trim() }
 
-        ch_bam_bammix_flagged = ch_bam_file
-            .map { bam -> 
-                 def sample_name = bam.baseName 
-                 tuple(sample_name, bam)
-                }
-
         ch_samples_bammix_flagged_keyed = ch_samples_bammix_flagged.map { s -> tuple(s) }
 
         ch_flagged_bams = ch_samples_bammix_flagged_keyed
-             .join(ch_bam_bammix_flagged)
+             .join(ch_bam_file)
              .map { sample, bam -> tuple(sample, bam) }
 
         makevcf( ch_flagged_bams, params.reference )

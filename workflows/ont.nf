@@ -40,13 +40,13 @@ workflow ont {
                    tuple(sample_name, bai)
                 }
 
-        ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
-
         ch_fastq_files = ch_fastq
                  .map { fastq -> 
                    def sample_name = fastq.baseName 
                    tuple(sample_name, fastq) // Create tuple of sample name and path to the input fastq files
                 }
+
+        ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
 
     // Analysis pipeline
         lineage_assignment ( ch_cat_fasta )
