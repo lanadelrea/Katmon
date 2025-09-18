@@ -62,8 +62,7 @@ process bammix_process {
         )
 
         input:
-        path (bam)
-        path (bai)
+        tuple val (sample), path (bam), path (bai)
         val (snps)
 
         output:
@@ -73,7 +72,7 @@ process bammix_process {
         script:
         """
         bammix -b ${bam} \
-        -o ${bai.simpleName} \
+        -o ${sample} \
         -p ${snps.join(' ')}
         """
 }

@@ -30,9 +30,20 @@ workflow illumina {
     main:
 
     // Input bam, fasta, and fastq files
-        ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
-        ch_bam_index.map { baifilePath -> tuple(baifilePath)}
+        ch_bam_file = ch_bam
+                 .map { bam ->
+                   def sample_name = bam.baseName
+                   tuple(sample_name, bam)
+                }
+
+        ch_bam_index = ch_bai
+                 .map { bai ->
+                   def sample_name = bai.baseName
+                   tuple(sample_name, bai)
+                }
+
         ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
+
         merge(ch_fastq) // Merge paired-end reads
 
     // Analysis pipeline

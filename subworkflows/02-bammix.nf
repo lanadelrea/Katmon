@@ -19,7 +19,10 @@ workflow bammix {
         // Looking for positions with nucleotide mixtures
         positions( nextclade_tsv )
             snps = (positions.out).toList()
-        bammix_process( ch_bam_file, ch_bam_index, snps)
+
+        ch_bam_bai = ch_bam_file.join(ch_bam_index)
+
+        bammix_process( ch_bam_bai, snps)
         flagged_positions( bammix_process.out.bammix_csv )
         flagged_samples( flagged_positions.out.bammix_flags_csv.collect() )
 

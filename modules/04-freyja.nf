@@ -12,16 +12,16 @@ process variants {
 
         input:
         path reference
-        path bamfilePath
+        tuple val (sample), path (bam)
 
         output:
-        tuple val(bamfilePath.baseName), path ("*variants.tsv"), path ("*depth.tsv"), emit: freyja_variants
+        tuple val(sample), path ("*variants.tsv"), path ("*depth.tsv"), emit: freyja_variants
 
         script:
         """
-        freyja variants ${bamfilePath} \
-        --variants ${bamfilePath.baseName}_variants.tsv \
-        --depths ${bamfilePath.baseName}_depth.tsv \
+        freyja variants ${bam} \
+        --variants ${sample}_variants.tsv \
+        --depths ${sample}_depth.tsv \
         --ref ${reference}
         """
 }

@@ -12,10 +12,10 @@ include { report             } from '../subworkflows/07-report.nf'
 
 workflow ont {
 
-    ch_bam_file = Channel
+    ch_bam = Channel
                     .fromPath("${params.indir}/**.bam", type: 'file')
                     .ifEmpty { error "Cannot find any BAM files on ${params.indir}"}
-    ch_bam_index = Channel
+    ch_bai = Channel
                     .fromPath("${params.indir}/**.bai", type: 'file')
                     .ifEmpty { error "Cannot find any BAM index files on ${params.indir}"}
     ch_fastq = Channel
@@ -28,11 +28,22 @@ workflow ont {
     main:
 
     // Input bam, fasta, and fastq files
-        ch_bam_file.map { bamfilePath -> tuple(bamfilePath) }
-        ch_bam_index.map { baifilePath -> tuple(baifilePath)}
+        ch_bam_file = ch_bam
+                 .map { bam ->
+                   def sample_name = bam.baseName
+                   tuple(sample_name, bam)
+                }
+
+        ch_bam_index = ch_bai
+                 .map { bai ->
+                   def sample_name = bai.baseName
+                   tuple(sample_name, bai)
+                }
+
         ch_cat_fasta = ch_fasta.collectFile(name: 'all_sequences.fasta', newLine: true )
+
         ch_fastq_files = ch_fastq
-               .map { fastq -> 
+                 .map { fastq -> 
                    def sample_name = fastq.baseName 
                    tuple(sample_name, fastq) // Create tuple of sample name and path to the input fastq files
                 }
