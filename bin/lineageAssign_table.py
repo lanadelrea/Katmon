@@ -32,5 +32,6 @@ lineage_assignment_df.insert(1, 'coverage', coverage_column)
 lineage_assignment_df.rename(columns={'coverage':'Coverage','lineage':'Pangolin', 'scorpio_call': 'Scorpio', 'Nextclade_pango': 'Nextclade', 'clade_who': 'WHO clade', 'note':'Note'}, inplace=True)
 lineage_assignment_df.iloc[:, 1] = (lineage_assignment_df.iloc[:, 1] * 100).round(2).astype(str) + '%' 
 
-# Write the dataframe into a new tsv file
+# Sort values and Write the dataframe into a new tsv file
+lineage_assignment_df.sort_values('Sample')
 lineage_assignment_df.to_csv(f'{sample}_lineage_assignment_merged.tsv', sep='\t', index=False)
