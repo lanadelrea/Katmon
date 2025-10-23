@@ -39,6 +39,7 @@ Currently available parameters are as follows:
     Optional arguments:
         --bammix_thresh      Set the bammix threshold for the proportion of the major allele
                                         Default: 0.8
+        --primer_scheme      Primer scheme bed file (ex. /primer-schemes/nCoV-2019/V4.1/SARS-CoV-2.scheme.bed)
         -profile             Can be 'docker' or 'conda'
         -resume              To resume the pipeline
         -w                   The NextFlow work directory 
