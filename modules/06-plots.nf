@@ -28,6 +28,7 @@ process bammixplot {
 process aafplots {
     tag "Plotting alternative allele fraction per mutation of ${sample}"
     container 'ufuomababatunde/bammix:v1.1.0' // to fix
+    errorStrategy 'ignore'
 
     publishDir(
     path: "${params.outdir}/06-Plots",
