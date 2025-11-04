@@ -9,7 +9,7 @@ This pipeline was initially designed to investigate potential Delta and Omicron 
 <br />
 
 ## Prerequisites
-[Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) and [Docker](https://docs.docker.com/engine/install/ubuntu/)
+[Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation), [Docker](https://docs.docker.com/engine/install/ubuntu/) and/or [Conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/linux.html)
 
 ## How to use Katmon
 1) Download this github repository using `git clone`.
