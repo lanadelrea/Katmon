@@ -47,9 +47,7 @@ Currently available parameters are as follows:
                              Delete this directory once the process is finished
                                         Default: ${workDir} 
 ```
-```
-    Use `nextflow run Katmon --help` to view the help message
-```
+Use `nextflow run Katmon --help` to view the help message
 
 ## Results
 Output directory will have 8 folders containing results from each step used to test for SARS-CoV-2 variants co-infection. The summary report is in the final folder named `08-Report` with file name as `summary-report.html`. You can view sample results [here](https://github.com/lanadelrea/simKatmon/tree/main/results).
