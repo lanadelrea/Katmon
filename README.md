@@ -9,15 +9,16 @@ This pipeline was initially designed to investigate potential Delta and Omicron 
 <br />
 
 ## Prerequisites
-[Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation) and [Docker](https://docs.docker.com/engine/install/ubuntu/)
+[Nextflow](https://www.nextflow.io/docs/latest/getstarted.html#installation), [Docker](https://docs.docker.com/engine/install/ubuntu/) and/or [Conda](https://docs.conda.io/projects/conda/en/stable/user-guide/install/linux.html)
 
 ## How to use Katmon
 1) Download this github repository using `git clone`.
 ```
 git clone https://github.com/lanadelrea/Katmon
 ```
+2) There seems to be a persistent `permision denied error` when running the pipeline. [According to the internet](https://github.com/orgs/community/discussions/26239), it's because I wrote the scripts on Windows locally. For the pipeline scripts to work, kindly do `chmod -R 777 Katmon` before running the pipeline.
 
-2) Navigate to the directory where `Katmon` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain FASTA, FASTQ, BAM, and BAM index files.
+3) Navigate to the directory where `Katmon` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain FASTA, FASTQ, BAM, and BAM index files.
 
 ```
 nextflow run Katmon --indir <input dir> --outdir <output dir> --sequence <illumina OR ont> -profile <docker OR conda>
