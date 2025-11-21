@@ -16,7 +16,7 @@ This pipeline was initially designed to investigate potential Delta and Omicron 
 ```
 git clone https://github.com/lanadelrea/Katmon
 ```
-2) There seems to be a persistent `permision denied error` when running the pipeline. [According to the internet](https://github.com/orgs/community/discussions/26239), it's because I wrote the scripts on Windows locally. In the meantime for the pipeline scripts to work, kindly do `chmod -R 777 Katmon` before running the pipeline. Doing my best to solve this, please 🐻 with me. TY.
+2) There seems to be a persistent `permision denied error` when running the pipeline. [According to the internet](https://github.com/orgs/community/discussions/26239), it's because I wrote the scripts on Windows locally. For the pipeline scripts to work in the meantime, kindly do `chmod -R 777 Katmon` before running the pipeline. Doing my best to solve this, please 🐻 with me. TY.
 
 3) Navigate to the directory where `Katmon` is downloaded. Run the pipeline by indicating the path to the input and output folders. The input directory should contain FASTA, FASTQ, BAM, and BAM index files.
 
