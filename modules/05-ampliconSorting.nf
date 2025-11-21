@@ -169,7 +169,7 @@ process nextclade {
 }
 
 process summary {
-        tag "Creating summary table for lineage assignment of sorted reads for ${sample}"
+        tag "Creating summary table for lineage assignment of sorted reads"
         container 'ufuomababatunde/bammix:v1.1.0' // to fix
 
         publishDir (
