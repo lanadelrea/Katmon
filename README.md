@@ -1,5 +1,7 @@
 This pipeline was initially designed to investigate potential Delta and Omicron co-infections after anomalous sequences were detected during routine genomic surveillance. More recent developments have expanded its capability to identify potential co-infections involving any SARS-CoV-2 variants including newer variants and cases involving two lineages within the same clade.
 
+Our paper is now published at: https://doi.org/10.1099/mgen.0.001604
+
 <br />
 <br />
 
@@ -47,6 +49,7 @@ Currently available parameters are as follows:
                              Delete this directory once the process is finished
                                         Default: ${workDir} 
 ```
+
 Use `nextflow run Katmon --help` to view the help message
 
 ## Results
