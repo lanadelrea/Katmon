@@ -26,12 +26,6 @@ def helpMessage() {
 """
 }
 
-// Check if help is summoned
-if (params.help) {
-    println helpMessage()
-    exit 0
-}
-
 // Import subworkflows
 include { illumina } from './workflows/illumina.nf'
 include { ont      } from './workflows/ont.nf'
