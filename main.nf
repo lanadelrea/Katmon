@@ -2,8 +2,9 @@
 nextflow.enable.dsl=2
 
 // Help message
-def helpMessage = """
-This pipeline is designed to look for potential SARS-CoV-2 variants co-infection.
+def helpMessage() { 
+    return """
+    This pipeline is designed to look for potential SARS-CoV-2 variants co-infection.
 
     To run the pipeline, do:
     nextflow run Katmon --indir <input directory> --outdir <output directory> --sequence <illumina OR ont> -profile <docker OR conda>
@@ -23,10 +24,11 @@ This pipeline is designed to look for potential SARS-CoV-2 variants co-infection
                                 Default: ${workDir} 
         --help               To view this help message
 """
+}
 
 // Check if help is summoned
 if (params.help) {
-    println helpMessage
+    println helpMessage()
     exit 0
 }
 
@@ -43,6 +45,6 @@ workflow {
             ont()
         }
         else {
-            println helpMessage
+            println helpMessage()
         }
 }
