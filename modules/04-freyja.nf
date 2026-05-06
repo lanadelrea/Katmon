@@ -149,7 +149,7 @@ process get_lineage_def {
         container 'staphb/freyja:latest'
 
         publishDir (
-        path: "${params.outdir}/04-Freyja/Mutations/${sample}",
+        path: {"${params.outdir}/04-Freyja/Mutations/${sample}"},
         mode: 'copy',
         overwrite: 'true'
         )
