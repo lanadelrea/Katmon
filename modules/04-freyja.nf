@@ -92,7 +92,7 @@ process plot_summarized {
 
         script:
         """
-        sed 's/_variants\\.tsv\s*//' '${aggregated_file}' > aggregated.tsv
+        sed -i 's/\[//g; s/\]//g; s/(/ /g; s/)//g' aggregated.tsv
 
         freyja plot aggregated.tsv --output freyja-summarized-plot.png
         """
