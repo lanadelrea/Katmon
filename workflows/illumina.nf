@@ -14,6 +14,8 @@ include { report             } from '../subworkflows/07-report.nf'
 
 workflow illumina {
 
+    main:
+
     ch_bam = Channel
                     .fromPath("${params.indir}/**.bam", type: 'file')
                     .ifEmpty { error "Cannot find any BAM files on ${params.indir}"}
@@ -26,8 +28,6 @@ workflow illumina {
     ch_fasta = Channel
                     .fromPath("${params.indir}/**.fasta", type: 'file')
                     .ifEmpty { error "Cannot find any fasta files on ${params.indir}"}
-
-    main:
 
     // Input bam, fasta, and fastq files
         ch_bam_file = ch_bam
