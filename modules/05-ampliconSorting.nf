@@ -74,7 +74,7 @@ process consensus {
         output:
         path ("*.bai")
         tuple val(sample), path ("*lineage_A.consensus.fasta"), emit: consensus_lineage_A
-        tuple val(sample_B), path ("*lineage_B.consensus.fasta"), emit: consensus_lineage_B
+        tuple val(sample), path ("*lineage_B.consensus.fasta"), emit: consensus_lineage_B
 
         script:
         """
@@ -84,18 +84,18 @@ process consensus {
         bcftools view -O v -o ${sample}_lineage_A.vcf ${sample}_lineage_A.bcf
 
         samtools index ${lineage_B_bam}
-        bcftools mpileup -f ${reference} ${lineage_B_bam} > ${sample_B}_lineage_B.mpileup
-        bcftools call -mv -O b -o ${sample_B}_lineage_B.bcf ${sample_B}_lineage_B.mpileup
-        bcftools view -O v -o ${sample_B}_lineage_B.vcf ${sample_B}_lineage_B.bcf
+        bcftools mpileup -f ${reference} ${lineage_B_bam} > ${sample}_lineage_B.mpileup
+        bcftools call -mv -O b -o ${sample}_lineage_B.bcf ${sample}_lineage_B.mpileup
+        bcftools view -O v -o ${sample}_lineage_B.vcf ${sample}_lineage_B.bcf
 
         bgzip ${sample}_lineage_A.vcf
-        bgzip ${sample_B}_lineage_B.vcf
+        bgzip ${sample}_lineage_B.vcf
 
         tabix -p vcf ${sample}_lineage_A.vcf.gz
-        tabix -p vcf ${sample_B}_lineage_B.vcf.gz
+        tabix -p vcf ${sample}_lineage_B.vcf.gz
 
         bcftools consensus -f ${reference} ${sample}_lineage_A.vcf.gz > ${sample}_lineage_A.consensus.fasta
-        bcftools consensus -f ${reference} ${sample_B}_lineage_B.vcf.gz > ${sample_B}_lineage_B.consensus.fasta
+        bcftools consensus -f ${reference} ${sample}_lineage_B.vcf.gz > ${sample}_lineage_B.consensus.fasta
         """
 }
 
