@@ -5,8 +5,6 @@ process bammix {
         container 'ufuomababatunde/bammix:v1.1.0'
         cpus 1
 
-        containerOptions = "-v ${params.indir}:/data"
-
         publishDir (
         path: "${params.outdir}/02-Bammix",
         mode: 'copy',
