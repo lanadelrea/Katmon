@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
 
 process virstrain_process {
-        tag "Identifying lineage assignment for ${sample} using VirStrain"
+        tag "Identifying lineage assignment using VirStrain"
         container 'lanadelrea/virstrain:v0.3.0'
 
         publishDir (
-        path: "${params.outdir}/03-VirStrain/${sample}",
+        path: { "${params.outdir}/03-VirStrain/${sample}" },
         mode: 'copy',
         overwrite: 'true'
         )    
