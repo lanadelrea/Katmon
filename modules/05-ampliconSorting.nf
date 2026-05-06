@@ -35,7 +35,7 @@ process ampliconsorting {
 
         input:
         tuple val (sample), path (pos_mut_lineage_A), path (pos_mut_lineage_B)
-        tuple val (sample), path (bam)
+        tuple val (sample_bam), path (bam)
         path (jvarkit_jar)
         path (sort_reads)
 
