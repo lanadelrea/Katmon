@@ -12,4 +12,4 @@ dependencies:
   - setuptools
   - pip
   - pip:
-      - bammix
+    - bammix

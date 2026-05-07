@@ -2,7 +2,6 @@
 
 process bammix {
         tag "This is the original bammix process, but has been split into 3 processes for better flow"
-        container 'ufuomababatunde/bammix:v1.1.0'
         cpus 1
 
         publishDir (
@@ -27,7 +26,6 @@ process bammix {
 
 process positions {
         tag "Getting relevant positions"
-        container 'ufuomababatunde/bammix:v1.1.0'
         cpus 1
 
         publishDir (
@@ -51,7 +49,6 @@ process positions {
 
 process bammix_process {
         tag "Looking for positions with nucleotide mixtures"
-        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.outdir}/02-Bammix",
@@ -77,7 +74,6 @@ process bammix_process {
 
 process flagged_positions {
         tag "Getting flagged positions with nucleotide mixtures per sample"
-        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.outdir}/02-Bammix",
@@ -99,7 +95,6 @@ process flagged_positions {
 
 process flagged_samples {
         tag "Determining samples flagged for having nucleotide mixtures"
-        container 'ufuomababatunde/bammix:v1.1.0'
 
         publishDir (
         path: "${params.outdir}/02-Bammix",
@@ -121,7 +116,6 @@ process flagged_samples {
 
 process makevcf {
         tag "Making vcf file from bam file of ${sample}"
-        container 'staphb/bcftools:latest'
 
         publishDir(
         path: "${params.outdir}/05-makeVCF",
@@ -147,7 +141,6 @@ process makevcf {
 
 process bcftools {
         tag "Making vcf file from bam file of ${mpileup.BaseName}"
-        container 'staphb/bcftools:latest'
 
         publishDir(
         path: "${params.outdir}/05-makeVCF",
