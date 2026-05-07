@@ -10,6 +10,7 @@ dependencies:
   - pandas=1.5.3
   - seaborn
   - setuptools<82
-  - pip
+  - pip<24
+  - wheel<0.45
   - pip:
     - bammix
