@@ -9,7 +9,7 @@ dependencies:
   - python=3.10
   - pandas=1.5.3
   - seaborn
-  - setuptools
+  - setuptools=81.0.0
   - pip
   - pip:
     - bammix
