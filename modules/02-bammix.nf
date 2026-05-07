@@ -1,7 +1,7 @@
 #!/usr/bin nextflow
 
 process bammix {
-        tag "This is the original bammix process, but has been split into 3 processes for better flow"
+        tag "Original bammix process"
         cpus 1
 
         publishDir (
