@@ -6,7 +6,7 @@ channels:
   - defaults
 dependencies:
   - python
-  - pandas
+  - pandas=1.5.3
   - seaborn
   - pip:
     - bammix
