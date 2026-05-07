@@ -9,8 +9,6 @@ dependencies:
   - python=3.10
   - pandas=1.5.3
   - seaborn
-  - setuptools<82
-  - pip<24
-  - wheel<0.45
+  - setuptools=80.10.2
   - pip:
     - bammix
